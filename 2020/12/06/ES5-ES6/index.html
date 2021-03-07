@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>ES5&amp;ES6 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">ES5&amp;ES6</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-12-06</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>XHTML -&gt; HTML5（语义化标签/视频/音频…）<br>css2  -&gt;  css3（动画、媒体查询、渐变、过渡、转换、弹性盒子、新增的选择器、盒子文字阴影、边框的圆角、边框图片…）</p>
+<h2 id="ES5："><a href="#ES5：" class="headerlink" title="ES5："></a>ES5：</h2><p>1、保护对象：保护对象的属性和方法的<br>   如何保护对象：对象的每个属性都有四大特性</p>
+<pre><code>{
+    configurable: true,//1、控制着是否可以被删除 2、总开关 3、一旦改为false不可逆
+    enumerable: true,//控制着是否可以被for in遍历到
+    value: 1001,//真实的值
+    writable: true,//控制着是否可以被修改
+}
+设置四大特性：
+    Object.defineProperty(obj,&quot;属性名&quot;,{
+        //四大特性
+    })
+问题：多次调用函数才能修改所有属性的四大特性
+解决：
+Object.defineProperties(obj,{
+    &quot;属性名&quot;:{四大特性},
+    ...
+})</code></pre><p><strong>保护对象的三个级别：</strong></p>
+<pre><code>1、防扩展：防止添加
+        Object.preventExtensions(xx);
+2、密封：防止添加和删除
+    Object.seal(xx);
+
+3、冻结：防止添加和删除以及修改
+    Object.freeze(xx);</code></pre><h3 id="ArrayAPI：新加了6个，3组"><a href="#ArrayAPI：新加了6个，3组" class="headerlink" title="*ArrayAPI：新加了6个，3组"></a>*ArrayAPI：新加了6个，3组</h3><h5 id="1、判断：结果一定是一个布尔值"><a href="#1、判断：结果一定是一个布尔值" class="headerlink" title="1、判断：结果一定是一个布尔值"></a>1、判断：结果一定是一个布尔值</h5><pre><code>1、every：每一个，都，类似&amp;&amp;，碰到一个false就退出
+   var bool=arr.every(function(val,i,arr){
+            return 判断条件;
+        })
+2、some：有一些，包含，类似||，碰到一个true就退出
+    var bool=arr.some(function(val,i,arr){
+        return 判断条件;
+    })</code></pre><h5 id="2、遍历：对每个元素执行相同或相似的操作"><a href="#2、遍历：对每个元素执行相同或相似的操作" class="headerlink" title="2、遍历：对每个元素执行相同或相似的操作"></a>2、遍历：对每个元素执行相同或相似的操作</h5><pre><code>1、forEach：直接修改原数组
+        arr.forEach(function(val,i,arr){
+            arr[i]=val*2;//操作
+        })
+2、map：只能返回新数组
+    var newArr=arr.map(function(val,i,arr){
+        return val*2;//操作
+    })</code></pre><h5 id="3、过滤和汇总："><a href="#3、过滤和汇总：" class="headerlink" title="3、过滤和汇总："></a>3、过滤和汇总：</h5><pre><code>1、过滤：筛选出自己想要的
+         var newArr=arr.filter(function(val,i,arr){
+            return 判断条件;
+        })
+        原数组不修改
+2、汇总：
+    arr.reduce(function(prev,val,i,arr){
+        return prev+val;
+    },base)</code></pre><p><code>底层原理都是 for循环 ，新的API简化了以前for循环</code></p>
+<h3 id="call-apply-bind"><a href="#call-apply-bind" class="headerlink" title="*call/apply/bind"></a>*call/apply/bind</h3><p>   call/apply：借用，临时替换了函数中的this<br>           <strong>差别：</strong><br>       <strong>call要求传入函数的参数必须单独传入</strong><br>             <strong>aplly要求传入函数的参数必须是一个数组</strong><br>           强调：call/apply，借用就是立刻调用，立刻执行，执行完后，会还回去<br>           最常用-&gt;类数组变为普通数组：lis=Array.prototype.slice.call/aplly(lis)<br>           用法：找到函数.call/apply(借用对象,可选实参)</p>
+<p>   bind：买，永久的绑定函数中的this<br>         3件事：<br>        1、创建了一个和原函数功能完全相同的函数<br>        2、将新函数中的this永久绑定为指定对象<br>        3、将新函数中的部分参数固定提前永久设置</p>
+<pre><code>用法：var 新函数=找到函数.bind(指定对象,永久实参)
+
+固定用法：1、Math.max/min
+        2、Object.prototype.toString.apply
+        3、类数组变为普通数组
+
+总结：1、如果临时调用一个函数，立刻执行 -- apply/call（更推荐：借）
+     2、如果创建一个函数提前绑定this，不一定立刻执行 -- bind</code></pre><h3 id="严格模式：开启：”use-strict”"><a href="#严格模式：开启：”use-strict”" class="headerlink" title="严格模式：开启：”use strict”;"></a>严格模式：开启：”use strict”;</h3><p>​    1、禁止给未声明的变量赋值 - 阻止全局污染<br>​    2、将静默失败升级为错误</p>
+<p>使用：往往都是在作用域的开头</p>
+<h2 id="ES6："><a href="#ES6：" class="headerlink" title="ES6："></a>ES6：</h2><h5 id="1、-模板字符串：简化字符串拼接"><a href="#1、-模板字符串：简化字符串拼接" class="headerlink" title="1、*模板字符串：简化字符串拼接"></a>1、*模板字符串：简化字符串拼接</h5><p>  用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`我的名字叫$&#123;name&#125;`</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、-块级作用域：以后你们声明变量优先使用let，不用var"><a href="#2、-块级作用域：以后你们声明变量优先使用let，不用var" class="headerlink" title="2、*块级作用域：以后你们声明变量优先使用let，不用var"></a>2、*块级作用域：以后你们声明变量优先使用let，不用var</h5><p>   特点：<br>    1、拒绝了声明提前<br>    2、添加了块级作用域：{}</p>
+<h5 id="3、-箭头函数：简化所有的回调函数"><a href="#3、-箭头函数：简化所有的回调函数" class="headerlink" title="3、*箭头函数：简化所有的回调函数"></a>3、*箭头函数：简化所有的回调函数</h5><p>​    如何：<br>​        去掉function，在()和{}之间添加=&gt;<br>​        如果形参只有一个，()省略<br>​        如果函数体只有一句话，省略{}<br>​        如果函数体只有一句话并且是return，return和{}都省略</p>
+<h5 id="4、for…of循环"><a href="#4、for…of循环" class="headerlink" title="4、for…of循环"></a>4、for…of循环</h5><pre><code>for(var v of arr){
+        v;//当前元素
+    }
+缺点：1、不能修改原数组
+      2、只能操作索引数组，不能超过hash数组（不能操作对象）</code></pre><h5 id="5、解构赋值：解析结构进行赋值"><a href="#5、解构赋值：解析结构进行赋值" class="headerlink" title="5、解构赋值：解析结构进行赋值"></a>5、解构赋值：解析结构进行赋值</h5><blockquote>
+<p>重点</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">作用：新的赋值方式，增强了赋值的方式</span><br><span class="line">   写法：</span><br><span class="line">	1、数组长相的解构赋值</span><br><span class="line">	   var [a,b,c]=[1,2,3];</span><br><span class="line"></span><br><span class="line">	2、对象长相的解构赋值</span><br><span class="line">	   var &#123;a,b,c=0&#125;=&#123;b:5,a:4&#125;</span><br><span class="line"></span><br><span class="line">    3、函数中的，传参的顺序可以是随意的</span><br><span class="line">	   function zwjs(&#123;name,age=0,hobby&#125;)&#123;</span><br><span class="line">		return `$&#123;name&#125;今年$&#123;age&#125;岁喜欢$&#123;hobby&#125;`;</span><br><span class="line">	   &#125;</span><br><span class="line">			</span><br><span class="line">	   console.log(zwjs(&#123;hobby:&quot;抠脚&quot;,name:&quot;王宇&quot;&#125;));</span><br><span class="line"></span><br><span class="line">	4、return 可以返回多个数据</span><br><span class="line">	   function f1()&#123;</span><br><span class="line">		return &#123;name:&quot;熊岳&quot;,age:&quot;81&quot;,hobby:&quot;学习&quot;&#125;;</span><br><span class="line">	   &#125;</span><br><span class="line">	   var &#123;age,hobby,name&#125;=f1();</span><br></pre></td></tr></table></figure>
+
+<h5 id="6、Set和Map类型"><a href="#6、Set和Map类型" class="headerlink" title="6、Set和Map类型"></a>6、Set和Map类型</h5><blockquote>
+<p>原始类型有哪5（7）种： Boolean、String、undefined、null、Number、（symbol、bigInt）<br>             引用类型新增了哪些：Set和Map类型</p>
+</blockquote>
+<ul>
+<li><p>Set</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">和数组非常的相似，但是没有length，用size表示自己的长度</span><br><span class="line">	 不可能出现重复的元素，*用于去重*</span><br><span class="line">	 创建：var s=new Set(arr);</span><br><span class="line">	 添加：s.add(新内容);</span><br><span class="line">	 清空：s.clear();</span><br><span class="line">	 删除：s.delete(内容);</span><br><span class="line">	 遍历：s.forEach()</span><br><span class="line">	 如何去重：</span><br><span class="line">		var s=new Set(arr);</span><br><span class="line">		arr=[...s];//去重完毕;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Map</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">和对象非常的相似，新的保存数据的一种类型，但是绝对不如对象</span><br><span class="line">	 创建：var m=new Map(arr);</span><br><span class="line">	 添加：m.set(&quot;属性名&quot;,&quot;属性值&quot;);</span><br><span class="line">	 获取：m.get(&quot;属性名&quot;);</span><br><span class="line">	 清空：s.clear();</span><br><span class="line">	 删除：s.delete(内容);</span><br><span class="line">	 遍历：s.forEach()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="7、class"><a href="#7、class" class="headerlink" title="7、class"></a>7、class</h5><blockquote>
+<p>简化面向对象开发，三大特点（封装、继承、多态）都简化了</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">constructor：相当于以前的构造函数，可以设置自有属性</span><br><span class="line">   super：相当于调用你继承的那个类的构造函数</span><br><span class="line">   关键字：extends 父亲</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   eg:</span><br><span class="line">          //飞行物类</span><br><span class="line">			class Flyer&#123;</span><br><span class="line">				constructor(name,speed)&#123;//自有属性</span><br><span class="line">					this.name=name;</span><br><span class="line">					this.speed=speed;</span><br><span class="line">				&#125;</span><br><span class="line">				//共有</span><br><span class="line">				fly()&#123;</span><br><span class="line">					return `$&#123;this.name&#125;正在以时速$&#123;this.speed&#125;飞行`;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			//飞机类</span><br><span class="line">			class Plane extends Flyer&#123;</span><br><span class="line">				constructor(name,speed,count)&#123;//自有属性</span><br><span class="line">					super(name,speed);</span><br><span class="line">					this.count=count;</span><br><span class="line">				&#125;</span><br><span class="line">				//共有</span><br><span class="line">				fly()&#123;</span><br><span class="line">					return `$&#123;this.name&#125;正在以时速$&#123;this.speed&#125;飞行,坐着$&#123;this.count&#125;人`;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="8、模块化开发"><a href="#8、模块化开发" class="headerlink" title="8、模块化开发"></a>8、模块化开发</h5><blockquote>
+<p>用于分工合作，每个js文件都是一个模块，每个工程师就可以开发自己的模块，主模块引入</p>
+</blockquote>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、子模块公开</span><br><span class="line">	   export var obj1=你随意</span><br><span class="line"></span><br><span class="line">	2、主模块引入</span><br><span class="line">	   import &#123;obj1 as 重新取名&#125; from &quot;./文件路径.js&quot;</span><br><span class="line">	   注意：不能再用obj必须用新名字</span><br><span class="line"></span><br><span class="line">	3、HTML引入主模块</span><br><span class="line">		&lt;script src=&quot;js/index.js&quot; type=&quot;module&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="9、Promise"><a href="#9、Promise" class="headerlink" title="9、Promise"></a>9、Promise</h5><blockquote>
+<p>控制异步ajax顺序 —重要</p>
+<p>同时发起几个ajax请求时，不能保证ajax的顺序，所以需要promise</p>
+</blockquote>
+<p>一、 Promise对象有三种状态，分别是：</p>
+<ul>
+<li>pending: 等待中，或者进行中，表示还没有得到结果</li>
+<li>resolved(Fulfilled): 已经完成，表示得到了我们想要的结果，可以继续往下执行</li>
+<li>rejected: 也表示得到结果，但是由于结果并非我们所愿，因此拒绝执行</li>
+</ul>
+<p>三种状态不受外界影响，而且状态只能从pending改变为resolved或者rejected，并且不可逆</p>
+<p>在Promise对象的构造函数中，将一个函数作为第一个参数。而这个函数，就是用来处理Promise的状态变化。</p>
+<p><strong>**</strong>Promise 创建</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 异步处理</span></span><br><span class="line">    <span class="comment">// 处理结束后、调用resolve 或 reject</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span> 构造函数包含一个参数和一个带有 resolve（解析）和 reject（拒绝）两个参数的回调。在回调中执行一些操作（例如异步），如果一切都正常，则调用 resolve，否则调用 reject。</span><br><span class="line"><span class="keyword">var</span> myFirstPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//当异步代码执行成功时，才会调用resolve(...), 当异步代码失败时就会调用			reject(...)</span></span><br><span class="line">    <span class="comment">//在本例中，使用setTimeout(...)来模拟异步代码，实际编码时可能是XHR请求或是		HTML5的一些API方法.</span></span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        resolve(<span class="string">"成功!"</span>); <span class="comment">//代码正常执行！</span></span><br><span class="line">    &#125;, <span class="number">250</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myFirstPromise.then(<span class="function"><span class="keyword">function</span>(<span class="params">successMessage</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//successMessage的值是上面调用resolve(...)方法传入的值.</span></span><br><span class="line">    <span class="comment">//successMessage参数不一定非要是字符串类型， 此处个例子</span></span><br><span class="line">    <span class="built_in">document</span>.write(<span class="string">"Yay! "</span> + successMessage);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>二、 Promise对象中的then方法，可以接收构造函数中处理的状态变化，并分别对应执行。then方法有2个参数，第一个函数接收resolved状态的执行，第二个参数接收reject状态的执行。then方法也会返回一个Promise对象，因此可以进行then的链式执行，这是解决顺序的主要方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">resolve</span>)</span>&#123;<span class="comment">//resolve 用于开启下一步操作（放行</span></span><br><span class="line"> 	$.ajax(&#123;</span><br><span class="line"> 		xxxxxx</span><br><span class="line">        <span class="string">"success"</span>:<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">         xxxxxxx</span><br><span class="line">         resolve();<span class="comment">//放行</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;  <span class="comment">//想要继续放行的话</span></span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">         $.ajax(&#123;</span><br><span class="line"> 		   xxxxxx</span><br><span class="line">           <span class="string">"success"</span>:<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">             $.ajax(&#123;</span><br><span class="line"> 				xxxxxx</span><br><span class="line">                resolve();</span><br><span class="line"> 			&#125;)</span><br><span class="line">         &#125;  </span><br><span class="line"> 	  &#125;)</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br><span class="line"> funtion f3()&#123;</span><br><span class="line"> 	$.ajax(&#123;</span><br><span class="line"> 		xxxxx	</span><br><span class="line"> 	&#125;)</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(f1).then(f2()).then(f3())</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/12/06/ES5-ES6/">http://yoursite.com/2020/12/06/ES5-ES6/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/12/09/XAMPP中MySql和本地Mysql冲突/" title="XAMPP中MySql和本地Mysql冲突"><span>< PreviousPost</span><br><span class="prevTitle">XAMPP中MySql和本地Mysql冲突</span></a><a class="nextSlogan" href="/2020/12/06/面向对象/" title="面向对象"><span>NextPost ></span><br><span class="nextTitle">面向对象</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/12/06/ES5-ES6/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ES5："><span class="toc-number">1.</span> <span class="toc-text">ES5：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayAPI：新加了6个，3组"><span class="toc-number">1.1.</span> <span class="toc-text">*ArrayAPI：新加了6个，3组</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、判断：结果一定是一个布尔值"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">1、判断：结果一定是一个布尔值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、遍历：对每个元素执行相同或相似的操作"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">2、遍历：对每个元素执行相同或相似的操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、过滤和汇总："><span class="toc-number">1.1.0.3.</span> <span class="toc-text">3、过滤和汇总：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-apply-bind"><span class="toc-number">1.2.</span> <span class="toc-text">*call/apply/bind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#严格模式：开启：”use-strict”"><span class="toc-number">1.3.</span> <span class="toc-text">严格模式：开启：”use strict”;</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6："><span class="toc-number">2.</span> <span class="toc-text">ES6：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、-模板字符串：简化字符串拼接"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">1、*模板字符串：简化字符串拼接</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、-块级作用域：以后你们声明变量优先使用let，不用var"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">2、*块级作用域：以后你们声明变量优先使用let，不用var</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、-箭头函数：简化所有的回调函数"><span class="toc-number">2.0.0.3.</span> <span class="toc-text">3、*箭头函数：简化所有的回调函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4、for…of循环"><span class="toc-number">2.0.0.4.</span> <span class="toc-text">4、for…of循环</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5、解构赋值：解析结构进行赋值"><span class="toc-number">2.0.0.5.</span> <span class="toc-text">5、解构赋值：解析结构进行赋值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6、Set和Map类型"><span class="toc-number">2.0.0.6.</span> <span class="toc-text">6、Set和Map类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7、class"><span class="toc-number">2.0.0.7.</span> <span class="toc-text">7、class</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8、模块化开发"><span class="toc-number">2.0.0.8.</span> <span class="toc-text">8、模块化开发</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9、Promise"><span class="toc-number">2.0.0.9.</span> <span class="toc-text">9、Promise</span></a></li></ol></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

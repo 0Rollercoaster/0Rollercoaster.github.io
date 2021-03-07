@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>ajax · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">ajax</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-12-13</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="ajax"> ajax</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h4 id="同步交互与异步交互"><a href="#同步交互与异步交互" class="headerlink" title="同步交互与异步交互"></a>同步交互与异步交互</h4><pre><code>同步：客户端向服务器端发送请求，到服务器端进行响应的过程，用户是不能干其他事情的（等）
+          执行速度相对较慢（响应完整的HTML页面）
+异步：客户端向服务器端发送请求，到服务器端进行响应的过程，用户是可以干其他事情的（不等）
+          执行速度相对较快（响应部分的HTML页面）</code></pre><p>  <code>*****ajax - asynchronous javascript and xml：异步的javascript和xml</code><br>      不严格的定义：客户端与服务器端进行交互，无需刷新当前页面的技术，局部刷新，称之为ajax<br>      之前就有一个异步操作：定时器</p>
+<p>​    </p>
+<h4 id="如何使用ajax：实现和服务器端进行交互的（类似表单，但是和表单不同）"><a href="#如何使用ajax：实现和服务器端进行交互的（类似表单，但是和表单不同）" class="headerlink" title="如何使用ajax：实现和服务器端进行交互的（类似表单，但是和表单不同）"></a>如何使用ajax：实现和服务器端进行交互的（类似表单，但是和表单不同）</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>、创建ajax核心对象xhr</span><br><span class="line">	<span class="keyword">var</span> xhr=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、设置连接</span><br><span class="line">	xhr.open(<span class="string">"GET/POST"</span>,<span class="string">"xx.php"</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、发送请求</span><br><span class="line">	xhr.send(<span class="string">"key=value&amp;key=value"</span>);</span><br><span class="line"></span><br><span class="line">	特殊：<span class="number">1</span>、如果是GET请求，则send方法失效，但是不能省略，xhr.send(<span class="literal">null</span>);</span><br><span class="line">		 真正的请求，需要拼接在<span class="string">"xx.php"</span>后面xhr.open(<span class="string">"GET"</span>,<span class="string">"xx.php?key=value"</span>)</span><br><span class="line">	      <span class="number">2</span>、如果是POST请求，则send方法可用，但是：</span><br><span class="line">		 xhr.setRequestHeader(<span class="string">"Content-Type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">		 xhr.send(<span class="string">"hide=2"</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、绑定状态事件监听：</span><br><span class="line">	xhr.onreadystatechange=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(xhr.readyState==<span class="number">4</span> &amp;&amp; xhr.status==<span class="number">200</span>)&#123;</span><br><span class="line">			xhr.responseText;<span class="comment">//服务器端响应的数据</span></span><br><span class="line">			<span class="comment">//难在获取到数据你要做什么操作</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">onreadystatechange绑定了一个事件处理函数，该函数用来处理readystatechange事件</span><br><span class="line">当Ajax对象的readyState值发生改变就会产生该事件</span><br><span class="line">readyState一共有五个值，0，1，2，3，4分别的表示Ajax对象与服务器通信的状态</span><br><span class="line">发送异步请求的步骤</span><br><span class="line">①获取Ajax对象:获取XMLHttpRequest对象实例</span><br><span class="line">②创建请求:调用XMLHttpRequest对象的open方法</span><br><span class="line">③设置回调函数:为Ajax对象的onreadystatechange事件</span><br><span class="line">设定响应函数</span><br><span class="line">④发送请求:调用Ajax对象的send方法</span><br></pre></td></tr></table></figure>
+
+<h4 id="XMLHttpRequest方法属性"><a href="#XMLHttpRequest方法属性" class="headerlink" title="XMLHttpRequest方法属性"></a>XMLHttpRequest方法属性</h4><table>
+<thead>
+<tr>
+<th align="left">属性/方法</th>
+<th align="left">说                          明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">abort()</td>
+<td align="left">取消请求</td>
+</tr>
+<tr>
+<td align="left">getAllResponseHeaders()</td>
+<td align="left">获取响应的所有Http头</td>
+</tr>
+<tr>
+<td align="left">getResponseHeader()</td>
+<td align="left">获取指定的Http头</td>
+</tr>
+<tr>
+<td align="left">open(method,url)</td>
+<td align="left">创建请求</td>
+</tr>
+<tr>
+<td align="left">send()</td>
+<td align="left">发送请求</td>
+</tr>
+<tr>
+<td align="left">setResquestHeader()</td>
+<td align="left">指定请求的Http头</td>
+</tr>
+<tr>
+<td align="left">onreadystatechange</td>
+<td align="left">发生任何状态变化时的事件控制对象</td>
+</tr>
+<tr>
+<td align="left">readyState</td>
+<td align="left">请求的状态                                                                                           0: 尚未初始化                                                                              1: 正在发送请求                                                                                 2: 请求完成                                                                                              3:请求成功，正在接受数据                                                                   4:数据接收成功</td>
+</tr>
+<tr>
+<td align="left">responseText</td>
+<td align="left">服务器返回的文本</td>
+</tr>
+<tr>
+<td align="left">responseXML</td>
+<td align="left">服务器返回的xml，可以当作DOM处理</td>
+</tr>
+<tr>
+<td align="left">status</td>
+<td align="left">服务器返回的http请求响应，常用的有：                                      200 表示请求成功                                                                                 202 请求被接受但处理未完成                                                            400 错误的请求                                                                                  404 资源未找到                                                                                500 内部服务器错误，如asp代码错误等</td>
+</tr>
+</tbody></table>
+<h4 id="JQuery-ajax"><a href="#JQuery-ajax" class="headerlink" title="JQuery  ajax"></a>JQuery  ajax</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">1、*第一层：</span><br><span class="line">   $.ajax(&#123;//配置信息：</span><br><span class="line">	&quot;url&quot;:&quot;xx.php&quot;,//连接的服务器端文件</span><br><span class="line">	&quot;type&quot;:&quot;GET/POST&quot;,//可以省略，默认为GET</span><br><span class="line">	&quot;data&quot;:&quot;key=value&amp;key=value...&quot;,//请求消息</span><br><span class="line">	&quot;dataType&quot;:&quot;HTML/XML/JSON/JSONP&quot;,</span><br><span class="line">	&quot;jsonp&quot;:&quot;重命名&quot;,//默认叫做callback=?、可以换成你想要的名字</span><br><span class="line">	&quot;success&quot;:data=&gt;&#123;//只有成功的时候会执行</span><br><span class="line">		data=&gt;xhr.responseText</span><br><span class="line">	&#125;</span><br><span class="line">   &#125;)</span><br><span class="line"></span><br><span class="line">2、第二层：更简化</span><br><span class="line">   1、$(&quot;&quot;).load(&quot;url&quot;,&quot;data&quot;,callback)</span><br><span class="line">	缺点：1、无法设置请求类型：GET/POST，只能是GET</span><br><span class="line">	      2、会把获取到的数据放到页面上替换页面内容</span><br><span class="line">	      3、不能转成json</span><br><span class="line"></span><br><span class="line">   *2、$.get(&quot;url&quot;,&quot;data&quot;,callback,&quot;JSON&quot;);</span><br><span class="line"></span><br><span class="line">   *3、$.post(&quot;url&quot;,&quot;data&quot;,callback,&quot;JSON&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3、第三层： - 特殊用法（跨域）</span><br><span class="line">   $.getScript(&quot;xx.js&quot;) - 异步获取js的技术</span><br><span class="line"></span><br><span class="line">   ***跨域：在浏览器中具有*同源策略*：协议、域名、端口号都是相同的情况才能访问自己的东西</span><br><span class="line">	    只要这三者：协议、域名、端口号有一个不同就叫跨域了，不允许访问！</span><br><span class="line">解决：</span><br><span class="line">  前端：</span><br><span class="line">  $.getJSON(&quot;url?callback=?&quot;,&quot;data&quot;,callback)</span><br><span class="line"></span><br><span class="line">  PHP：</span><br><span class="line">  echo $_GET[&quot;callback&quot;].&quot;(&quot;.JSON_encode($arr).&quot;)&quot;;</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/12/13/ajax/">http://yoursite.com/2020/12/13/ajax/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/12/30/webStorage-cookie/" title="webStorage&amp;cookie"><span>< PreviousPost</span><br><span class="prevTitle">webStorage&amp;cookie</span></a><a class="nextSlogan" href="/2020/12/13/PHP/" title="PHP"><span>NextPost ></span><br><span class="nextTitle">PHP</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/12/13/ajax/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#同步交互与异步交互"><span class="toc-number">1.</span> <span class="toc-text">同步交互与异步交互</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何使用ajax：实现和服务器端进行交互的（类似表单，但是和表单不同）"><span class="toc-number">2.</span> <span class="toc-text">如何使用ajax：实现和服务器端进行交互的（类似表单，但是和表单不同）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XMLHttpRequest方法属性"><span class="toc-number">3.</span> <span class="toc-text">XMLHttpRequest方法属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JQuery-ajax"><span class="toc-number">4.</span> <span class="toc-text">JQuery  ajax</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

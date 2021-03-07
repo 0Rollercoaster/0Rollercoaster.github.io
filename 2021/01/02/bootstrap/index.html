@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>bootstrap · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">bootstrap</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-02</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="bootstarp"> bootstarp</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>实现响应式必备<br>    1、css媒体查询<br>    2、使用相对单位：rem,%,em,vw,auto<br>    3、meta name=”viewport”;//根本看不到手机端的效果，只能看到pad端<br>    强调：以上三点非常重要，即使学了bootstrap，也离不开他们</p>
+<p>Bootstrap框架：是一个HTML/CSS/JS框架，非常类似jqueryUI，但是以响应式为主<br>          是twitter公司推出的：由两位工程师完成<br>    （1）起步 - 下载（提供了css/js/font）<br>    （2）全局css样式<br>    （3）组件<br>    （4）js插件<br>    （5）定制</p>
+<p>***使用bootstrap的固定步骤：<br>    1、引入bs.css<br>    2、引入JQ.js<br>    3、引入bs.js</p>
+<p>全局css样式：<br>  （1）自带css reset<br>  （2）提供了上千个class，实现了各种各样的样式</p>
+<p>全局css样式 - 按钮相关：<br>    *.btn - 长得像一个按钮<br>    *.btn-default - 白底黑字</p>
+<pre><code>bootstrap提供了5种常用颜色
+.btn-danger - 红
+.btn-warning - 黄
+.btn-success - 绿
+.btn-info - 浅蓝
+.btn-primary - 深蓝
+
+可以随意的改为自己想要的颜色
+
+4种常用大小：
+.btn-lg
+.btn-md
+.btn-sm
+.btn-xs
+
+可以随意的改为自己想要的尺寸
+
+*块级按钮：.btn-block - 设置了display:block;width:100%;</code></pre><p>全局css样式 - 图片相关：<br>    *.img-circle - border-radius: 50%;<br>    *.img-rounded - border-radius: 6px;<br>    .img-thumbnail - 缩略图：自带边框和padding和一点点圆角<br>    *.img-responsive - 响应式图片：会缩小，但是不会放大</p>
+<p>全局css样式 - 文本相关：<br>    五种文本颜色<br>        .text-五种<br>    五种背景颜色<br>        .bg-五种</p>
+<pre><code>*文本对齐方式：text-center/right/justify</code></pre><p>全局css样式 - 列表相关：<br>    .list-unstyled - 去掉小点<br>    .list-inline - 水平排列</p>
+<p>1、动态样式语言</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">  静态样式语言：css，作为一门语言都是不合格，缺少变量、运算、函数、循环分支等等语言必须具备的能力，</span><br><span class="line">		 导致在大型项目中开发和维护都非常麻烦</span><br><span class="line">   动态样式语言：在css的基础之上添加了一些新能力</span><br><span class="line">   注意：目前浏览器只支持css！不认识别的样式语言</span><br><span class="line">         动态样式语言 -(编译)-&gt; css</span><br><span class="line"> 常用动态样式语言：</span><br><span class="line">		1、sass/scss - 浏览器一点都不认识</span><br><span class="line">		2、less - 只是不认识less语法</span><br><span class="line">		3、stylus - 不用学习</span><br><span class="line">   目的：简化css</span><br><span class="line">   </span><br><span class="line">2、搭建动态样式语言的环境（编译）：</span><br><span class="line">	1、百度搜索HBuilder自动编译sass，麻烦</span><br><span class="line">	2、vscode下载插件：sass easy</span><br><span class="line">	3、koala软件可以编译 也可以自动编译 - less再来尝试</span><br></pre></td></tr></table></figure>
+
+<p>3、学习scss特性：<br>   *1、变量：$变量名: 值;<br>       注意：1、使用时$不能省略<br>         2、不管是-还是_都可以使用</p>
+<p>   *2、嵌套：<br>       语法：.d1{<br>        …<br>        .d2{…}<br>        +.d3{…}<br>        &amp;:hover{…}<br>         }</p>
+<pre><code>   编译：.d1{...}
+     .d1 .d2{...}
+     .d1+.d3{...}
+     .d1:hover{}
+
+   默认：中间以空格（后代选择器）隔开
+     选择器之前可以加&gt;,+,~设置层级选择器
+   特殊：&amp;类似于js的this，指代当前{}指向的选择器
+
+3、导入：将多个scss整合为一个scss，编译为一个css，最后我们引入的是一个css
+     注意：scss导入不允许出现中文！
+     语法：@import &quot;文件名&quot;;
+              @import &quot;文件名&quot;;
+       ...
+
+4、注释：单行注释css不认识，必须写为多行注释/**/
+
+5、*****混合器：函数：2步
+ 1、创建：
+     @mixin 函数名($形参:默认值,...){
+    css
+     }
+
+ 2、调用：
+     @include 函数名(实参)
+ 注意：实参的顺序可以随意
+ 见05混合器.html
+
+6、继承：
+   .d1{....}
+   .d2{@extend .d1}
+
+7、算术运算：</code></pre></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2021/01/02/bootstrap/">http://yoursite.com/2021/01/02/bootstrap/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/01/09/vue基础/" title="vue基础"><span>< PreviousPost</span><br><span class="prevTitle">vue基础</span></a><a class="nextSlogan" href="/2021/01/02/Nodejs/" title="Nodejs"><span>NextPost ></span><br><span class="nextTitle">Nodejs</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/01/02/bootstrap/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

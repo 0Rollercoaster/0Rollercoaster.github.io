@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>BOM · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">BOM</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-12-13</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="BOM：Browser-Object-Model"><a href="#BOM：Browser-Object-Model" class="headerlink" title="BOM：Browser Object Model"></a>BOM：Browser Object Model</h2><p>   操作浏览器窗口，提供了一些API – 没有标准，广泛使用（使用率较少）</p>
+<h4 id="window对象："><a href="#window对象：" class="headerlink" title="window对象："></a>window对象：</h4><p>扮演2个角色<br>        1、他代替了ES里面的Global，充当全局作用域<br>        2、指代当前打开的浏览器窗口</p>
+<pre><code>网页打开新连接的方式
+    1、替换当前页面，可以后退
+       HTML：&lt;a href=&quot;url&quot;&gt;&lt;/a&gt;
+         JS：open(&quot;url&quot;,&quot;_self&quot;);
+
+    2、替换当前页面，禁止后退：结账后禁止后退
+       history对象：历史记录，可以前进后退
+       location对象：正在打开url记录
+       location.replace(&quot;新url&quot;)
+
+    3、在新窗口打开，可以打开多个
+       HTML：&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;
+         JS：open(&quot;url&quot;,&quot;_blank&quot;);
+
+    4、在新窗口打开，只能打开一个：跳转到结账系统
+       HTML：&lt;a href=&quot;url&quot; target=&quot;自定义name&quot;&gt;&lt;/a&gt;
+         JS：open(&quot;url&quot;,&quot;自定义name&quot;);
+       在名为自定义name的新窗口打开url，如果重新打开相同的name，新打开的窗口会替换掉旧的窗口
+
+2、窗口的大小和位置：
+  大小的属性：获取完整的浏览器窗口大小：outerWidth、outerHeight
+            获取浏览器的文档显示区的大小：innerWidth、innerHeight
+            屏幕的大小：screen.width    screen.height
+
+   操作窗口的方法：
+      打开窗口：var newWindow=open(&quot;url&quot;,&quot;自定义   target&quot;,&quot;width=,height=,left=,top=,&quot;);
+
+      关闭窗口：window/newW.close();
+
+      移动：newW.moveTo(x,y);
+
+      改变大小：newW.resizeTo(w,h);</code></pre><h4 id="获取鼠标的位置："><a href="#获取鼠标的位置：" class="headerlink" title="**获取鼠标的位置："></a>**获取鼠标的位置：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>/<span class="built_in">window</span>.onmousemove=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">	获取鼠标相对于屏幕的位置：e.screenX/Y</span><br><span class="line">	获取鼠标相对于文档显示区的位置：e.clientX/Y</span><br><span class="line">	获取鼠标相对于网页的位置：e.pageX/Y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时器："><a href="#定时器：" class="headerlink" title="*定时器："></a>*定时器：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">周期性：开启：timer=setInterval(callback,time);</span><br><span class="line"> 停止：clearInterval(timer);timer=<span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">一次性：开启：timer=setTimeout(callback,time);</span><br><span class="line"> 停止：clearTimeout(timer);timer=<span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="history：保存当前窗口的历史"><a href="#history：保存当前窗口的历史" class="headerlink" title="history：保存当前窗口的历史"></a>history：保存当前窗口的历史</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">前进：history.go(1)</span><br><span class="line">后退：history.go(-1)</span><br><span class="line">刷新：history.go(0)//会再见</span><br><span class="line"></span><br><span class="line">  *注：a标签href的功能：</span><br><span class="line">	1、网址：跳转</span><br><span class="line">	2、图片，txt：打开</span><br><span class="line">	3、后缀：rar、zip、exe：下载</span><br><span class="line">	4、javascript:js语句;</span><br></pre></td></tr></table></figure>
+
+<h3 id="location：保存当前窗口的现在url"><a href="#location：保存当前窗口的现在url" class="headerlink" title="*location：保存当前窗口的现在url"></a>*location：保存当前窗口的现在url</h3><pre><code>跳转：*location=&quot;新url&quot;;
+      location.href=&quot;新url&quot;;
+      location.assgin(&quot;新url&quot;);
+
+跳转，禁止后退：location.replace(&quot;新url&quot;)
+
+刷新：location.reload();</code></pre><h3 id="navigator：浏览器的一些基本信息"><a href="#navigator：浏览器的一些基本信息" class="headerlink" title="*navigator：浏览器的一些基本信息"></a>*navigator：浏览器的一些基本信息</h3><pre><code>1、cookieEnabled：判断浏览器是否启用了cookie
+        如果启用了true，没有启用false（提示功能）
+2、*userAgent：获取当前浏览器的名称以及版本号的一个字符串
+   作用：js版本的兼容</code></pre><h3 id="event"><a href="#event" class="headerlink" title="****event"></a><strong>****</strong>event</h3><p>   事件：用户手动触发的 或 浏览器自动触发的<br>   绑定事件：3种</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、HTML上面绑定事件</span><br><span class="line">		&lt;elem on事件名=<span class="string">"js语句"</span>&gt;&lt;/elem&gt;</span><br><span class="line">  缺点：</span><br><span class="line">	  <span class="number">1</span>、不符合内容（html）与行为（js）的分离</span><br><span class="line">	  <span class="number">2</span>、无法动态绑定事件（只能一个一个的绑定）</span><br><span class="line">	  <span class="number">3</span>、无法同时绑定多个函数对象</span><br><span class="line"></span><br><span class="line">*<span class="number">2</span>、在js中使用元素的事件处理函数属性</span><br><span class="line">	 elem.on事件名=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	优点：</span><br><span class="line">	  <span class="number">1</span>、符合内容（html）与行为（js）的分离</span><br><span class="line">	  <span class="number">2</span>、可以动态绑定事件</span><br><span class="line">	缺点：</span><br><span class="line">	  <span class="number">1</span>、无法同时绑定多个函数对象</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*<span class="number">3</span>、使用专门的API绑定事件处理函数</span><br><span class="line">	主流：elem.addEventListener(<span class="string">"事件名"</span>,事件函数);</span><br><span class="line">	老IE：elem.attachEvent(<span class="string">"on事件名"</span>,事件函数);</span><br><span class="line">	兼容：<span class="keyword">if</span>(elem.addEventListener)&#123;</span><br><span class="line">		elem.addEventListener(<span class="string">"事件名"</span>,事件函数);</span><br><span class="line">	      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		elem.attachEvent(<span class="string">"on事件名"</span>,事件函数);</span><br><span class="line">	      &#125;</span><br><span class="line">	优点：</span><br><span class="line">	  <span class="number">1</span>、符合内容（html）与行为（js）的分离</span><br><span class="line">	  <span class="number">2</span>、动态绑定事件（只能一个一个的绑定）</span><br><span class="line">	  <span class="number">3</span>、同时绑定多个函数对象</span><br><span class="line">	缺点：</span><br><span class="line">	  <span class="number">1</span>、需要做兼容，比较麻烦</span><br><span class="line">      </span><br><span class="line"><span class="number">4</span>、移除事件绑定：</span><br><span class="line">		elem.removeEventListener(<span class="string">"事件名"</span>,函数);</span><br><span class="line">		强调：remove时要求，函数对象必须和add使用一样的</span><br><span class="line">		只要一个事件处理函数可能被移除，那么使用第三种绑定事件方式</span><br><span class="line">		如果你的事件永远不会移除，那么使用第二种绑定事件方式</span><br></pre></td></tr></table></figure>
+
+<h4 id="事件周期：从事件发生，到所有事件处理函数执行完毕的全过程"><a href="#事件周期：从事件发生，到所有事件处理函数执行完毕的全过程" class="headerlink" title="*事件周期：从事件发生，到所有事件处理函数执行完毕的全过程"></a>*事件周期：从事件发生，到所有事件处理函数执行完毕的全过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">主流：3个阶段</span><br><span class="line">	1、捕获阶段，由外箱内</span><br><span class="line">		捕获：记录所有要执行的事件处理函数</span><br><span class="line">	2、目标触发：</span><br><span class="line">		目标：实际发生事件的元素</span><br><span class="line">	3、冒泡执行，由内向外</span><br><span class="line">老IE：2个阶段，没有捕获阶段</span><br><span class="line">改变事件触发的顺序：</span><br><span class="line">			elem.addEventListener(&quot;事件名&quot;,事件函数,true);//这个元素会在捕获阶段就触发了</span><br></pre></td></tr></table></figure>
+
+<h4 id="事件对象：event-gt-e"><a href="#事件对象：event-gt-e" class="headerlink" title="*事件对象：event-&gt;e"></a>*事件对象：event-&gt;e</h4><pre><code>主流：会自动作为事件处理函数的*第一个形参*传入
+    elem.onclick=function(e){e-&gt;event}
+  老IE：window中有一个event属性获取event对象：
+    window.event;
+  兼容：e=e||window.event;
+       var target=e.target||e.srcElement;
+*****事件对象e的功能：
+    1、获取鼠标的位置
+
+    2、取消冒泡：
+        主流：e.stopPropagation();
+        老IE：e.cancelBubble=true;
+        兼容：  if(e.stopPropagation){
+                e.stopPropagation();
+            }else{
+                e.cancelBubble=true;
+            }
+
+    3、*****利用冒泡（事件委托）：
+           优化：如果多个子元素定义了相同的事件处理函数，最好给父元素只定义一次
+           为什么：每次绑定一个事件处理函数，都是创建了一个事件监听对象
+                  创建事件监听对象越多，网页效率就越低下
+           如何事件委托：获取目标元素
+            主流：e.target
+            老IE：e.srcElement;
+            兼容：var target=e.target||e.srcElement;
+
+    4、阻止浏览器的默认行为：a标签默认跳转/input type=&quot;submit&quot;/默认提交右键的弹出框    （oncontextmenu）
+            主流：e.preventDefault();
+            老IE：e.returnValue=false;
+            兼容：if(e.preventDefault){
+                    e.preventDefault();
+                  }else{
+                    e.returnValue=false;
+                  }</code></pre></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/12/13/BOM/">http://yoursite.com/2020/12/13/BOM/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/12/13/PHP/" title="PHP"><span>< PreviousPost</span><br><span class="prevTitle">PHP</span></a><a class="nextSlogan" href="/2020/12/13/DOM/" title="DOM"><span>NextPost ></span><br><span class="nextTitle">DOM</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/12/13/BOM/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BOM：Browser-Object-Model"><span class="toc-number">1.</span> <span class="toc-text">BOM：Browser Object Model</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#window对象："><span class="toc-number">1.0.1.</span> <span class="toc-text">window对象：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取鼠标的位置："><span class="toc-number">1.0.2.</span> <span class="toc-text">**获取鼠标的位置：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定时器："><span class="toc-number">1.1.</span> <span class="toc-text">*定时器：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history：保存当前窗口的历史"><span class="toc-number">1.2.</span> <span class="toc-text">history：保存当前窗口的历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#location：保存当前窗口的现在url"><span class="toc-number">1.3.</span> <span class="toc-text">*location：保存当前窗口的现在url</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator：浏览器的一些基本信息"><span class="toc-number">1.4.</span> <span class="toc-text">*navigator：浏览器的一些基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#event"><span class="toc-number">1.5.</span> <span class="toc-text">****event</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#事件周期：从事件发生，到所有事件处理函数执行完毕的全过程"><span class="toc-number">1.5.1.</span> <span class="toc-text">*事件周期：从事件发生，到所有事件处理函数执行完毕的全过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事件对象：event-gt-e"><span class="toc-number">1.5.2.</span> <span class="toc-text">*事件对象：event-&gt;e</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

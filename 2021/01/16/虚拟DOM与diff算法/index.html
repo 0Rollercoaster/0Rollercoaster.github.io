@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>虚拟DOM与diff算法 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">虚拟DOM与diff算法</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-16</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h4 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h4><p>React/vue将DOM抽象为虚拟DOM, 然后通过新旧虚拟DOM 这两个对象的差异(Diff算法),最终只把变化的部分重新渲染,提高渲染效率的过程; diff 是通过JS层面的计算，返回一个patch对象，即补丁对象，在通过特定的操作解析patch对象，完成页面的重新渲染</p>
+<p><img src="/2021/01/16/虚拟DOM与diff算法/img1.png" alt></p>
+<p><img src="/2021/01/16/虚拟DOM与diff算法/maosu.png" alt></p>
+<p>表示虚拟DOM的JS对象上面有如下三个属性：</p>
+<ol>
+<li>tagName: 用来表示这个元素的标签名。</li>
+<li>props: 用来表示这元素所包含的属性。</li>
+<li>children: 用来表示这元素的children（数组）。</li>
+</ol>
+<p>虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能消耗高</p>
+<p>用算法实现虚拟DOM：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">VDOM</span>(<span class="params">tagName, props, children</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.tagName = tagName;</span><br><span class="line">    <span class="keyword">this</span>.props = props;</span><br><span class="line">    <span class="keyword">this</span>.children = children;</span><br><span class="line">&#125;</span><br><span class="line">VDOM.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 建立一个真实元素</span></span><br><span class="line">    <span class="keyword">var</span> el = <span class="built_in">document</span>.createElement(<span class="keyword">this</span>.tagName);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 往该元素上添加属性</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> name <span class="keyword">in</span> <span class="keyword">this</span>.props) &#123;</span><br><span class="line">        el.setAttribute(name, <span class="keyword">this</span>.props[name]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// children是一个数组</span></span><br><span class="line">    <span class="keyword">var</span> children = <span class="keyword">this</span>.children || [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> child <span class="keyword">of</span> children) &#123;</span><br><span class="line">        <span class="keyword">var</span> childEl = (child <span class="keyword">instanceof</span> VDOM) ? child.render() : <span class="built_in">document</span>.createTextNode(child);</span><br><span class="line">        <span class="comment">// 无论childEl是元素还是文字节点，都需要添加到这个元素中。</span></span><br><span class="line">        el.appendChild(childEl);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> el;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Diff算法"><a href="#Diff算法" class="headerlink" title="Diff算法"></a>Diff算法</h4><p>比较两颗DOM数的差异是Virtual DOM算法中最为核心的部分，这也就是所谓的Virtual DOM的diff算法。 <strong>两个树的完全的diff算法是一个时间复杂度为 O(n3) 的问题。</strong> 但是在前端中，你会很少跨层地移动DOM元素，所以真实的DOM算法会对同一个层级的元素进行对比。</p>
+<p><img src="/2021/01/16/虚拟DOM与diff算法/difftree.png" alt></p>
+<p>上图中，div只会和同一层级的div对比，第二层级的只会和第二层级对比。 这样算法复杂度就可以达到O(n)。</p>
+<hr>
+<p><img src="/2021/01/16/虚拟DOM与diff算法/difftree1.png" alt></p>
+<p>上面的这个遍历过程就是深度优先，即深度完全完成之后，再转移位置。 在深度优先遍历的时候，每遍历到一个节点就把该节点和新的树进行对比，如果有差异的话就记录到一个对象里面。</p>
+<hr>
+<p>diff.js 的 思路：</p>
+<p>在同层进行比较时候会出现四种情况：</p>
+<p>1、此节点是否被移除 -&gt; 添加新的节点<br>2、属性是否被改变 -&gt; 旧属性改为新属性<br>3、文本内容被改变-&gt; 旧内容改为新内容<br>4、节点要被整个替换 -&gt; 结构完全不相同 移除整个替换</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2021/01/16/虚拟DOM与diff算法/">http://yoursite.com/2021/01/16/虚拟DOM与diff算法/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/01/23/vuex和vueRouter/" title="vuex和vueRouter"><span>< PreviousPost</span><br><span class="prevTitle">vuex和vueRouter</span></a><a class="nextSlogan" href="/2021/01/09/vue基础/" title="vue基础"><span>NextPost ></span><br><span class="nextTitle">vue基础</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/01/16/虚拟DOM与diff算法/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟DOM"><span class="toc-number">1.</span> <span class="toc-text">虚拟DOM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Diff算法"><span class="toc-number">2.</span> <span class="toc-text">Diff算法</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

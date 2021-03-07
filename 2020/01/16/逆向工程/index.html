@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>逆向工程 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">逆向工程</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-01-16</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="java"> java</a><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="逆向工程"> 逆向工程</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="相关配置文件"><a href="#相关配置文件" class="headerlink" title="相关配置文件"></a>相关配置文件</h3><h4 id="config-properties"><a href="#config-properties" class="headerlink" title="config.properties"></a><code>config.properties</code></h4><hr>
+<p>​     连接数据库</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">driverClassName=com.mysql.jdbc.Driver</span><br><span class="line">validationQuery=SELECT <span class="number">1</span></span><br><span class="line">jdbc_url=jdbc:mysql:<span class="comment">//localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull</span></span><br><span class="line">jdbc_username=root</span><br><span class="line">jdbc_password=root</span><br></pre></td></tr></table></figure>
+
+<h4 id="generatorConfig-xml"><a href="#generatorConfig-xml" class="headerlink" title="generatorConfig.xml"></a><code>generatorConfig.xml</code></h4><p>  配置逆向工程<br>  1.生成对应实体类<br>  2.生成 * mapper.xml封装sql操作<br>  3.生成 dao层  *mapper接口</p>
+<hr>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span> ?&gt;</span><br><span class="line">&lt;!DOCTYPE generatorConfiguration</span><br><span class="line">        PUBLIC <span class="string">"-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"</span></span><br><span class="line">        <span class="string">"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"</span> &gt;</span><br><span class="line">&lt;generatorConfiguration&gt;</span><br><span class="line">    &lt;!--配置文件--&gt;</span><br><span class="line">    &lt;properties resource=<span class="string">"config.properties"</span>/&gt;</span><br><span class="line">    &lt;!--产生最简单的sql  CRUD--&gt;</span><br><span class="line">    &lt;context id=<span class="string">"Mysql"</span> targetRuntime=<span class="string">"MyBatis3simple"</span>&gt;</span><br><span class="line">    &lt;!--&lt;context id=<span class="string">"Mysql"</span> targetRuntime=<span class="string">"MyBatis3"</span>&gt;--&gt;</span><br><span class="line">        &lt;!--产生序列化  hashcode    toString 方法--&gt;</span><br><span class="line">        &lt;!--&lt;plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"&gt;&lt;/plugin&gt;--&gt;</span><br><span class="line">        &lt;!--&lt;plugin type="org.mybatis.generator.plugins.ToStringPlugin"&gt;&lt;/plugin&gt;--&gt;</span><br><span class="line">        &lt;plugin type="org.mybatis.generator.plugins.SerializablePlugin"&gt;&lt;/plugin&gt;</span><br><span class="line">        &lt;commentGenerator&gt;</span><br><span class="line">            &lt;!-- 是否去除自动生成的注释 <span class="keyword">true</span>：是 ： <span class="keyword">false</span>:否 --&gt;</span><br><span class="line">            &lt;property name=<span class="string">"suppressAllComments"</span> value=<span class="string">"true"</span>/&gt;</span><br><span class="line">        &lt;/commentGenerator&gt;</span><br><span class="line">        &lt;!--数据库的连接--&gt;</span><br><span class="line">        &lt;jdbcConnection driverClass=<span class="string">"$&#123;driverClassName&#125;"</span></span><br><span class="line">                        connectionURL=<span class="string">"$&#123;jdbc_url&#125;"</span> userId=<span class="string">"$&#123;jdbc_username&#125;"</span></span><br><span class="line">                        password=<span class="string">"$&#123;jdbc_password&#125;"</span>/&gt;</span><br><span class="line">        &lt;!--指定生成的类型为java类型，避免数据库中number等类型字段 <span class="keyword">false</span>时解析成Integer  <span class="keyword">true</span>时解析成BigDecimal --&gt;</span><br><span class="line">        &lt;javaTypeResolver&gt;</span><br><span class="line">            &lt;property name=<span class="string">"forceBigDecimals"</span> value=<span class="string">"false"</span>/&gt;</span><br><span class="line">        &lt;/javaTypeResolver&gt;</span><br><span class="line">        &lt;!-- 指定生成pojo的包和此包在项目中的地址； --&gt;</span><br><span class="line">        &lt;javaModelGenerator targetPackage=<span class="string">"priv.spring.pojo"</span></span><br><span class="line">                            targetProject=<span class="string">"src/main/java"</span>&gt;</span><br><span class="line">            &lt;!-- enableSubPackages:是否让schema作为包的后缀 --&gt;</span><br><span class="line">            &lt;property name=<span class="string">"enableSubPackages"</span> value=<span class="string">"true"</span>/&gt;</span><br><span class="line">            &lt;!-- 从数据库返回的值被清理前后的空格 --&gt;</span><br><span class="line">            &lt;property name=<span class="string">"trimStrings"</span> value=<span class="string">"true"</span>/&gt;</span><br><span class="line">        &lt;/javaModelGenerator&gt;</span><br><span class="line">        &lt;!-- 指定生成pojo的映射xml文件的所在包和此包在项目中的地址 --&gt;</span><br><span class="line">        &lt;sqlMapGenerator targetPackage=<span class="string">"priv.spring.mapper"</span></span><br><span class="line">                         targetProject=<span class="string">"src/main/java"</span>&gt;</span><br><span class="line">            &lt;property name=<span class="string">"enableSubPackages"</span> value=<span class="string">"true"</span>/&gt;</span><br><span class="line">        &lt;/sqlMapGenerator&gt;</span><br><span class="line">        &lt;!-- 指定生成dao接口的所在包,以及包在项目中的地址 --&gt;</span><br><span class="line">        &lt;javaClientGenerator type=<span class="string">"XMLMAPPER"</span></span><br><span class="line">                             targetPackage=<span class="string">"priv.spring.dao"</span> targetProject=<span class="string">"src/main/java"</span>&gt;</span><br><span class="line">            &lt;property name=<span class="string">"enableSubPackages"</span> value=<span class="string">"true"</span>/&gt;</span><br><span class="line">        &lt;/javaClientGenerator&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;!-- 配置表名跟pojo名  该table节点可以多个 --&gt;</span><br><span class="line">        &lt;!--&lt;table tableName=<span class="string">"sys_menu"</span> domainObjectName=<span class="string">"SysMenu"</span>--&gt;</span><br><span class="line">               &lt;!--enableCountByExample=<span class="string">"false"</span> enableUpdateByExample=<span class="string">"false"</span>--&gt;</span><br><span class="line">               &lt;!--enableDeleteByExample=<span class="string">"false"</span> enableSelectByExample=<span class="string">"false"</span>--&gt;</span><br><span class="line">               &lt;!--selectByExampleQueryId=<span class="string">"false"</span>&gt;--&gt;</span><br><span class="line">        &lt;!--&lt;/table&gt;--&gt;</span><br><span class="line">    &lt;/context&gt;</span><br><span class="line">&lt;/generatorConfiguration&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p>​     编辑启动配置 (Edit Configuration)   找到maven </p>
+<p>​    <img src="/2020/01/16/逆向工程/maven.jpg" alt></p>
+<p>​      逆向工程结束</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/01/16/逆向工程/">http://yoursite.com/2020/01/16/逆向工程/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/02/19/Git学习-删除文件or文件夹/" title="Git学习: 删除文件or文件夹"><span>< PreviousPost</span><br><span class="prevTitle">Git学习: 删除文件or文件夹</span></a><a class="nextSlogan" href="/2019/12/16/Git学习2/" title="Git学习2"><span>NextPost ></span><br><span class="nextTitle">Git学习2</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/01/16/逆向工程/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关配置文件"><span class="toc-number">1.</span> <span class="toc-text">相关配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#config-properties"><span class="toc-number">1.1.</span> <span class="toc-text">config.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#generatorConfig-xml"><span class="toc-number">1.2.</span> <span class="toc-text">generatorConfig.xml</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行"><span class="toc-number">2.</span> <span class="toc-text">执行</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

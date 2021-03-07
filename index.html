@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/02/10/redux/">redux</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-10T08:12:30.000Z">2021-02-10</time></div><div class="recent-post-content">
+   在学习的时候产生了一个疑问：dispath action 后就会执行某个reducer，那么Redux是怎么吧action和reducer关联起来的？action的type是用在某个具体的reducer的，但是它怎么知道我该去哪个reducer的？
+
+看了大佬写的redux源码注释关于dispatch这一块有了比较清楚的认识
+即每次触发action，dispatc(action) 遍历reduces，生成nextState
+源码如下：
+1234567891011121314151617181920212223242526272829303132333435363738394041424 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redux"> redux</a></div><div class="read-more"><a class="more" href="/2021/02/10/redux/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/07/immutable数据流/">immutable数据流</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-07T08:04:38.000Z">2021-02-07</time></div><div class="recent-post-content">PureComponent(memo)只会进行浅比较，无法监测到引用类型的属性值变化，故而对应用型组件比较吃力
+PureComponent浅比较核心源码123456789101112131415161718192021222324252627282930313233343536function shallowEqual (objA: mixed, objB: mixed): boolean &#123;  // is 相当于 === 的功能，只是对 + 0 和 - 0，以及 NaN 和 NaN 的情况进行了特殊处理  // 1、基础数据类型直接比较出结果  if (is (objA, objB ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/02/07/immutable数据流/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/04/模板引擎-跨域处理/">模板引擎&amp;跨域处理</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-04T08:19:57.000Z">2021-02-04</time></div><div class="recent-post-content">一、模板引擎 123java JSPPHP smartyNodejs  Ejs、HandleBar、swig-template、Pug/Jade等
+
+什么是模板引擎？
+
+模板，将不含有动态数据的html页面，称为模板
+引擎，为开发者提供很多方式灵活操作模板
+
+Nodejs常用模板引擎
+
+Ejs、HandleBar 、 swig-template、Pug/Jade
+
+使用的前后对比
+
+使用前
+
+123456&lt;h1&gt;Awesome People&lt;/h1&gt;&lt;ul&gt;    &lt;li class=&quot;first&quot;&gt;Paul&lt;/li&g ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/02/04/模板引擎-跨域处理/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/路由守卫与路由拦截器/">路由守卫与路由拦截器</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:21:37.000Z">2021-01-30</time></div><div class="recent-post-content">路由拦截器
+ 请求拦截
+
+ 
+
+ 响应拦截
+
+
+</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/30/路由守卫与路由拦截器/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/bcryptjs-加密和josnwebtoken/">bcryptjs 加密和jsonwebtoken</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:00:50.000Z">2021-01-30</time></div><div class="recent-post-content">密码加密与比对 参考：bcryptjs
+
+密码加密
+
+12var salt = bcrypt.genSaltSync(10);  //盐 即密码强度var hash = bcrypt.hashSync(原密码, salt);  //hash就是加密后的密码
+
+
+密码比对
+
+1bcrypt.compareSync(明文密码, hash); // 得到布尔值
+
+token签发与验证
+http请求是无状态的token令牌验证 、jwt令牌验证token的本质是个加密字符串
+
+参考：jwt  
+
+安装
+
+1npm i jsonwebtoken
+
+
+引入使用
+
+
+1  服务端签发token
+
+123va ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/bcryptjs-加密和josnwebtoken/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/cors-处理跨域/">cors 处理跨域</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T06:57:28.000Z">2021-01-30</time></div><div class="recent-post-content">跨域处理模块：  在后端安装 npm i cors   （安装，引用，配置）   中间键（安装，引用，配置）   即 在app.js 中 var cors = require(‘cors’)                           app.use(cors());
+   可以注意 network里的 Access-Control-Allow-Orgin:是不是为  *  
+   即允许所有域名访问接口    
+​    也可以指定某域名访问
+123eg： app.use(cors(&#123;		origin:'http://localhost:8080'    &#125;))
+ ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/cors-处理跨域/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/mongodb-node/">mongodb&amp;node</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T06:43:46.000Z">2021-01-30</time></div><div class="recent-post-content">一、express express （脚手架） npm i express-generator -g express  –no-view 快速搭建项目 npm i  下载依赖
+二、mongodb​    1、 mongodb 4.2.2 安装   注：install mongodb compass 不需勾选！​    2、bin目录里 启动mongodb数据库    或者配置环境变量​    3、找到想要的db目录新建空db文件夹  ，用来存放数据​    4、启动命令：  mongod –dbpath=D:\db –port=27017  (在bin目录里启动)​    5、启动成功会有   ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="mongodb"> mongodb</a></div><div class="read-more"><a class="more" href="/2021/01/30/mongodb-node/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/23/内网穿透vue部署和nginx配置/">内网穿透vue部署和nginx配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-23T06:07:45.000Z">2021-01-23</time></div><div class="recent-post-content"></div><div class="read-more"><a class="more" href="/2021/01/23/内网穿透vue部署和nginx配置/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/23/vuex和vueRouter/">vuex和vueRouter</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-23T04:42:21.000Z">2021-01-23</time></div><div class="recent-post-content">Vuex状态机
+   应用情景类似js中的storage
+
+应用
+
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243简单应用：import Vue from 'vue'import Vuex from 'vuex'Vue.use(Vuex)const store = new Vuex.Store(&#123;  state: &#123; //类似 vue组件中的data    count: 0  &#125;,  mutations: &#123;  //类似 vue组件中的 meth ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="vue"> vue</a></div><div class="read-more"><a class="more" href="/2021/01/23/vuex和vueRouter/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/16/虚拟DOM与diff算法/">虚拟DOM与diff算法</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-16T02:31:42.000Z">2021-01-16</time></div><div class="recent-post-content">虚拟DOMReact/vue将DOM抽象为虚拟DOM, 然后通过新旧虚拟DOM 这两个对象的差异(Diff算法),最终只把变化的部分重新渲染,提高渲染效率的过程; diff 是通过JS层面的计算，返回一个patch对象，即补丁对象，在通过特定的操作解析patch对象，完成页面的重新渲染
+
+
+表示虚拟DOM的JS对象上面有如下三个属性：
+
+tagName: 用来表示这个元素的标签名。
+props: 用来表示这元素所包含的属性。
+children: 用来表示这元素的children（数组）。
+
+虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/16/虚拟DOM与diff算法/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

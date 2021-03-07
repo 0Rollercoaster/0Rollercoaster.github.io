@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>immutable数据流 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">immutable数据流</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-02-07</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="PureComponent-memo"><a href="#PureComponent-memo" class="headerlink" title="PureComponent(memo)"></a>PureComponent(memo)</h2><p>只会进行浅比较，无法监测到引用类型的属性值变化，故而对应用型组件比较吃力</p>
+<pre><code>PureComponent浅比较核心源码</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shallowEqual</span> (<span class="params">objA: mixed, objB: mixed</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="comment">// is 相当于 === 的功能，只是对 + 0 和 - 0，以及 NaN 和 NaN 的情况进行了特殊处理</span></span><br><span class="line">  <span class="comment">// 1、基础数据类型直接比较出结果</span></span><br><span class="line">  <span class="keyword">if</span> (is (objA, objB)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2、只要有一个不是对象数据类型就返回 false</span></span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    <span class="keyword">typeof</span> objA !== <span class="string">'object'</span> ||</span><br><span class="line">    objA === <span class="literal">null</span> ||</span><br><span class="line">    <span class="keyword">typeof</span> objB !== <span class="string">'object'</span> ||</span><br><span class="line">    objB === <span class="literal">null</span></span><br><span class="line">  ) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3、在这里已经可以保证两个都是对象数据类型，比较两者的属性数量</span></span><br><span class="line">  <span class="keyword">const</span> keysA = <span class="built_in">Object</span>.keys (objA);</span><br><span class="line">  <span class="keyword">const</span> keysB = <span class="built_in">Object</span>.keys (objB);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (keysA.length !== keysB.length) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4、比较两者的属性是否相等，值是否相等</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keysA.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      !hasOwnProperty.call (objB, keysA [i]) ||</span><br><span class="line">      !is (objA [keysA [i]], objB [keysA [i]])</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假设对象A 中有一个属性的属性值为引用类型，且与对象B 地址相同，那么以上代码就会返回 <code>true</code> ，即无法监听到虚拟DOM的变化</p>
+<h2 id="immutable-数据结构-SCU-memo-浅层比对"><a href="#immutable-数据结构-SCU-memo-浅层比对" class="headerlink" title="immutable 数据结构 + SCU (memo) 浅层比对"></a>immutable 数据结构 + SCU (memo) 浅层比对</h2><p>​        问题的本质，无论是直接用浅层比对，还是进行深层比对，最终是想知道组件的 props (或 state) 数据有无发生改变。</p>
+<h3 id="什么是-immutable-数据？它有什么优势？"><a href="#什么是-immutable-数据？它有什么优势？" class="headerlink" title="什么是 immutable 数据？它有什么优势？"></a>什么是 immutable 数据？它有什么优势？</h3><ul>
+<li><p>immutable 数据一种利用结构共享形成的持久化数据结构，一旦有部分被修改，那么将会返回一个全新的对象，并且原来相同的节点会直接共享。</p>
+</li>
+<li><p>immutable 对象数据内部采用是多叉树的结构，凡是有节点被改变，那么它和与它相关的所有上级节点都更新。</p>
+</li>
+</ul>
+<p>模拟一下这个过程：</p>
+<p><img src="/2021/02/07/immutable数据流/before.png" alt></p>
+<ul>
+<li>因此，采用 immutable 既能够最大效率地更新数据结构，又能够和现有的 PureComponent (memo) 顺利对接，感知到状态的变化，是提高 React 渲染性能的极佳方案。</li>
+</ul>
+<h3 id="immutable-常用方法"><a href="#immutable-常用方法" class="headerlink" title="immutable 常用方法"></a>immutable 常用方法</h3><h4 id="1-fromJS"><a href="#1-fromJS" class="headerlink" title="1.fromJS"></a>1.fromJS</h4><p>它的功能是将 JS 对象转换为 immutable 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#123;fromJS&#125; from &apos;immutable&apos;;</span><br><span class="line">const immutableState = fromJS (&#123;</span><br><span class="line">    count: 0</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>redux 的 reducer 文件中看到这个 api, 是 immutable 库当中导出的方法。</p>
+<h4 id="2-toJS"><a href="#2-toJS" class="headerlink" title="2. toJS"></a>2. toJS</h4><p>和 fromJS 功能相反，用来将 immutable 对象转换为 JS 对象，</p>
+<ul>
+<li>注：这个方法并没有在 immutable 库中直接导出，而是需要让 immutable 对象调用。比如:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const jsObj = immutableState.toJS ();</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-get-getIn"><a href="#3-get-getIn" class="headerlink" title="3.get/getIn"></a>3.get/getIn</h4><p>用来获取 immutable 对象属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//JS 对象</span><br><span class="line">let jsObj = &#123;a: 1&#125;;</span><br><span class="line">let res = jsObj.a;</span><br><span class="line">//immutable 对象</span><br><span class="line">let immutableObj = fromJS (jsObj);</span><br><span class="line">let res = immutableObj.get (&apos;a&apos;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//JS 对象</span><br><span class="line">let jsObj = &#123;a: &#123;b: 1&#125;&#125;;</span><br><span class="line">let res = jsObj.a.b;</span><br><span class="line">//immutable 对象</span><br><span class="line">let immutableObj = fromJS (jsObj);</span><br><span class="line">let res = immutableObj.getIn ([&apos;a&apos;, &apos;b&apos;]);// 注意传入的是一个数组</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-set"><a href="#4-set" class="headerlink" title="4.set"></a>4.set</h4><p>用来对 immutable 对象的属性赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let immutableObj = fromJS (&#123;a: 1&#125;);</span><br><span class="line">immutableObj.set (&apos;a&apos;, 2);</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-merge"><a href="#5-merge" class="headerlink" title="5. merge"></a>5. merge</h4><p>新数据与旧数据对比，旧数据中不存在的属性直接添加，旧数据中已存在的属性用新数据中的覆盖。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let immutableObj = fromJS (&#123;a: 1&#125;);</span><br><span class="line">immutableObj.merge (&#123;</span><br><span class="line">    a: 2,</span><br><span class="line">    b: 3</span><br><span class="line">&#125;);// 修改了 a 属性，增加了 b 属性</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2021/02/07/immutable数据流/">http://yoursite.com/2021/02/07/immutable数据流/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/02/10/redux/" title="redux"><span>< PreviousPost</span><br><span class="prevTitle">redux</span></a><a class="nextSlogan" href="/2021/02/04/模板引擎-跨域处理/" title="模板引擎&amp;跨域处理"><span>NextPost ></span><br><span class="nextTitle">模板引擎&amp;跨域处理</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/02/07/immutable数据流/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PureComponent-memo"><span class="toc-number">1.</span> <span class="toc-text">PureComponent(memo)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#immutable-数据结构-SCU-memo-浅层比对"><span class="toc-number">2.</span> <span class="toc-text">immutable 数据结构 + SCU (memo) 浅层比对</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-immutable-数据？它有什么优势？"><span class="toc-number">2.1.</span> <span class="toc-text">什么是 immutable 数据？它有什么优势？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#immutable-常用方法"><span class="toc-number">2.2.</span> <span class="toc-text">immutable 常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-fromJS"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.fromJS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-toJS"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. toJS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-get-getIn"><span class="toc-number">2.2.3.</span> <span class="toc-text">3.get/getIn</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-set"><span class="toc-number">2.2.4.</span> <span class="toc-text">4.set</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-merge"><span class="toc-number">2.2.5.</span> <span class="toc-text">5. merge</span></a></li></ol></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

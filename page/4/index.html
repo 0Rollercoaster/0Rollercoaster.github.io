@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/11/02/怪异盒模型-flex/">怪异盒模型&amp;flex</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-02T00:41:54.000Z">2020-11-02</time></div><div class="recent-post-content">怪异盒模型
+box-sizing
+
+12content-box		这是由 CSS2.1 规定的宽度高度行为。宽度和高度分别应用到元素的内容框。在宽度和高度之外绘制元素的内边距和边框。
+
+
+border-box
+    为元素设定的宽度和高度决定了元素的边框盒。就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。
+FLEX布局1234Flex容器：采用 Flex 布局的元素的父元素；Flex项目：采用 Flex 布局的元素的父元素的子元素；容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（ ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/11/02/怪异盒模型-flex/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/29/CSS3(选择器&amp;属性)/">CSS3(选择器&amp;属性)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-29T10:50:44.000Z">2020-10-29</time></div><div class="recent-post-content">CSS3渐进增强1渐进增强 progressive enhancement：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验
+
+优雅降级1渐进增强 progressive enhancement：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验
+
+渐进增强 &amp; 优雅降级1区别：优雅降级是从复杂的现状开始，并试图减少用户体验的供给，而渐进增强则是从一个非常基础的，能够起作用的版本开始，并不断扩充，以适应未来环境的需要。降级（功能衰减）意味着往回看；而渐进 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></div><div class="read-more"><a class="more" href="/2020/10/29/CSS3(选择器&amp;属性)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/28/CSS3-动画及h5标签/">CSS3(动画及h5标签)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-28T13:05:00.000Z">2020-10-28</time></div><div class="recent-post-content">关键帧的定义1不同于过渡动画只能定义首尾两个状态，关键帧动画可以定义多个状态，或者用关键帧的话来说，过渡动画只能定义第一帧和最后一帧这两个关键帧，而关键帧动画则可以定义任意多的关键帧，因而能实现更复杂的动画效果。
+
+12345678910@keyframes mymove&#123; from&#123;初始状态属性&#125;to&#123;结束状态属性&#125;&#125;或@keyframes mymove&#123; 0%&#123;初始状态属性&#125;50%（中间再可以添加关键帧）100%&#123;结束状态属性&#125;&#125;
+
+￼￼￼animation  vs  t ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/28/CSS3-动画及h5标签/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/27/CSS3-3D/">CSS3(3D)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-27T08:16:04.000Z">2020-10-27</time></div><div class="recent-post-content">景深12345678910生活中的3d 区别于2d的地方1、近大远小 景深 程序中实现的方法 perspective 元素距离 视线的距离（物体和眼睛的距离越小，近大远小的效果越明显）perspective: 1200px;（在父元素中使用）transform:perspective(1200px) （在子元素中使用）两个都设置会发生冲突，建议只设置父元素，通常的数值在900-1200之间如果当你的视线距离物体足够远的时候，基本上就不会有近大远小的感觉
+
+1234567perspective-origin观察3d元素的（位置）角度perspective-origin：center center ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/27/CSS3-3D/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/26/CSS学习(2d)/">CSS学习(2d)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-26T12:38:52.000Z">2020-10-26</time></div><div class="recent-post-content">浏览器前缀1234-ms-	   -ms-box-shadow	IE浏览器专属的CSS属性需添加-ms-前缀-moz-	   -moz-box-shadow	所有基于Gecko引擎的浏览器（如Firefox）专属的CSS属性需添加-moz-前缀-o-	       -o-box-shadow	Opera浏览器专属的CSS属性需添加-o-前缀-webkit-   -webkit-box-shadow	所有基于Webkit引擎的浏览器（如Chrome、Safari）专属的CSS需添加-webkit-前缀
+
+css3 渐变1CSS3 渐变（gradient）可以让你在两个或多个指定的颜色之间显示平稳 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/26/CSS学习(2d)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/24/CSS学习8(BFC)/">CSS学习8(BFC)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-24T06:42:49.000Z">2020-10-24</time></div><div class="recent-post-content">BFC(Block formatting context):块级格式化上下文BFC的布局规则123456一、内部的Box会在垂直方向，一个接一个地放置。二、Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠（按照最大margin值设置）三、每个元素的margin box的左边， 与包含块border box的左边相接触四、BFC的区域不会与float box重叠。五、BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。六、计算BFC的高度时，浮动元素也参与计算
+
+能触发BFC的元素或属性12345根元素(html)float ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/24/CSS学习8(BFC)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/24/CSS学习7(表格表单)/">CSS学习7(表格表单)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-24T06:29:52.000Z">2020-10-24</time></div><div class="recent-post-content">表格相关1 ： 数据行分组123&lt;thead&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;/tfoot&gt;
+
+2 ： 数据列分组12&lt;colgroup span="value"&gt;&lt;/colgroup&gt;&lt;!--span属性为把几列分为一组--&gt;
+
+3 ： 列标题1&lt;th&gt;&lt;/th&gt;
+
+4 : 表格标题1&lt;caption&gt;&lt;/caption&gt;
+
+表格属性1、单元格间距：border-spacing:value;
+​        ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/24/CSS学习7(表格表单)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/22/CSS学习6(宽高自适应)/">CSS学习6(宽高自适应)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-22T11:07:24.000Z">2020-10-22</time></div><div class="recent-post-content">宽度自适应12元素宽度设置为100%。（块元素宽度默认为100%）或者不设置宽度（width）;（宽度是父元素的宽度）
+
+高度自适应123451)自适应元素高度：height:auto;或者不设置;（是子元素撑开父元素的高度）2)元素高度自适应窗口高度   	设置方法：html,body&#123;height:100%;&#125;	注：如果设置子元素的高度跟随父元素的高度变化而变化，那么父元素必须有高度。
+
+最小高度的自适应12345min-height属性：最小高度；(IE6浏览器不识别该属性)hack1:min-height:value;_height:value;hack2:min- ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/22/CSS学习6(宽高自适应)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/21/CSS学习5(定位)/">CSS学习5(定位)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-21T09:22:43.000Z">2020-10-21</time></div><div class="recent-post-content">CSS文档流
+CSS定位机制：普通流、浮动流、定位流。
+
+POSITION
+position定位属性，检索或设置对象的定位方式
+
+position属性
+
+
+属性名
+描述
+
+
+
+static
+默认值。位置设置为 static 的元素会正常显示，它始终会处于文档流给予的位置（static元素会忽略任何 top、bottom、left或 right 声明）
+
+
+absolute
+相对于已经定位父级元素、的绝对定位，浮出、脱离布局流，它不占据空间，就是我们所说的层，其位置相对于最近的已定位父元素而言的位置，可直接指定“left”、“top”、“right” 以及 “bottom”属性。若父级都没有定位 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/21/CSS学习5(定位)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/20/CSS学习4(元素类型)/">CSS学习4(元素类型)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-20T12:17:12.000Z">2020-10-20</time></div><div class="recent-post-content">元素类型1234567根据css显示分类，XHTML元素被分为三种类型:	块状元素，内联元素，可变元素	(or)三种类型：		块状元素，内联元素，内联块元素(css2.1增加)
+
+特点块状元素 (display:block)：1234块状元素，在页面中以矩形区域显示!块级元素，能直接添加宽高!块级元素，在页面中显示，独占一行(默认占满父元素的所有宽度)，从上往下排列块级元素，一般作为内容或者其他元素的容器
+
+内联元素 (display:inline)：123!内联元素，不能设置宽高，由内容撑开，最小显示单位为矩形!内联元素，在一行内，从左往右排列内联元素支持盒模型的规则,但是个别不能进行正确的 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/20/CSS学习4(元素类型)/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/3/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

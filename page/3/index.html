@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/12/06/ES5-ES6/">ES5&amp;ES6</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-06T10:42:29.000Z">2020-12-06</time></div><div class="recent-post-content">XHTML -&gt; HTML5（语义化标签/视频/音频…）css2  -&gt;  css3（动画、媒体查询、渐变、过渡、转换、弹性盒子、新增的选择器、盒子文字阴影、边框的圆角、边框图片…）
+ES5：1、保护对象：保护对象的属性和方法的   如何保护对象：对象的每个属性都有四大特性
+{
+    configurable: true,//1、控制着是否可以被删除 2、总开关 3、一旦改为false不可逆
+    enumerable: true,//控制着是否可以被for in遍历到
+    value: 1001,//真实的值
+    writable: true,//控制着是否可以被修改 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/12/06/ES5-ES6/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/06/面向对象/">面向对象</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-06T09:35:43.000Z">2020-12-06</time></div><div class="recent-post-content">面向对象（三大特点：封装、继承、多态）封装   面向对象：程序中对现实中的一个事物进行封装，把他的属性变为对象的属性，把他的方法变为对象的函数   对象：程序描述一个事物的数据结构   包含：属性和方法
+  js引用类型都是对象
+   如何创建自定义对象：3种    1、*直接量方式：        var obj={     “属性名”:属性值,  …     “方法名”:function(){}, … }
+    注：其实属性名和方法名的引号是可以省略的，不推荐
+    如何访问对象的属性和方法
+        obj.属性名 -- 得到了属性值
+            等效于obj[&q ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascrpt"> javascrpt</a></div><div class="read-more"><a class="more" href="/2020/12/06/面向对象/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/06/两链一包/">错误对象&amp;两链一包</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-06T06:46:55.000Z">2020-12-06</time></div><div class="recent-post-content">作用域链*****Function：   作用域（scope）：2种      1、全局作用域：随处可用，可被反复使用，可能被污染
+​      2、函数作用域：只能在函数调用时内部可用，不会被污染，变量是一次性
+   函数的执行原理：
+0、程序加载时
+       创建执行环境栈（ECS）：保存函数调用的顺序
+       首先压入全局执行环境（EC）
+       全局EC引用全局对象window
+       window中将要保存全局变量
+1、函数定义时
+   创建函数对象：封装了函数的定义
+   在函数对象中定义了scope属性，记录函数来自的作用域
+   全局函数的scope都是w ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/12/06/两链一包/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/30/Math、Date、Error对象及重载/">Math、Date、Error对象及重载</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-30T03:22:41.000Z">2020-11-30</time></div><div class="recent-post-content">Math 对象​         方法： 1、上取整： Math.ceil(num)  //小数点不允许超过15位​                      2、下取整： Math.floor(num)  //省略小数部分​                      3、四舍五入取整： Math.round(num)​     注：parseInt / m&gt;&gt;&gt;0  /  m^0  /  num.toFixed(0)  都可以取整 *parseFloat(num.toFixed(0)); 具有四舍五入功能，可自定义小数位数​          但小数位数范围为 0~100， ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/30/Math、Date、Error对象及重载/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/28/js正则学习/">js正则学习</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-28T02:48:15.000Z">2020-11-28</time></div><div class="recent-post-content">正则表达式最简单的形式： /关键字原文/gi       g：全部   i：忽略大小写
+备选字符集： **规定一位** 字符可用的字符列表
+              如  /^[备选字符列表]$/
+         `注`：1、一个中括号只能控制一个字符
+                 2、正则匹配后不管后续，  所以 前^后$ 控制从头到尾​      特殊：1、若备选字符集里部分unicode码连续，可以“-”省略中间部分​              如：  [0-9]   [a-z] [A-Z]   [0-9A-Za-z]
+预定义字符集：1234一个数字： \d       一个数字 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/28/js正则学习/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/21/js学习3-API学习-数组和字符串/">js学习3,API学习(数组和字符串)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-21T08:32:08.000Z">2020-11-21</time></div><div class="recent-post-content">数组：123定义：var arr = [];         var arr = new Array(值 or num); //传入num时为创建长度为num的数组注：1、不限制元素个数 2、不限制元素类型 3、不限制下标越界
+
+Hash（关联）数组12345创建数组，  var arr = [];  arr[&quot;自定义&quot;]=值;访问： arr[&quot;自定义下标&quot;];注：hash数组的length永远为0遍历使用for in 遍历如： for（var i in arr)&#123; console.log(arr[i])&#125;;
+
+Hash原理1234h ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/21/js学习3-API学习-数组和字符串/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/21/js学习2-声明提前-按值传递/">js学习2(声明提前|按值传递)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-21T08:17:19.000Z">2020-11-21</time></div><div class="recent-post-content">声明提前：​     解释：在程序执行之前，将var声明的变量和function声明的函数集中提前到当前作用域的顶部创建、但是赋值留在原来的位置。
+​    例如：
+12345678910111213141516171819var a;function f1()&#123;			console.log(a);			var a=20;			console.log(a);			&#125;console.log(a);var a=1;console.log(a);a=10;			f1();console.log(a);输出： undefined      1      undefined      ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/21/js学习2-声明提前-按值传递/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/19/绝对定位高度塌陷/">绝对定位高度塌陷</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-19T10:44:27.000Z">2020-11-19</time></div><div class="recent-post-content">​    绝对定位position:absolute下，父元素高度塌陷/无法撑开父盒子​         今天写代码遇到的问题：如何在子元素绝对定位下解决父元素高度塌陷，cssBFC没有办法解决，查了一些相关博客，最后了解到的对应的js解决方法
+​       用对应子元素onload获取它当前的高度，赋给父元素​      当窗口大小改变时，再获取一次，并赋值给父元素
+12345678xxx.onload = function () &#123;          height = this.height;          parent.style.height = height + "p ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/19/绝对定位高度塌陷/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/17/js学习笔记/">js学习笔记</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-17T09:34:46.000Z">2020-11-17</time></div><div class="recent-post-content">js概念  javascript简称js，是运行在浏览器中的 javascript解释器 或者 特定引擎中 的解释性弱类型脚本语言 编译型：运行之前先检查语法是否正确，不正确的话是不能运行的，比如：java、c、c++、c# 解释性：运行之前不需要检查语法是否正确，直接运行，碰到错误了再停止下载，比如：js、php
+javascript的特点
+123代码可用任何编辑器编写   不需编译，由浏览器的js解释器自动去解释执行代码*弱类型*语言：由数据 决定 数据类型
+
+javascript：三部分组成（ECMAScript核心语法 + DOM文档对象模型 + BOM浏览器对象模型）
+1、DHTML ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/17/js学习笔记/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/02/CSS移动端/">CSS移动端&amp;多列&amp;响应式&amp;媒体</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-02T11:42:33.000Z">2020-11-02</time></div><div class="recent-post-content">多列属性​    1、column-count
+12属性规定元素应该被分隔的列数适用于：除table外的非替换块级元素, table cells, inline-block元素
+
+​    2、column-gap
+1属性规定列之间的间隔大小
+
+​    3、column-rule
+1234设置或检索对象的列与列之间的边框。复合属性。column-rule-color规定列之间规则的颜色。column-rule-style规定列之间规则的样式。column-rule-width规定列之间规则的宽度。
+
+​    4、column-fill
+123设置或检索对象所有列的高度是否统一auto：列高 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/11/02/CSS移动端/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/2/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

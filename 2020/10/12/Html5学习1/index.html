@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Html5学习1 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Html5学习1</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-10-12</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Html5"> Html5</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>​    开新坑从基础开始学习Html5</p>
+<h1 id="常用标签"><a href="#常用标签" class="headerlink" title="常用标签"></a>常用标签</h1><h3 id="1-：-文本标题标签"><a href="#1-：-文本标题标签" class="headerlink" title="1 ： 文本标题标签"></a>1 ： 文本标题标签</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">文本标题共有6个（h1-h6）</span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>一级标题<span class="tag">&lt;/<span class="name">h1</span>&gt;</span>(唯一性,放网站LOGO)</span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>二级标题<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">h6</span>&gt;</span>六级标题<span class="tag">&lt;/<span class="name">h6</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-字体倾斜-amp-加粗标记"><a href="#2-字体倾斜-amp-加粗标记" class="headerlink" title="2:字体倾斜&amp;加粗标记"></a>2:字体倾斜&amp;加粗标记</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">文本倾斜:</span><br><span class="line">	<span class="tag">&lt;<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">em</span>&gt;</span><span class="tag">&lt;/<span class="name">em</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">文本加粗：</span><br><span class="line">	<span class="tag">&lt;<span class="name">b</span>&gt;</span><span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3：下划线"><a href="#3：下划线" class="headerlink" title="3：下划线"></a>3：下划线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;u&gt;&lt;/u&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-换行-amp-水平线"><a href="#4-换行-amp-水平线" class="headerlink" title="4 : 换行&amp;水平线"></a>4 : 换行&amp;水平线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;br&gt;</span><br><span class="line">&lt;hr&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/10/12/Html5学习1/2.png" alt></p>
+<h3 id="5：上标-amp-下标"><a href="#5：上标-amp-下标" class="headerlink" title="5：上标&amp;下标"></a>5：上标&amp;下标</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;sup&gt;&lt;/sup&gt;</span><br><span class="line">&lt;sub&gt;&lt;/sub&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/10/12/Html5学习1/3.png" alt></p>
+<h3 id="6-段落标记"><a href="#6-段落标记" class="headerlink" title="6 : 段落标记"></a>6 : 段落标记</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-字符-（-小段文本-）"><a href="#7-字符-（-小段文本-）" class="headerlink" title="7 : 字符 （ 小段文本 ）"></a>7 : 字符 （ 小段文本 ）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-常用转义字符"><a href="#8-常用转义字符" class="headerlink" title="8 : 常用转义字符"></a>8 : 常用转义字符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&amp;nbsp;     不换行空格</span><br><span class="line">&amp;gt;       &gt;右尖括号</span><br><span class="line">&amp;lt;       &lt;左尖括号</span><br><span class="line">&amp;copy;     备案中图标版权 ©</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-：列表"><a href="#8-：列表" class="headerlink" title="8 ：列表"></a>8 ：列表</h3><p>​        （1） 无序列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">         &lt;li&gt;列表项内容&lt;/li&gt;</span><br><span class="line">         &lt;li&gt;列表项内容&lt;/li&gt;</span><br><span class="line">         &lt;li&gt;列表项内容&lt;/li&gt;</span><br><span class="line">		   ........   </span><br><span class="line">   &lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/10/12/Html5学习1/4.png" alt></p>
+<p>​        （2）有序列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ol&gt;</span><br><span class="line">         &lt;li&gt;列表项内容&lt;/li&gt;</span><br><span class="line">         &lt;li&gt;列表项内容&lt;/li&gt;</span><br><span class="line">         &lt;li&gt;列表项内容&lt;/li&gt;</span><br><span class="line">		   ........   </span><br><span class="line">   &lt;/ol&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/10/12/Html5学习1/5.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type:规定列表中的列表项目的项目符号的类型</span><br><span class="line">语法：&lt;ol       type=“ a&quot;&gt;&lt;/ol&gt;</span><br><span class="line">1 数字顺序的有序列表（默认值）（1, 2, 3, 4）。</span><br><span class="line">a 字母顺序的有序列表，小写（a, b, c, d）。</span><br><span class="line">A 字母顺序的有序列表，大写（A,B,C,D)</span><br><span class="line">i 罗马数字，小写（i, ii, iii, iv）。</span><br><span class="line">I 罗马数字，大写（i, ii, iii, iv）。</span><br><span class="line"></span><br><span class="line">start 属性规定有序列表的开始点。(start的属性值必须是数字)</span><br><span class="line">语法：&lt;ol start=&quot;5&quot;&gt;&lt;/ol&gt;</span><br></pre></td></tr></table></figure>
+
+<p>​        （3）自定义列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dl&gt;</span><br><span class="line">	&lt;dt&gt;&lt;/dt&gt;</span><br><span class="line">	&lt;dd&gt;&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/10/12/Html5学习1/6.png" alt></p>
+<h3 id="9-超链接"><a href="#9-超链接" class="headerlink" title="9 : 超链接"></a>9 : 超链接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;a&gt;&lt;/a&gt;</span><br><span class="line">	属性：</span><br><span class="line">		href = &apos;url&apos;</span><br><span class="line">		target = &quot;_blank  /  _self&quot;;</span><br><span class="line">		title = &apos;文本提示&apos;</span><br><span class="line">		</span><br><span class="line">	拓展：</span><br><span class="line">		rel = &apos;nofollow&apos;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-图片"><a href="#10-图片" class="headerlink" title="10 : 图片"></a>10 : 图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;img&gt; 标签有两个必需的属性：src 和 alt。</span><br><span class="line">	属性：</span><br><span class="line">		src = &apos;url&apos;;</span><br><span class="line">		alt = &apos; 标签 实例 带有指定替代文本的图像&apos;  </span><br><span class="line">        title = &apos;文本提示&apos;</span><br><span class="line">		width = &apos;&apos;</span><br><span class="line">		height = &apos;&apos;</span><br><span class="line">		border = &apos;&apos;</span><br></pre></td></tr></table></figure>
+
+<p>注：从技术上讲，图像并不会插入 HTML 页面中，而是链接到 HTML 页面上。img标签的作用是为被引用的图像创建占位符。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;通过在 a 标签中嵌套 img 标签，给图像添加到另一个文档的链接。</p>
+<h5 id="图片-title-和-alt区别："><a href="#图片-title-和-alt区别：" class="headerlink" title="图片 title 和 alt区别："></a>图片 title 和 alt区别：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alt:</span><br><span class="line">       1、alt属性是考虑到不支持图像显示或者图像显示被关闭的浏览器的用户，以及视觉障碍的用户和使用屏幕阅读器的用户。当图片不显示的时候，图片的替换文字。</span><br><span class="line">       2、alt属性值得长度必须少于100个英文字符</span><br><span class="line">       3、alt属性是img标签的必须属性，如果没有特别意义的图片，可以写alt=&quot;&quot;</span><br><span class="line">       4、alt属性是搜索引擎判断图片与文字是否相关的重要依据，alt属性添加到img主要的目的才是为了SEO</span><br><span class="line">       </span><br><span class="line">   title:</span><br><span class="line">   	1、title属性并不是必须的。</span><br><span class="line">       2、title属性规定元素的额外信息，有视觉效果，当鼠标放到文字或是图片上时有文字显示。</span><br><span class="line">       3、title属性并不作为搜索引擎抓取图片的参考，更多倾向于用户体验的考虑。</span><br></pre></td></tr></table></figure>
+
+<h1 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h1><h4 id="1-表格基本结构"><a href="#1-表格基本结构" class="headerlink" title="1 : 表格基本结构"></a>1 : 表格基本结构</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">	table 为表格</span></span><br><span class="line"><span class="comment">	tr 行</span></span><br><span class="line"><span class="comment">	td 列（每一个单元格）</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2：表格的html属性"><a href="#2：表格的html属性" class="headerlink" title="2：表格的html属性"></a>2：表格的html属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1）width=&quot;表格的宽度&quot;</span><br><span class="line">2）height=&quot;表格的高度&quot;</span><br><span class="line">3）border=&quot;表格的边框&quot;</span><br><span class="line">4）bordercolor=&quot;边框色&quot;</span><br><span class="line">5）cellspacing=&quot;单元格与单元格之间的间距&quot;</span><br><span class="line">6）cellpadding=“单元格与内容之间的距离&quot;</span><br><span class="line">7）align=&quot;表格水平对齐方式&quot;</span><br><span class="line">   取值：left、right、center、</span><br><span class="line">   valign=“垂直对齐” top\bottom\middle</span><br><span class="line">8）合并单元格属性：(td)</span><br><span class="line">  合并列： colspan=“所要合并的单元格的列数&quot;</span><br><span class="line">  合并行： rowspan=“所要合并单元格的行数”</span><br><span class="line">  注： 合并列删自己，合并行删别人</span><br><span class="line">      同时涉及合并行和列，先合并列，再合并行</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/10/12/Html5学习1/">http://yoursite.com/2020/10/12/Html5学习1/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/10/13/Html5学习2/" title="Html学习2"><span>< PreviousPost</span><br><span class="prevTitle">Html学习2</span></a><a class="nextSlogan" href="/2020/09/25/redis遇到的问题/" title="redis遇到的问题"><span>NextPost ></span><br><span class="nextTitle">redis遇到的问题</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/10/12/Html5学习1/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#常用标签"><span class="toc-number">1.</span> <span class="toc-text">常用标签</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-：-文本标题标签"><span class="toc-number">1.0.1.</span> <span class="toc-text">1 ： 文本标题标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-字体倾斜-amp-加粗标记"><span class="toc-number">1.0.2.</span> <span class="toc-text">2:字体倾斜&amp;加粗标记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3：下划线"><span class="toc-number">1.0.3.</span> <span class="toc-text">3：下划线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-换行-amp-水平线"><span class="toc-number">1.0.4.</span> <span class="toc-text">4 : 换行&amp;水平线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5：上标-amp-下标"><span class="toc-number">1.0.5.</span> <span class="toc-text">5：上标&amp;下标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-段落标记"><span class="toc-number">1.0.6.</span> <span class="toc-text">6 : 段落标记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-字符-（-小段文本-）"><span class="toc-number">1.0.7.</span> <span class="toc-text">7 : 字符 （ 小段文本 ）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-常用转义字符"><span class="toc-number">1.0.8.</span> <span class="toc-text">8 : 常用转义字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-：列表"><span class="toc-number">1.0.9.</span> <span class="toc-text">8 ：列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-超链接"><span class="toc-number">1.0.10.</span> <span class="toc-text">9 : 超链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-图片"><span class="toc-number">1.0.11.</span> <span class="toc-text">10 : 图片</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#图片-title-和-alt区别："><span class="toc-number">1.0.11.0.1.</span> <span class="toc-text">图片 title 和 alt区别：</span></a></li></ol></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#表格"><span class="toc-number">2.</span> <span class="toc-text">表格</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-表格基本结构"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">1 : 表格基本结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2：表格的html属性"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">2：表格的html属性</span></a></li></ol></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

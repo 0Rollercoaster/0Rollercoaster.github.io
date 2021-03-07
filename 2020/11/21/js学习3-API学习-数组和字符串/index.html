@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>js学习3,API学习(数组和字符串) · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">js学习3,API学习(数组和字符串)</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-11-21</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="数组："><a href="#数组：" class="headerlink" title="数组："></a>数组：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">定义：var arr = [];    </span><br><span class="line">     var arr = new Array(值 or num); //传入num时为创建长度为num的数组</span><br><span class="line">注：1、不限制元素个数 2、不限制元素类型 3、不限制下标越界</span><br></pre></td></tr></table></figure>
+
+<h5 id="Hash（关联）数组"><a href="#Hash（关联）数组" class="headerlink" title="Hash（关联）数组"></a>Hash（关联）数组</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">创建数组，  var arr = [];  arr[&quot;自定义&quot;]=值;</span><br><span class="line">访问： arr[&quot;自定义下标&quot;];</span><br><span class="line">注：hash数组的length永远为0</span><br><span class="line">遍历使用for in 遍历</span><br><span class="line">如： for（var i in arr)&#123; console.log(arr[i])&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Hash原理"><a href="#Hash原理" class="headerlink" title="Hash原理"></a>Hash原理</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hash算法：将字符串计算出一个数字，字符串的内容相同，则计算出的数字相同</span><br><span class="line"> 添加元素：将自定义下标名交给hash算法，得到一个数字（地址序号），将元素保存到相应位置</span><br><span class="line"> 读取： 将自定义下标交给hash算法，得到一个和刚才保存时完全一样的数字（地址），找到对应元素</span><br><span class="line"> *可以粗略理解为js所有对象都是hash数组</span><br></pre></td></tr></table></figure>
+
+<h4 id="API"><a href="#API" class="headerlink" title="API"></a>API</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">1、arr.join()</span><br><span class="line">var str = arr,join(&quot;连接符&quot;);</span><br><span class="line">与toString() 不同的是可以自定义连接符，可以做到拼接为页面元素或者计算符</span><br><span class="line">如 var str = &quot;&lt;li&gt;&quot;+arr.join(&quot;&lt;/li&gt;&lt;li&gt;&quot;)+&quot;&lt;/li&gt;&quot;;</span><br><span class="line"></span><br><span class="line">2、arr.concat(值1，值2，arr1);</span><br><span class="line">  注：concat不修改原数组，只返回新数组</span><br><span class="line">      concat参数中的数组会变为单个参数转入</span><br><span class="line"></span><br><span class="line">3、arr.slice(starti,endi+1)</span><br><span class="line">   注: slice不修改原数组  含头不含尾   支持负数-1代表倒数第一个</span><br><span class="line">       若省略第二个参数，代表从starti开始截取到末尾</span><br><span class="line">       若两个参数都省略，则复制一个副本给新数组</span><br><span class="line"> 以上api都不会修改原数组</span><br><span class="line">----------------------------------------------------------------------------------</span><br><span class="line"> 以下api都会修改原数组</span><br><span class="line"> 4、splice：删除、插入、替换</span><br><span class="line">   删除： var dels = arr.splice(starti,n);</span><br><span class="line">     注：返回的是删除的元素数组，从starti开始删n个</span><br><span class="line">   插入： arr.splice(starti,0,值1，值2...);</span><br><span class="line">     注：原starti元素及后续元素后移</span><br><span class="line">         若插入数组会形成二维数组</span><br><span class="line">   替换： var dels = arr.splice(starti,n,值1，值2....);</span><br><span class="line">   </span><br><span class="line"> 5、排序 arr.sort();</span><br><span class="line">    默认将所有元素转为字符串,按位比较unicode(ascII码)</span><br><span class="line">    常用写法 arr.sort(function(a,b)&#123; return a-b;&#125;);</span><br><span class="line">    注：在函数中传入的函数其实是一个比较器，比较两值大小</span><br><span class="line">         两个参数a,b自动接收正在比较大小的两个值，返回一个值表示谁大谁小</span><br><span class="line">          若 a&gt;b,返回正数  a&lt;b 返回负数   a==b 返回0</span><br><span class="line">       因此 逆序 arr.sort(function(a,b)&#123;return b-a;&#125;);</span><br><span class="line">     </span><br><span class="line"> 6、栈和队列思想：</span><br><span class="line">    栈：先进后出</span><br><span class="line">    	开头入栈：arr.unshift(新值..);</span><br><span class="line">        开头出栈: arr.shift(); 返回出栈的值</span><br><span class="line">      结尾入栈：arr.push(新值..);</span><br><span class="line">      结尾出栈: arr.pop();返回出栈的值</span><br><span class="line">     </span><br><span class="line">    队列：先进先出 </span><br><span class="line">       开头入，结尾出</span><br><span class="line">          arr.unshift(xx);</span><br><span class="line">          arr.pop();</span><br><span class="line">       结尾入，开头出</span><br><span class="line">          arr.push(xx);</span><br><span class="line">          arr.shift();</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>   JS引用类型：11个对象<br>    String、Number、Boolean  ——有包装类型<br>    Array、function、Math、Date、RegExp、Error、Object、Global（window）<br><strong>String</strong>：<strong>多个字符组成的 <code>只读</code> 字符 <code>数组</code></strong><br>  只读：所有的字符串API都不会修改原字符串<br>  和数组相同的地方： 个数都可以用  .length获取<br>                                       下标可以获取对应元素<br>                                      所有数组不修改原数组的API，字符串都可以使用</p>
+<h4 id="String-API"><a href="#String-API" class="headerlink" title="String API"></a>String API</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1、大小写转化  var upper = str.toUpperCase();</span><br><span class="line">             var lower = str.toLowerCase();</span><br><span class="line">2、获取指定位置的字符：var subStr = str.CharAt(i);  //等效于 str[i];</span><br><span class="line"></span><br><span class="line">3、获取指定位置的ASCII码： var num = str.CharCodeAt(i)</span><br><span class="line">     从ASCII码变为原文：  var newstr = String.formCharCode(ascii码);</span><br><span class="line"></span><br><span class="line">4、*检索字符串 var i = str/arr.indexof(&quot;关键字&quot;,formi);</span><br><span class="line">      从formi开始，查找右侧第一个关键字的位置</span><br><span class="line">        formi可以省略，表示从0开始</span><br><span class="line">   返回值为当前关键值的下标   若没找到  返回-1 ****</span><br><span class="line"> 例：找到所有关键字的位置</span><br><span class="line">   var str = &quot;no zuo no die&quot;</span><br><span class="line">   var i = -1;</span><br><span class="line">   while((i=indexof(&quot;no&quot;,i+1)) != -1)&#123; console.log(i) &#125;;</span><br><span class="line">   </span><br><span class="line">5、截取字符串</span><br><span class="line">    var subStr = str/arr.slice(starti,endi+1)</span><br><span class="line">                 str.subString(starti,endi+1)//不支持负数</span><br><span class="line">                 str.substr(starti,n)//截取n个</span><br><span class="line"></span><br><span class="line">6、拼接字符串 </span><br><span class="line">     var newStr = str.concat(str1,str2....); 等效于+运算</span><br><span class="line">     </span><br><span class="line">7、**替换字符串</span><br><span class="line">     var newStr = str.replace(&quot;关键字&quot;,&quot;新内容&quot;);//搭配正则使用</span><br><span class="line">8、 ** 切割/分割 字符串</span><br><span class="line">   **** var arr = str.split(&quot;切割符&quot;);</span><br><span class="line">     注意：可以将字符串转为数组</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/11/21/js学习3-API学习-数组和字符串/">http://yoursite.com/2020/11/21/js学习3-API学习-数组和字符串/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/11/28/js正则学习/" title="js正则学习"><span>< PreviousPost</span><br><span class="prevTitle">js正则学习</span></a><a class="nextSlogan" href="/2020/11/21/js学习2-声明提前-按值传递/" title="js学习2(声明提前|按值传递)"><span>NextPost ></span><br><span class="nextTitle">js学习2(声明提前|按值传递)</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/11/21/js学习3-API学习-数组和字符串/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组："><span class="toc-number">1.</span> <span class="toc-text">数组：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hash（关联）数组"><span class="toc-number">1.0.1.</span> <span class="toc-text">Hash（关联）数组</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash原理"><span class="toc-number">1.1.</span> <span class="toc-text">Hash原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#API"><span class="toc-number">1.2.</span> <span class="toc-text">API</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">2.</span> <span class="toc-text">字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#String-API"><span class="toc-number">2.1.</span> <span class="toc-text">String API</span></a></li></ol></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
