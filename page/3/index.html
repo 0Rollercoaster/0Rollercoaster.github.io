@@ -97,53 +97,7 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/11/16/react-router/">react-router</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-16T08:29:10.000Z">2020-11-16</time></div><div class="recent-post-content">官方文档
-
-react-router
-react-router-dom      具体模块，适用于web端
-react-router-native   具体模块，适用于ReactNative
-
-react路由特点
-vue是通过配置完成路由映射
-react路由时通过组件的方式，完成路由映射
-
-1&lt;Route path=&quot;&quot; component=&#123;&#125;/&gt;
-
-基本使用流程
-安装
-
-1yarn add react-router-dom
-
-
-在项目入口文件index.js中，注入路由
-
-123456ReactDOM.render(  &lt;HashR ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a></div><div class="read-more"><a class="more" href="/2020/11/16/react-router/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/10/redux/">redux</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-10T08:12:30.000Z">2020-11-10</time></div><div class="recent-post-content">
-   在学习的时候产生了一个疑问：dispath action 后就会执行某个reducer，那么Redux是怎么吧action和reducer关联起来的？action的type是用在某个具体的reducer的，但是它怎么知道我该去哪个reducer的？
-
-看了大佬写的redux源码注释关于dispatch这一块有了比较清楚的认识
-即每次触发action，dispatc(action) 遍历reduces，生成nextState
-源码如下：
-1234567891011121314151617181920212223242526272829303132333435363738394041424 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redux"> redux</a></div><div class="read-more"><a class="more" href="/2020/11/10/redux/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/08/react-redux/">react-redux</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-08T02:51:41.000Z">2020-11-08</time></div><div class="recent-post-content"> react-redux参考文档 
-ActionCreator
-
-用以生成action的独立方法函数
-
-123456const increment = ()=&gt;&#123;  return &#123;    type:&apos;increment&apos;,    payload:&apos;参数&apos;  &#125;&#125;
-
- 使用Provider注入状态机
-12345678import &#123;Provider&#125; from &apos;react-redux&apos;import store from &apos;./store&apos;React ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redux"> redux</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a></div><div class="read-more"><a class="more" href="/2020/11/08/react-redux/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/30/mongodb-node/">mongodb&amp;node&amp;express</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-30T06:43:46.000Z">2020-10-30</time></div><div class="recent-post-content">一、express express （脚手架） npm i express-generator -g express  –no-view 快速搭建项目 npm i  下载依赖
-二、mongodb​    1、 mongodb 4.2.2 安装   注：install mongodb compass 不需勾选！​    2、bin目录里 启动mongodb数据库    或者配置环境变量​    3、找到想要的db目录新建空db文件夹  ，用来存放数据​    4、启动命令：  mongod –dbpath=D:\db –port=27017  (在bin目录里启动)​    5、启动成功会有   ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="mongodb"> mongodb</a></div><div class="read-more"><a class="more" href="/2020/10/30/mongodb-node/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/23/vuex和vueRouter/">vuex和vueRouter</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-23T04:42:21.000Z">2020-10-23</time></div><div class="recent-post-content">Vuex状态机
-   应用情景类似js中的storage
-
-应用
-
-
-12345678910111213141516171819202122232425262728293031323334353637383940414243简单应用：import Vue from 'vue'import Vuex from 'vuex'Vue.use(Vuex)const store = new Vuex.Store(&#123;  state: &#123; //类似 vue组件中的data    count: 0  &#125;,  mutations: &#123;  //类似 vue组件中的 meth ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="vue"> vue</a></div><div class="read-more"><a class="more" href="/2020/10/23/vuex和vueRouter/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/17/今早上看的知乎/">今早上看的知乎</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-17T00:45:23.000Z">2020-10-17</time></div><div class="recent-post-content">&emsp;老是在想一些底层实现的问题但是无奈自己对操作系统、编译原理的理解不深。就跑去知乎想看看怎么学习底层知识。
-&emsp;没想到的是看到了一篇文章可给我乐的：&emsp;附上链接：https://www.zhihu.com/question/419672453/answer/1494952072
-&emsp;我悟了，计算机的底层是禅
-&emsp;附上龙泉寺高僧五位
-
-</div><div class="read-more"><a class="more" href="/2020/10/17/今早上看的知乎/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/09/vue基础/">vue基础</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-09T02:32:42.000Z">2020-10-09</time></div><div class="recent-post-content">一、Vue框架简介
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/10/09/vue基础/">vue基础</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-09T02:32:42.000Z">2020-10-09</time></div><div class="recent-post-content">一、Vue框架简介
 1、数据驱动视图
 2、组件化开发（vue-cli、vuex、vue-router）
 3、SPA（single page application）单页面应用
@@ -160,8 +114,39 @@ ActionCreator
 自学一门语言 – Node.js   1、了解背景 – 百度百科   2、搭建开发环境，编写hello world   3、***数据类型            js的数据类型：              1、原始/基本/值类型：5种              2、引用类型ES对象：11种              3、BOM对象：history、navigator、location、event、wi ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2020/10/02/Nodejs/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/25/redis遇到的问题/">redis遇到的问题</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-25T06:51:30.000Z">2020-09-25</time></div><div class="recent-post-content">   课设做的东西接触到redis，按照菜鸟教程的操作一步步安装之后可以正常运行并存取键值
    配置为环境变量后发现几个问题   当我用redis-server命令时可以正常启动服务，里面的键值数据都为null   当我用redis-server.exe redis.windows.conf启动时报错   设置了密码，重启后却不需要密码认证
   
-  接着到redis根目录下运行redis-server.exe redis.windows.conf  —— 运行成功  然后修改了redis目录下的redis.windows.conf 和 redis.windows-service.conf  ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redis"> redis</a></div><div class="read-more"><a class="more" href="/2020/09/25/redis遇到的问题/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/13/PHP/">PHP</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-13T14:07:39.000Z">2020-09-13</time></div><div class="recent-post-content">1、输出方式：1231、echo($变量) 或 echo $变量;//类似console.log或document.write！*此方法只能输出4种标准类型*2、var_dump($变量);//可以输出复合类型，缺点：有很多不需要的信息3、 $jsonTxt=JSON_encode($arr);
+  接着到redis根目录下运行redis-server.exe redis.windows.conf  —— 运行成功  然后修改了redis目录下的redis.windows.conf 和 redis.windows-service.conf  ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redis"> redis</a></div><div class="read-more"><a class="more" href="/2020/09/25/redis遇到的问题/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/19/绝对定位高度塌陷/">绝对定位高度塌陷</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-19T10:44:27.000Z">2020-09-19</time></div><div class="recent-post-content">​    绝对定位position:absolute下，父元素高度塌陷/无法撑开父盒子​         今天写代码遇到的问题：如何在子元素绝对定位下解决父元素高度塌陷，cssBFC没有办法解决，查了一些相关博客，最后了解到的对应的js解决方法
+​       用对应子元素onload获取它当前的高度，赋给父元素​      当窗口大小改变时，再获取一次，并赋值给父元素
+12345678xxx.onload = function () &#123;          height = this.height;          parent.style.height = height + "p ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/09/19/绝对定位高度塌陷/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/13/PHP/">PHP</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-13T14:07:39.000Z">2020-09-13</time></div><div class="recent-post-content">1、输出方式：1231、echo($变量) 或 echo $变量;//类似console.log或document.write！*此方法只能输出4种标准类型*2、var_dump($变量);//可以输出复合类型，缺点：有很多不需要的信息3、 $jsonTxt=JSON_encode($arr);
 
 2、变量：值可以改变的数据12$变量名=变量值;	 注意：变量在使用的时候$不能去掉，PHP也是弱类型语言
 
-3、数据类型：123456789101112131415161718192021222324252627282930313233343536 四种标准类型：	1、Integer - 整型	2 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="php"> php</a></div><div class="read-more"><a class="more" href="/2020/09/13/PHP/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/2/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+3、数据类型：123456789101112131415161718192021222324252627282930313233343536 四种标准类型：	1、Integer - 整型	2 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="php"> php</a></div><div class="read-more"><a class="more" href="/2020/09/13/PHP/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/09/XAMPP中MySql和本地Mysql冲突/">XAMPP中MySql和本地Mysql冲突</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-09T05:06:01.000Z">2020-09-09</time></div><div class="recent-post-content">  在网上找了很多更改端口的办法失败，我又不想卸载本地的MySQL，找了很久找到了一种不改端口的解决方法。
+实现步骤：
+①运行regedit
+②找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MySQL
+③更改ImagePath为”D:\xampp\mysql\bin\mysqld” –defaults-file=”D:\xampp\mysql\bin\my.ini” MySQL
+④保存即可使用xampp中的MySQL
+注：
+此种方法更改了注册表路径 ，即将原来的MySQL注册表路径改为xampp的MySQL注册表路径，本地的MyS ...</div><div class="read-more"><a class="more" href="/2020/09/09/XAMPP中MySql和本地Mysql冲突/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/06/两链一包/">错误对象&amp;两链一包</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-06T06:46:55.000Z">2020-09-06</time></div><div class="recent-post-content">作用域链*****Function：   作用域（scope）：2种      1、全局作用域：随处可用，可被反复使用，可能被污染
+​      2、函数作用域：只能在函数调用时内部可用，不会被污染，变量是一次性
+   函数的执行原理：
+0、程序加载时
+       创建执行环境栈（ECS）：保存函数调用的顺序
+       首先压入全局执行环境（EC）
+       全局EC引用全局对象window
+       window中将要保存全局变量
+1、函数定义时
+   创建函数对象：封装了函数的定义
+   在函数对象中定义了scope属性，记录函数来自的作用域
+   全局函数的scope都是w ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/09/06/两链一包/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/02/面向对象/">面向对象</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-02T09:35:43.000Z">2020-09-02</time></div><div class="recent-post-content">面向对象（三大特点：封装、继承、多态）封装   面向对象：程序中对现实中的一个事物进行封装，把他的属性变为对象的属性，把他的方法变为对象的函数   对象：程序描述一个事物的数据结构   包含：属性和方法
+  js引用类型都是对象
+   如何创建自定义对象：3种    1、*直接量方式：        var obj={     “属性名”:属性值,  …     “方法名”:function(){}, … }
+    注：其实属性名和方法名的引号是可以省略的，不推荐
+    如何访问对象的属性和方法
+        obj.属性名 -- 得到了属性值
+            等效于obj[&q ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascrpt"> javascrpt</a></div><div class="read-more"><a class="more" href="/2020/09/02/面向对象/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/09/02/bootstrap/">bootstrap</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-09-02T06:59:59.000Z">2020-09-02</time></div><div class="recent-post-content">实现响应式必备
+1231、css媒体查询2、使用相对单位：rem,%,em,vw,auto3、meta name=&quot;viewport&quot;;//根本看不到手机端的效果，只能看到pad端
+
+Bootstrap框架：是一个HTML/CSS/JS框架，非常类似jqueryUI，但是以响应式为主          是twitter公司推出的：由两位工程师完成    （1）起步 - 下载（提供了css/js/font）    （2）全局css样式    （3）组件    （4）js插件    （5）定制
+***使用bootstrap的固定步骤：    1、引入bs.css    2、引入 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="bootstarp"> bootstarp</a></div><div class="read-more"><a class="more" href="/2020/09/02/bootstrap/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/08/30/webStorage-cookie/">webStorage&amp;cookie</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-08-30T08:05:45.000Z">2020-08-30</time></div><div class="recent-post-content">cookie&amp;*webStorage：客户端存储技术
+123456789101112131415161718192021222324252627281、cookie		保存：document.cookie=&quot;key=value&amp;key=value&quot;;		读取：document.cookie		特殊：cookie没有设置生命周期，一旦关闭浏览器，就死亡了			//设置了7天内可用的cookie，最多只能设置30天	  		var ms=new Date().getTime()+1000*3600*24*7;			var end=new Date(ms);			 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/08/30/webStorage-cookie/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/2/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
