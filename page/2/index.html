@@ -97,7 +97,62 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/01/09/vue基础/">vue基础</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-09T02:32:42.000Z">2021-01-09</time></div><div class="recent-post-content">一、Vue框架简介
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/bcryptjs-加密和josnwebtoken/">bcryptjs 加密和jsonwebtoken</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:00:50.000Z">2021-01-30</time></div><div class="recent-post-content">密码加密与比对 参考：bcryptjs
+
+密码加密
+
+12var salt = bcrypt.genSaltSync(10);  //盐 即密码强度var hash = bcrypt.hashSync(原密码, salt);  //hash就是加密后的密码
+
+
+密码比对
+
+1bcrypt.compareSync(明文密码, hash); // 得到布尔值
+
+token签发与验证
+http请求是无状态的token令牌验证 、jwt令牌验证token的本质是个加密字符串
+
+参考：jwt  
+
+安装
+
+1npm i jsonwebtoken
+
+
+引入使用
+
+
+1  服务端签发token
+
+123va ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/bcryptjs-加密和josnwebtoken/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/cors-处理跨域/">cors 处理跨域</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T06:57:28.000Z">2021-01-30</time></div><div class="recent-post-content">跨域处理模块：  在后端安装 npm i cors   （安装，引用，配置）   中间键（安装，引用，配置）   即 在app.js 中 var cors = require(‘cors’)                           app.use(cors());
+   可以注意 network里的 Access-Control-Allow-Orgin:是不是为  *  
+   即允许所有域名访问接口    
+​    也可以指定某域名访问
+123eg： app.use(cors(&#123;		origin:'http://localhost:8080'    &#125;))
+ ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/cors-处理跨域/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/mongodb-node/">mongodb&amp;node</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T06:43:46.000Z">2021-01-30</time></div><div class="recent-post-content">一、express express （脚手架） npm i express-generator -g express  –no-view 快速搭建项目 npm i  下载依赖
+二、mongodb​    1、 mongodb 4.2.2 安装   注：install mongodb compass 不需勾选！​    2、bin目录里 启动mongodb数据库    或者配置环境变量​    3、找到想要的db目录新建空db文件夹  ，用来存放数据​    4、启动命令：  mongod –dbpath=D:\db –port=27017  (在bin目录里启动)​    5、启动成功会有   ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="mongodb"> mongodb</a></div><div class="read-more"><a class="more" href="/2021/01/30/mongodb-node/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/23/内网穿透vue部署和nginx配置/">内网穿透vue部署和nginx配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-23T06:07:45.000Z">2021-01-23</time></div><div class="recent-post-content"></div><div class="read-more"><a class="more" href="/2021/01/23/内网穿透vue部署和nginx配置/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/23/vuex和vueRouter/">vuex和vueRouter</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-23T04:42:21.000Z">2021-01-23</time></div><div class="recent-post-content">Vuex状态机
+   应用情景类似js中的storage
+
+应用
+
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243简单应用：import Vue from 'vue'import Vuex from 'vuex'Vue.use(Vuex)const store = new Vuex.Store(&#123;  state: &#123; //类似 vue组件中的data    count: 0  &#125;,  mutations: &#123;  //类似 vue组件中的 meth ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="vue"> vue</a></div><div class="read-more"><a class="more" href="/2021/01/23/vuex和vueRouter/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/18/webpack/">webpack</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-18T09:24:35.000Z">2021-01-18</time></div><div class="recent-post-content">webpack参考文档
+webpack
+浏览器不能直接识别模块化代码 —webpack—整合为浏览器可识别代码
+浏览器对ES6以上语法、.vue、.jsx —-webpack— （HTML、css、js、img）
+可以为项目开发提供比较便利的开发环境
+
+概念：​        webpack是一个用于现在javascript应用程序的静态模块打包工具。
+​        当webpack处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个bundle。
+loader与plugin的区别​        loader 预处理函数，用于转换某些类型的模块 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="webpack"> webpack</a></div><div class="read-more"><a class="more" href="/2021/01/18/webpack/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/16/虚拟DOM与diff算法/">虚拟DOM与diff算法</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-16T02:31:42.000Z">2021-01-16</time></div><div class="recent-post-content">虚拟DOMReact/vue将DOM抽象为虚拟DOM, 然后通过新旧虚拟DOM 这两个对象的差异(Diff算法),最终只把变化的部分重新渲染,提高渲染效率的过程; diff 是通过JS层面的计算，返回一个patch对象，即补丁对象，在通过特定的操作解析patch对象，完成页面的重新渲染
+
+
+表示虚拟DOM的JS对象上面有如下三个属性：
+
+tagName: 用来表示这个元素的标签名。
+props: 用来表示这元素所包含的属性。
+children: 用来表示这元素的children（数组）。
+
+虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/16/虚拟DOM与diff算法/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/09/vue基础/">vue基础</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-09T02:32:42.000Z">2021-01-09</time></div><div class="recent-post-content">一、Vue框架简介
 1、数据驱动视图
 2、组件化开发（vue-cli、vuex、vue-router）
 3、SPA（single page application）单页面应用
@@ -110,44 +165,7 @@
 123456var app = new Vue(&#123;  el: '#app',  data: &#123;    message: 'Hello Vue!'  &#125;&#125;)
 
 
-条件渲染  v-if（v-el ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/09/vue基础/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/02/bootstrap/">bootstrap</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-02T06:59:59.000Z">2021-01-02</time></div><div class="recent-post-content">实现响应式必备    1、css媒体查询    2、使用相对单位：rem,%,em,vw,auto    3、meta name=”viewport”;//根本看不到手机端的效果，只能看到pad端    强调：以上三点非常重要，即使学了bootstrap，也离不开他们
+条件渲染  v-if（v-el ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/09/vue基础/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/">鼠标事件及clientX、offsetX、pageX...</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-08T16:43:02.000Z">2021-01-09</time></div><div class="recent-post-content">1、事件简介pc上的web页面鼠标会产生onmousedown、onmouseup、onmouseout、onmouseover、onmousemove的事件，但是在移动终端如 iphone、ipod Touch、ipad上的web页面触屏时会产生ontouchstart、ontouchmove、ontouchend、ontouchcancel 事件，分别对应了触屏开始、拖拽及完成触屏事件和取消。当按下手指时，触发ontouchstart；当移动手指时，触发ontouchmove；当移走手指时，触发ontouchend。
+2、对应坐标详细区别由鼠标事件（MouseEvent）其中包含了许多的坐 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/02/bootstrap/">bootstrap</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-02T06:59:59.000Z">2021-01-02</time></div><div class="recent-post-content">实现响应式必备    1、css媒体查询    2、使用相对单位：rem,%,em,vw,auto    3、meta name=”viewport”;//根本看不到手机端的效果，只能看到pad端    强调：以上三点非常重要，即使学了bootstrap，也离不开他们
 Bootstrap框架：是一个HTML/CSS/JS框架，非常类似jqueryUI，但是以响应式为主          是twitter公司推出的：由两位工程师完成    （1）起步 - 下载（提供了css/js/font）    （2）全局css样式    （3）组件    （4）js插件    （5）定制
-***使用boot ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="bootstarp"> bootstarp</a></div><div class="read-more"><a class="more" href="/2021/01/02/bootstrap/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/02/Nodejs/">Nodejs</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-02T06:59:14.000Z">2021-01-02</time></div><div class="recent-post-content">node.js概述：可以理解为一个运行”js”环境   node.js不是js，但是长的非常的像，是一种服务器端技术，他的竞争对象是PHP/JAVA/C#等等！历史上第一次一种语言可以实现前后端
-如何自学一门语言 – Node.js   1、了解背景 – 百度百科   2、搭建开发环境，编写hello world   3、***数据类型 – 重点面试题            js的数据类型：              1、原始/基本/值类型：5种              2、引用类型ES对象：11种              3、BOM对象：history、navigator、locatio ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node.js"> node.js</a></div><div class="read-more"><a class="more" href="/2021/01/02/Nodejs/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/30/jQuery/">jQuery</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-30T08:23:36.000Z">2020-12-30</time></div><div class="recent-post-content">jquery对象 工厂函数：
-12345678910111213141516171819202122$() 或 jQuery() 是同一个方法作用：1、可以帮我们查找元素：$(&quot;选择器&quot;);	  	2、转换操作：JQ-&gt;DOM DOM-&gt;JQ3、转换：	1、jquery对象转为DOM对象（切记：变成DOM就不能在使用jquery的API了）		jquery对象[i]	2、***DOM转为jquery		$(DOM)	   比如：$(this)或$(target)4、jquery的特点：	1、具有相对完善的处理机制 - 很多情况不会报错，DOM有的他都有，DOM没 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javasrcipt"> javasrcipt</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="jQuery"> jQuery</a></div><div class="read-more"><a class="more" href="/2020/12/30/jQuery/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/30/webStorage-cookie/">webStorage&amp;cookie</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-30T08:05:45.000Z">2020-12-30</time></div><div class="recent-post-content">cookie&amp;*webStorage：客户端存储技术
-123456789101112131415161718192021222324252627281、cookie		保存：document.cookie=&quot;key=value&amp;key=value&quot;;		读取：document.cookie		特殊：cookie没有设置生命周期，一旦关闭浏览器，就死亡了			//设置了7天内可用的cookie，最多只能设置30天	  		var ms=new Date().getTime()+1000*3600*24*7;			var end=new Date(ms);			 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/12/30/webStorage-cookie/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/13/ajax/">ajax</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-13T14:15:47.000Z">2020-12-13</time></div><div class="recent-post-content">同步交互与异步交互同步：客户端向服务器端发送请求，到服务器端进行响应的过程，用户是不能干其他事情的（等）
-          执行速度相对较慢（响应完整的HTML页面）
-异步：客户端向服务器端发送请求，到服务器端进行响应的过程，用户是可以干其他事情的（不等）
-          执行速度相对较快（响应部分的HTML页面）  *****ajax - asynchronous javascript and xml：异步的javascript和xml      不严格的定义：客户端与服务器端进行交互，无需刷新当前页面的技术，局部刷新，称之为ajax      之前就有一个异步操作：定时器
-​     ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="ajax"> ajax</a></div><div class="read-more"><a class="more" href="/2020/12/13/ajax/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/13/PHP/">PHP</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-13T14:07:39.000Z">2020-12-13</time></div><div class="recent-post-content">1、输出方式：1231、echo($变量) 或 echo $变量;//类似console.log或document.write！*此方法只能输出4种标准类型*2、var_dump($变量);//可以输出复合类型，缺点：太详细了，甚至有很多不需要的信息3、 $jsonTxt=JSON_encode($arr);
-
-2、变量：值可以改变的数据12$变量名=变量值;	 注意：变量在使用的时候$不能去掉，PHP也是弱类型语言
-
-3、数据类型：123456789101112131415161718192021222324252627282930313233343536 四种标准类型：	1、Integer ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="php"> php</a></div><div class="read-more"><a class="more" href="/2020/12/13/PHP/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/13/BOM/">BOM</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-13T13:53:46.000Z">2020-12-13</time></div><div class="recent-post-content">BOM：Browser Object Model   操作浏览器窗口，提供了一些API – 没有标准，广泛使用（使用率较少）
-window对象：扮演2个角色        1、他代替了ES里面的Global，充当全局作用域        2、指代当前打开的浏览器窗口
-网页打开新连接的方式
-    1、替换当前页面，可以后退
-       HTML：&lt;a href=&quot;url&quot;&gt;&lt;/a&gt;
-         JS：open(&quot;url&quot;,&quot;_self&quot;);
-
-    2、替换当前页面，禁止后退：结账后禁止后退
-     ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/12/13/BOM/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/13/DOM/">DOM</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-13T12:59:39.000Z">2020-12-13</time></div><div class="recent-post-content">DOM：Document Object ModelDHTML模型(实现动态效果的技术的统称)：HTML+CSS+JS(DOM)
-1、DOM树-&gt;树根：document对象，用于找到想要的元素
-每个DOM节点（元素、对象），都具有三大属性：
-    1、nodeType：节点类型
-       document节点：9
-       element节点：1
-     判断选中的元素是不是一个元素节点：是不是为1
-
-    2、nodeValue：节点值
-
-    3、***nodeName：节点名称（可以获得标签名称）
-          document：#document
-       ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/12/13/DOM/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/09/XAMPP中MySql和本地Mysql冲突/">XAMPP中MySql和本地Mysql冲突</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-09T05:06:01.000Z">2020-12-09</time></div><div class="recent-post-content">  在网上找了很多更改端口的办法失败，我又不想卸载本地的MySQL，找了很久找到了一种不改端口的解决方法。
-实现步骤：
-①运行regedit
-②找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MySQL
-③更改ImagePath为”D:\xampp\mysql\bin\mysqld” –defaults-file=”D:\xampp\mysql\bin\my.ini” MySQL
-④保存即可使用xampp中的MySQL
-注：
-此种方法更改了注册表路径 ，即将原来的MySQL注册表路径改为xampp的MySQL注册表路径，本地的MyS ...</div><div class="read-more"><a class="more" href="/2020/12/09/XAMPP中MySql和本地Mysql冲突/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+***使用boot ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="bootstarp"> bootstarp</a></div><div class="read-more"><a class="more" href="/2021/01/02/bootstrap/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

@@ -97,7 +97,52 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/11/02/怪异盒模型-flex/">怪异盒模型&amp;flex</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-02T00:41:54.000Z">2020-11-02</time></div><div class="recent-post-content">怪异盒模型
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/12/06/面向对象/">面向对象</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-06T09:35:43.000Z">2020-12-06</time></div><div class="recent-post-content">面向对象（三大特点：封装、继承、多态）封装   面向对象：程序中对现实中的一个事物进行封装，把他的属性变为对象的属性，把他的方法变为对象的函数   对象：程序描述一个事物的数据结构   包含：属性和方法
+  js引用类型都是对象
+   如何创建自定义对象：3种    1、*直接量方式：        var obj={     “属性名”:属性值,  …     “方法名”:function(){}, … }
+    注：其实属性名和方法名的引号是可以省略的，不推荐
+    如何访问对象的属性和方法
+        obj.属性名 -- 得到了属性值
+            等效于obj[&q ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascrpt"> javascrpt</a></div><div class="read-more"><a class="more" href="/2020/12/06/面向对象/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/06/两链一包/">错误对象&amp;两链一包</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-06T06:46:55.000Z">2020-12-06</time></div><div class="recent-post-content">作用域链*****Function：   作用域（scope）：2种      1、全局作用域：随处可用，可被反复使用，可能被污染
+​      2、函数作用域：只能在函数调用时内部可用，不会被污染，变量是一次性
+   函数的执行原理：
+0、程序加载时
+       创建执行环境栈（ECS）：保存函数调用的顺序
+       首先压入全局执行环境（EC）
+       全局EC引用全局对象window
+       window中将要保存全局变量
+1、函数定义时
+   创建函数对象：封装了函数的定义
+   在函数对象中定义了scope属性，记录函数来自的作用域
+   全局函数的scope都是w ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/12/06/两链一包/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/30/Math、Date、Error对象及重载/">Math、Date、Error对象及重载</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-30T03:22:41.000Z">2020-11-30</time></div><div class="recent-post-content">Math 对象​         方法： 1、上取整： Math.ceil(num)  //小数点不允许超过15位​                      2、下取整： Math.floor(num)  //省略小数部分​                      3、四舍五入取整： Math.round(num)​     注：parseInt / m&gt;&gt;&gt;0  /  m^0  /  num.toFixed(0)  都可以取整 *parseFloat(num.toFixed(0)); 具有四舍五入功能，可自定义小数位数​          但小数位数范围为 0~100， ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/30/Math、Date、Error对象及重载/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/28/js正则学习/">js正则学习</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-28T02:48:15.000Z">2020-11-28</time></div><div class="recent-post-content">正则表达式最简单的形式： /关键字原文/gi       g：全部   i：忽略大小写
+备选字符集： **规定一位** 字符可用的字符列表
+              如  /^[备选字符列表]$/
+         `注`：1、一个中括号只能控制一个字符
+                 2、正则匹配后不管后续，  所以 前^后$ 控制从头到尾​      特殊：1、若备选字符集里部分unicode码连续，可以“-”省略中间部分​              如：  [0-9]   [a-z] [A-Z]   [0-9A-Za-z]
+预定义字符集：1234一个数字： \d       一个数字 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/28/js正则学习/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/21/js学习3-API学习-数组和字符串/">js学习3,API学习(数组和字符串)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-21T08:32:08.000Z">2020-11-21</time></div><div class="recent-post-content">数组：123定义：var arr = [];         var arr = new Array(值 or num); //传入num时为创建长度为num的数组注：1、不限制元素个数 2、不限制元素类型 3、不限制下标越界
+
+Hash（关联）数组12345创建数组，  var arr = [];  arr[&quot;自定义&quot;]=值;访问： arr[&quot;自定义下标&quot;];注：hash数组的length永远为0遍历使用for in 遍历如： for（var i in arr)&#123; console.log(arr[i])&#125;;
+
+Hash原理1234h ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/21/js学习3-API学习-数组和字符串/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/21/js学习2-声明提前-按值传递/">js学习2(声明提前|按值传递)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-21T08:17:19.000Z">2020-11-21</time></div><div class="recent-post-content">声明提前：​     解释：在程序执行之前，将var声明的变量和function声明的函数集中提前到当前作用域的顶部创建、但是赋值留在原来的位置。
+​    例如：
+12345678910111213141516171819var a;function f1()&#123;			console.log(a);			var a=20;			console.log(a);			&#125;console.log(a);var a=1;console.log(a);a=10;			f1();console.log(a);输出： undefined      1      undefined      ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/21/js学习2-声明提前-按值传递/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/19/绝对定位高度塌陷/">绝对定位高度塌陷</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-19T10:44:27.000Z">2020-11-19</time></div><div class="recent-post-content">​    绝对定位position:absolute下，父元素高度塌陷/无法撑开父盒子​         今天写代码遇到的问题：如何在子元素绝对定位下解决父元素高度塌陷，cssBFC没有办法解决，查了一些相关博客，最后了解到的对应的js解决方法
+​       用对应子元素onload获取它当前的高度，赋给父元素​      当窗口大小改变时，再获取一次，并赋值给父元素
+12345678xxx.onload = function () &#123;          height = this.height;          parent.style.height = height + "p ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/19/绝对定位高度塌陷/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/17/js学习笔记/">js学习笔记</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-17T09:34:46.000Z">2020-11-17</time></div><div class="recent-post-content">js概念  javascript简称js，是运行在浏览器中的 javascript解释器 或者 特定引擎中 的解释性弱类型脚本语言 编译型：运行之前先检查语法是否正确，不正确的话是不能运行的，比如：java、c、c++、c# 解释性：运行之前不需要检查语法是否正确，直接运行，碰到错误了再停止下载，比如：js、php
+javascript的特点
+123代码可用任何编辑器编写   不需编译，由浏览器的js解释器自动去解释执行代码*弱类型*语言：由数据 决定 数据类型
+
+javascript：三部分组成（ECMAScript核心语法 + DOM文档对象模型 + BOM浏览器对象模型）
+1、DHTML ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2020/11/17/js学习笔记/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/02/CSS移动端/">CSS移动端&amp;多列&amp;响应式&amp;媒体</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-02T11:42:33.000Z">2020-11-02</time></div><div class="recent-post-content">多列属性​    1、column-count
+12属性规定元素应该被分隔的列数适用于：除table外的非替换块级元素, table cells, inline-block元素
+
+​    2、column-gap
+1属性规定列之间的间隔大小
+
+​    3、column-rule
+1234设置或检索对象的列与列之间的边框。复合属性。column-rule-color规定列之间规则的颜色。column-rule-style规定列之间规则的样式。column-rule-width规定列之间规则的宽度。
+
+​    4、column-fill
+123设置或检索对象所有列的高度是否统一auto：列高 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/11/02/CSS移动端/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/11/02/怪异盒模型-flex/">怪异盒模型&amp;flex</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-11-02T00:41:54.000Z">2020-11-02</time></div><div class="recent-post-content">怪异盒模型
 box-sizing
 
 12content-box		这是由 CSS2.1 规定的宽度高度行为。宽度和高度分别应用到元素的内容框。在宽度和高度之外绘制元素的内边距和边框。
@@ -105,54 +150,4 @@ box-sizing
 
 border-box
     为元素设定的宽度和高度决定了元素的边框盒。就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。
-FLEX布局1234Flex容器：采用 Flex 布局的元素的父元素；Flex项目：采用 Flex 布局的元素的父元素的子元素；容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（ ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/11/02/怪异盒模型-flex/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/29/CSS3(选择器&amp;属性)/">CSS3(选择器&amp;属性)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-29T10:50:44.000Z">2020-10-29</time></div><div class="recent-post-content">CSS3渐进增强1渐进增强 progressive enhancement：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验
-
-优雅降级1渐进增强 progressive enhancement：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验
-
-渐进增强 &amp; 优雅降级1区别：优雅降级是从复杂的现状开始，并试图减少用户体验的供给，而渐进增强则是从一个非常基础的，能够起作用的版本开始，并不断扩充，以适应未来环境的需要。降级（功能衰减）意味着往回看；而渐进 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></div><div class="read-more"><a class="more" href="/2020/10/29/CSS3(选择器&amp;属性)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/28/CSS3-动画及h5标签/">CSS3(动画及h5标签)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-28T13:05:00.000Z">2020-10-28</time></div><div class="recent-post-content">关键帧的定义1不同于过渡动画只能定义首尾两个状态，关键帧动画可以定义多个状态，或者用关键帧的话来说，过渡动画只能定义第一帧和最后一帧这两个关键帧，而关键帧动画则可以定义任意多的关键帧，因而能实现更复杂的动画效果。
-
-12345678910@keyframes mymove&#123; from&#123;初始状态属性&#125;to&#123;结束状态属性&#125;&#125;或@keyframes mymove&#123; 0%&#123;初始状态属性&#125;50%（中间再可以添加关键帧）100%&#123;结束状态属性&#125;&#125;
-
-￼￼￼animation  vs  t ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/28/CSS3-动画及h5标签/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/27/CSS3-3D/">CSS3(3D)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-27T08:16:04.000Z">2020-10-27</time></div><div class="recent-post-content">景深12345678910生活中的3d 区别于2d的地方1、近大远小 景深 程序中实现的方法 perspective 元素距离 视线的距离（物体和眼睛的距离越小，近大远小的效果越明显）perspective: 1200px;（在父元素中使用）transform:perspective(1200px) （在子元素中使用）两个都设置会发生冲突，建议只设置父元素，通常的数值在900-1200之间如果当你的视线距离物体足够远的时候，基本上就不会有近大远小的感觉
-
-1234567perspective-origin观察3d元素的（位置）角度perspective-origin：center center ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/27/CSS3-3D/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/26/CSS学习(2d)/">CSS学习(2d)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-26T12:38:52.000Z">2020-10-26</time></div><div class="recent-post-content">浏览器前缀1234-ms-	   -ms-box-shadow	IE浏览器专属的CSS属性需添加-ms-前缀-moz-	   -moz-box-shadow	所有基于Gecko引擎的浏览器（如Firefox）专属的CSS属性需添加-moz-前缀-o-	       -o-box-shadow	Opera浏览器专属的CSS属性需添加-o-前缀-webkit-   -webkit-box-shadow	所有基于Webkit引擎的浏览器（如Chrome、Safari）专属的CSS需添加-webkit-前缀
-
-css3 渐变1CSS3 渐变（gradient）可以让你在两个或多个指定的颜色之间显示平稳 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/26/CSS学习(2d)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/24/CSS学习8(BFC)/">CSS学习8(BFC)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-24T06:42:49.000Z">2020-10-24</time></div><div class="recent-post-content">BFC(Block formatting context):块级格式化上下文BFC的布局规则123456一、内部的Box会在垂直方向，一个接一个地放置。二、Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠（按照最大margin值设置）三、每个元素的margin box的左边， 与包含块border box的左边相接触四、BFC的区域不会与float box重叠。五、BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。六、计算BFC的高度时，浮动元素也参与计算
-
-能触发BFC的元素或属性12345根元素(html)float ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/24/CSS学习8(BFC)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/24/CSS学习7(表格表单)/">CSS学习7(表格表单)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-24T06:29:52.000Z">2020-10-24</time></div><div class="recent-post-content">表格相关1 ： 数据行分组123&lt;thead&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;/tfoot&gt;
-
-2 ： 数据列分组12&lt;colgroup span="value"&gt;&lt;/colgroup&gt;&lt;!--span属性为把几列分为一组--&gt;
-
-3 ： 列标题1&lt;th&gt;&lt;/th&gt;
-
-4 : 表格标题1&lt;caption&gt;&lt;/caption&gt;
-
-表格属性1、单元格间距：border-spacing:value;
-​        ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/24/CSS学习7(表格表单)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/22/CSS学习6(宽高自适应)/">CSS学习6(宽高自适应)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-22T11:07:24.000Z">2020-10-22</time></div><div class="recent-post-content">宽度自适应12元素宽度设置为100%。（块元素宽度默认为100%）或者不设置宽度（width）;（宽度是父元素的宽度）
-
-高度自适应123451)自适应元素高度：height:auto;或者不设置;（是子元素撑开父元素的高度）2)元素高度自适应窗口高度   	设置方法：html,body&#123;height:100%;&#125;	注：如果设置子元素的高度跟随父元素的高度变化而变化，那么父元素必须有高度。
-
-最小高度的自适应12345min-height属性：最小高度；(IE6浏览器不识别该属性)hack1:min-height:value;_height:value;hack2:min- ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/22/CSS学习6(宽高自适应)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/21/CSS学习5(定位)/">CSS学习5(定位)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-21T09:22:43.000Z">2020-10-21</time></div><div class="recent-post-content">CSS文档流
-CSS定位机制：普通流、浮动流、定位流。
-
-POSITION
-position定位属性，检索或设置对象的定位方式
-
-position属性
-
-
-属性名
-描述
-
-
-
-static
-默认值。位置设置为 static 的元素会正常显示，它始终会处于文档流给予的位置（static元素会忽略任何 top、bottom、left或 right 声明）
-
-
-absolute
-相对于已经定位父级元素、的绝对定位，浮出、脱离布局流，它不占据空间，就是我们所说的层，其位置相对于最近的已定位父元素而言的位置，可直接指定“left”、“top”、“right” 以及 “bottom”属性。若父级都没有定位 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/21/CSS学习5(定位)/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/10/20/CSS学习4(元素类型)/">CSS学习4(元素类型)</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-10-20T12:17:12.000Z">2020-10-20</time></div><div class="recent-post-content">元素类型1234567根据css显示分类，XHTML元素被分为三种类型:	块状元素，内联元素，可变元素	(or)三种类型：		块状元素，内联元素，内联块元素(css2.1增加)
-
-特点块状元素 (display:block)：1234块状元素，在页面中以矩形区域显示!块级元素，能直接添加宽高!块级元素，在页面中显示，独占一行(默认占满父元素的所有宽度)，从上往下排列块级元素，一般作为内容或者其他元素的容器
-
-内联元素 (display:inline)：123!内联元素，不能设置宽高，由内容撑开，最小显示单位为矩形!内联元素，在一行内，从左往右排列内联元素支持盒模型的规则,但是个别不能进行正确的 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/10/20/CSS学习4(元素类型)/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/3/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+FLEX布局1234Flex容器：采用 Flex 布局的元素的父元素；Flex项目：采用 Flex 布局的元素的父元素的子元素；容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（ ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></div><div class="read-more"><a class="more" href="/2020/11/02/怪异盒模型-flex/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/3/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

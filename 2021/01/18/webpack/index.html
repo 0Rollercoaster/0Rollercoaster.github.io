@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>webpack · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">webpack</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-18</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="webpack"> webpack</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p><a href="https://www.webpackjs.com/" target="_blank" rel="noopener">webpack参考文档</a></p>
+<h3 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h3><ol>
+<li>浏览器不能直接识别模块化代码 —webpack—整合为浏览器可识别代码</li>
+<li>浏览器对ES6以上语法、.vue、.jsx —-webpack— （HTML、css、js、img）</li>
+<li>可以为项目开发提供比较便利的开发环境</li>
+</ol>
+<h4 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h4><p>​        webpack是一个用于现在javascript应用程序的<strong>静态模块打包工具</strong>。</p>
+<p>​        当webpack处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个bundle。</p>
+<h4 id="loader与plugin的区别"><a href="#loader与plugin的区别" class="headerlink" title="loader与plugin的区别"></a>loader与plugin的区别</h4><p>​        loader 预处理函数，用于转换某些类型的模块</p>
+<p>​        plugin 目的在于解决 loader 无法实现的其他事，用于执行范围更广的任务。包括：打包优化，资源管理，注入环境变量。</p>
+<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><ol>
+<li>安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn init</span><br><span class="line">yarn add webpack webpack-cli --dev</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>新建webpack.config.js并添加配置项</li>
+</ol>
+<blockquote>
+<p>项目根目录下</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var path = require(&apos;path&apos;)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry:&apos;./src/index.js&apos;,  //指定被打包文件</span><br><span class="line">  output:&#123;</span><br><span class="line">    path:path.resolve(__dirname,&apos;dist&apos;),</span><br><span class="line">    filename:&apos;bundle.js&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在package.json中添加scripts可执行命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;:&#123;</span><br><span class="line">  &quot;build&quot;:&quot;webpack --config webpack.config.js&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>执行打包命令，验证打包结果</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn build</span><br></pre></td></tr></table></figure>
+
+<h2 id="webpack的插件机制"><a href="#webpack的插件机制" class="headerlink" title="webpack的插件机制"></a>webpack的插件机制</h2><blockquote>
+<p>每个插件都会负责解决某一类问题</p>
+</blockquote>
+<ol>
+<li><p>插件来源</p>
+<ul>
+<li>webpack官方插件</li>
+<li>第三方开发的npm插件</li>
+</ul>
+</li>
+<li><p>html-webpack-plugin插件的使用</p>
+<ul>
+<li>安装  yarn add html-webpack-plugin</li>
+<li>引入配置</li>
+<li>重新打包，查看打包结果</li>
+</ul>
+</li>
+</ol>
+<h2 id="Loader"><a href="#Loader" class="headerlink" title="Loader"></a>Loader</h2><blockquote>
+<p>webpack本身在打包过程中，并不能完全识别所有的新语法（如：React）<br>webpack—-Loader —-React&amp;js</p>
+</blockquote>
+<p>若在项目打包入口文件index.js中，写入一段react代码</p>
+<p>不使用Loader，直接打包React代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">You may need an appropriate loader to handle this file type, </span><br><span class="line">currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders</span><br><span class="line">| </span><br><span class="line">| ReactDOM.render(</span><br><span class="line">&gt;   &lt;h1&gt;这是React代码&lt;/h1&gt;,</span><br><span class="line">|   document.getElementById(&apos;root&apos;)</span><br><span class="line">| );</span><br></pre></td></tr></table></figure>
+
+<p>所以需要使用babel-loader协助webpack编译react语法</p>
+<h2 id="Babel的使用"><a href="#Babel的使用" class="headerlink" title="Babel的使用"></a>Babel的使用</h2><blockquote>
+<p>Babel 是一个 JavaScript 编译器。<br><a href="https://www.babeljs.cn/" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
+<p>预设<br>babel预设（ES6语法预设、react语法预设）</p>
+<ol>
+<li>安装babel核心库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add babel-loader @babel/core --dev</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在webpack中配置loader<br> <a href="https://www.babeljs.cn/setup#installation" target="_blank" rel="noopener">文档</a></li>
+</ol>
+<blockquote>
+<p>在webpack.config.js中追加一个module配置项</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...其他配置项,</span><br><span class="line">module: &#123;</span><br><span class="line">  rules: [  //loader的编译规则</span><br><span class="line">    &#123;</span><br><span class="line">      test: /\.m?js$/,  //指定被编译文件类型</span><br><span class="line">      exclude: /node_modules/,  //排除不需要编辑的文件目录</span><br><span class="line">      use: &#123;</span><br><span class="line">        loader: &quot;babel-loader&quot;,  //指定编译使用的loader</span><br><span class="line">        options: &#123;</span><br><span class="line">          presets: [&apos;@babel/preset-react&apos;]  //指定loader编译需要的预设</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装react预设包</li>
+</ol>
+<blockquote>
+<p>协助babel翻译react语法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add @babel/preset-react --dev</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在项目根目录新建babel.config.json文件，指定babel相关配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [&quot;@babel/preset-react&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h2><blockquote>
+<p>启动本地开发服务<br>自动打包、自动打开浏览器、监听代码变化并刷新浏览器<br><a href="https://www.webpackjs.com/configuration/dev-server/" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
+<ol>
+<li>安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add webpack-dev-server --dev</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在webpack.config.js中配置devServer</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">devServer:&#123;</span><br><span class="line">  port:8080,</span><br><span class="line">  open:true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在package.json中新增scripts可执行命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;build&quot;: &quot;webpack --config webpack.config.js&quot;,</span><br><span class="line">  &quot;dev&quot;: &quot;webpack serve --open --config webpack.config.js&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>执行yarn dev命令，启动项目并预览</li>
+</ol>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2021/01/18/webpack/">http://sand.icu/2021/01/18/webpack/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/01/23/vuex和vueRouter/" title="vuex和vueRouter"><span>< PreviousPost</span><br><span class="prevTitle">vuex和vueRouter</span></a><a class="nextSlogan" href="/2021/01/16/虚拟DOM与diff算法/" title="虚拟DOM与diff算法"><span>NextPost ></span><br><span class="nextTitle">虚拟DOM与diff算法</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/01/18/webpack/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#webpack"><span class="toc-number">1.</span> <span class="toc-text">webpack</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#概念："><span class="toc-number">1.1.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loader与plugin的区别"><span class="toc-number">1.2.</span> <span class="toc-text">loader与plugin的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用流程"><span class="toc-number">2.</span> <span class="toc-text">使用流程</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack的插件机制"><span class="toc-number"></span> <span class="toc-text">webpack的插件机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Loader"><span class="toc-number"></span> <span class="toc-text">Loader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Babel的使用"><span class="toc-number"></span> <span class="toc-text">Babel的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#devServer"><span class="toc-number"></span> <span class="toc-text">devServer</span></a></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

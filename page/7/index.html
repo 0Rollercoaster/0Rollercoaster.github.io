@@ -97,7 +97,64 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2019/06/12/云服务器配置/">云部署之服务器配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-12T14:59:08.000Z">2019-06-12</time></div><div class="recent-post-content">一、初步准备 1.阿里云购买云服务器
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2020/02/19/Git学习-删除文件or文件夹/">Git学习: 删除文件or文件夹</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-02-19T01:38:07.000Z">2020-02-19</time></div><div class="recent-post-content">​    之前想要删除远程仓库的某一个文件夹或者文件，找到了一个方法
+​    以删除.idea为例
+​         cd 到.idea的根目录​         git rm -r -cached .idea        注: –cached 不会删除本地的.idea​         git commit -m”delete  .idea dir”​         git push github master  
+​          
+</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Git"> Git</a></div><div class="read-more"><a class="more" href="/2020/02/19/Git学习-删除文件or文件夹/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/01/16/逆向工程/">逆向工程</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-01-16T12:45:21.000Z">2020-01-16</time></div><div class="recent-post-content">相关配置文件config.properties
+​     连接数据库
+12345driverClassName=com.mysql.jdbc.DrivervalidationQuery=SELECT 1jdbc_url=jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNulljdbc_username=rootjdbc_password=root
+
+generatorConfig.xml  配置逆向工程  1.生成对应实 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="java"> java</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="逆向工程"> 逆向工程</a></div><div class="read-more"><a class="more" href="/2020/01/16/逆向工程/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/12/16/Git学习2/">Git学习2</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-12-16T12:10:32.000Z">2019-12-16</time></div><div class="recent-post-content">​    今天在廖雪峰老师的网站上看了Git学习的文档，了解到了很多之前没有接触到的功能，更真切的感受到Git的强大
+​        引用廖老师的说法(时光穿梭机)​        版本回退功能  (这是我觉得git很强大的地方!)
+​      git log 命令查看自己都干了些啥，可以看到从最近到最远的3次提交​       注: 看到的一大串 1347avd...的是 commit id(版本号) ， 
+​       git reset --hard HEAD^     ^ 代表回退到上一个版本​       注:Git在内部有个指向当前版本的HEAD指针.当回退版本的时候,Git ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Git"> Git</a></div><div class="read-more"><a class="more" href="/2019/12/16/Git学习2/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/12/10/Git-学习/">Git 学习</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-12-10T13:32:20.000Z">2019-12-10</time></div><div class="recent-post-content">Git 更新远程仓库​     $ cd test//选择仓库目录​     $ git init//在当前创建本地仓库​     $ git add .  //上传所有代码到本地仓库​     $ git remote add github git@github.com:..... //连接到github远程仓库​    $ git remote add gitee git@gitee.cm:....  //连接到gitee远程仓库​    $ git commit -m &quot;....&quot; //修改信息​    $ git push origin master //上传(更新 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Git"> Git</a></div><div class="read-more"><a class="more" href="/2019/12/10/Git-学习/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/11/13/ssm框架学习.1/">ssm框架学习Spring+SpringMVC+MyBatis  .1</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-11-13T10:26:20.000Z">2019-11-13</time></div><div class="recent-post-content">### 
+配置准备（maven、spring、MyBatis配置)maven配置​     apache-maven-3.5.0-bin.zip解压、配置环境变量
+​      找到conf\settings.xml  更改本地仓库路径
+1&lt;localRepository&gt;D:\maven-repossitory&lt;/localRepository&gt;
+
+  添加配置阿里镜像
+12345678&lt;mirrors&gt;    &lt;mirror&gt;         &lt;id&gt;alimaven&lt;/id&gt;      &lt;name&gt;ali ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="spring"> spring</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="java"> java</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="springmvc"> springmvc</a></div><div class="read-more"><a class="more" href="/2019/11/13/ssm框架学习.1/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/10/16/Spring  boot相关/">Spring boot相关</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-10-16T09:21:06.000Z">2019-10-16</time></div><div class="recent-post-content">定义bean
+@Component   Spring基础的注解@Repository      用于持久层，数据库访问层，是用来访问数据库的
+@Service    用于服务层，处理业务逻辑。@Controller 用于呈现层，（Spring-MVC），暴露给前端的入口
+注入bean@Autowired   默认是按照资源的类型（class）查找并注入的。@Resource   默认是按照资源的名称（name）查找并注入的。@Qualifier   采用@Autowired如果存在多个实现类的情况下，@Qualifer注解通过资源名称确定唯一性
+bean的作用域作用域类型            ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="spring"> spring</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="springboot"> springboot</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="java"> java</a></div><div class="read-more"><a class="more" href="/2019/10/16/Spring  boot相关/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/10/14/hexo图片上传问题/">hexo图片上传问题</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-10-13T16:58:02.000Z">2019-10-14</time></div><div class="recent-post-content">我的 hexo-asset-image 是 1.0     hexo 3.0
+1.先到博客根目录下 查看  _config文件找到  post_asset-folder字段确定post_asset-folder设置为true
+2.当我设置参数后，建立文件时，hexo会自动建立一个与文章名同名的文件夹，用来存放跟该文章相关的所有资源
+3.我想要把图片更新到仓库的时候总是报错404，index里的路径是 .//com/xxx.jpg这个路径肯定是错误的，找了很多方法，按照一些博客的方法改了hexo-asset-image的index.js，结果是部署后路径发生变化，但是仍然404
+4.找了很久终于 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="hexo"> hexo</a></div><div class="read-more"><a class="more" href="/2019/10/14/hexo图片上传问题/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/07/18/部分DOS命令及hexo命令学习/">部分DOS命令及hexo命令学习</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-07-18T03:07:30.000Z">2019-07-18</time></div><div class="recent-post-content">
+exit 退出当前DOS命令窗口
+cls  清屏
+dir 列出当前目录下所有子文件/子目录
+cd  改变目录（cd + 目录的路径）相对路径/绝对路径
+cd ..     回到上级目录
+cd \  回到根目录
+d：/c：/e: /……..   切换到盘符
+
+
+hexo
+
+npm install hexo -g #安装Hexo
+npm update hexo -g #升级hexo init #初始化博客
+命令简写hexo n &quot;我的博客&quot; == hexo new “我的博客” #新建文章hexo g == hexo generate #生成hexo s == hexo se ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="hexo"> hexo</a></div><div class="read-more"><a class="more" href="/2019/07/18/部分DOS命令及hexo命令学习/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/06/20/云部署：发布/">云部署：发布</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-20T07:34:58.000Z">2019-06-20</time></div><div class="recent-post-content">项目发布简单记载IDEA中的项目发布
+navicat 连接到服务器 mysql （导出项目的数据库  navicat 连接服务器mysql  新建查询运行导出的数据库
+
+更改db.properties 改为服务器的端口和IP地址
+
+注释掉  util里的basePath
+
+
+
+IDEA右边lifecycle   clear清空项目运行之后的文件  在package打包   生成war包
+
+
+上传到服务器 tomcat  webapps    ， 程序运行的日志文件在 tomcat/logs
+
+
+服务器里查看文件的方式  cat
+
+
+解压完成后 cd bin目录   然后shutdown tom ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="服务器"> 服务器</a></div><div class="read-more"><a class="more" href="/2019/06/20/云部署：发布/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/06/12/云服务器配置/">云部署之服务器配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-12T14:59:08.000Z">2019-06-12</time></div><div class="recent-post-content">一、初步准备 1.阿里云购买云服务器
  2.安装FinalShell
 ​    云服务器初始化配置
 ​    在实例管理中重置实例密码，实例安全组中释放8080端口和3306端口（为tomcat和mysql做准备
@@ -108,4 +165,4 @@
 ​         2.添加以下内容：
 
 ​         
-123456789        ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="服务器"> 服务器</a></div><div class="read-more"><a class="more" href="/2019/06/12/云服务器配置/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/06/11/End-blog/">End Rollercoaster's Blog</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-11T03:49:29.000Z">2019-06-11</time></div><div class="recent-post-content">参观到此结束</div><div class="read-more"><a class="more" href="/2019/06/11/End-blog/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/6/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+123456789        ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="服务器"> 服务器</a></div><div class="read-more"><a class="more" href="/2019/06/12/云服务器配置/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><a class="extend prev" rel="prev" href="/page/6/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
