@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Nodejs · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Nodejs</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-10-02</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="node-js概述：可以理解为一个运行”js”环境"><a href="#node-js概述：可以理解为一个运行”js”环境" class="headerlink" title="node.js概述：可以理解为一个运行”js”环境"></a>node.js概述：可以理解为一个运行”js”环境</h3><p>   node.js不是js，但是长的非常的像，是一种服务器端技术，他的竞争对象是PHP/JAVA/C#等等！历史上第一次一种语言可以实现前后端</p>
+<p>自学一门语言 – Node.js<br>   1、了解背景 – 百度百科<br>   2、搭建开发环境，编写hello world<br>   3、***数据类型<br>            js的数据类型：<br>              1、原始/基本/值类型：5种<br>              2、引用类型ES对象：11种<br>              3、BOM对象：history、navigator、location、event、window<br>              4、DOM对象：每个找到的元素都是一个DOM对象</p>
+<pre><code>node.js的数据类型：由于服务器端是不存在浏览器的操作的，所以他没有BOM和DOM
+  1、原始/基本/值类型：5种
+  2、引用类型ES对象：11种
+  强调：1、不再拥有BOM和DOM
+         2、在node中提供了一些特供对象：官方20几个
+                                    第三方很多个</code></pre><p>4、变量和常量：与js一模一样</p>
+<p>5、运算符：算数、比较、逻辑、赋值、三目、位运算</p>
+<p>6、程序结构：分支、循环</p>
+<p>7、做一些通用小程序：99乘法表、100以内的质数、数组的排序、克莱托、杨辉三角…</p>
+<p>8、函数和对象</p>
+<p>9、第三方框架：express</p>
+<h3 id="node-js中的概念-模块化开发"><a href="#node-js中的概念-模块化开发" class="headerlink" title="node.js中的概念 - 模块化开发"></a>node.js中的概念 - 模块化开发</h3><p>   一个web项目功能分为很多不同的模块，如商品管理模块、支付模块、促销模块、商品分类模块、商家模块、用户模块…</p>
+<p>   node.js中按照功能的不同，可以把函数、对象分别放到不同的文件之中，而这些文件就称之为是一个模块</p>
+<p>   node.js中每个模块（文件）都是一个独立构造函数，node.js解释器会为每个.js文件添加一些代码<br>    (function(exports,require,module,<strong>filename,</strong>dirname){<br>        exports：{}，作用：用于公开暴露，暴露自己的东西给别人<br>        require：fn，作用：用于导入引入<br>        module：指代当前模块<br>        __filename：当前文件的完整的绝对路径</p>
+<pre><code>__dirname：当前绝对路径但不包含文件名称
+})</code></pre><p>   1、每个模块（就是一个.js文件）都可以用自己的exports对象向外部公开自己的内部成员<br>      exports.成员名=成员值;<br>      module.exports={<br>    “属性名”:”属性值”,<br>    …<br>      }    </p>
+<p>   2、每个模块（就是一个.js文件）都可以用自己的require()引入另一个模块<br>      var obj=require(“./文件名”)</p>
+<p>   试题：exports和module.exports的区别<br>       两者都可以用于向外部导出自己的成员，但：<br>       module.exports才是真正的底层的导出的操作<br>       node.js的底层有一句话：exports=module.exports<br>                  exports={}//这种写法会覆盖之前的module.exports，导致自己变成一个普通的对象，不再具有公开的功能</p>
+<h3 id="node-js中模块（特供对象）的分类"><a href="#node-js中模块（特供对象）的分类" class="headerlink" title="node.js中模块（特供对象）的分类"></a>node.js中模块（特供对象）的分类</h3><p>   1、node.js官方提供的模快</p>
+<ul>
+<li><p>不需要下载，当你安装node.js环境的时候就已经安装完毕了</p>
+</li>
+<li><p>   global/http/url/fs/buffer/querystring</p>
+<p> 2、第三方编写的模块</p>
+<pre><code>在npm上</code></pre><p> 3、用户自定义的模块<br>  var obj=require(“./模块文件名”);</p>
+<p>  NPM包(模块、软件)管理器：Node Package Manager：node.js的第三方包管理器：可用于下载安装、更新、删除、维护包之间依赖关系</p>
+<pre><code>npm工具默认到npm官网进行下载我们所需的第三方模块包：
+
+使用npm工具下载一个新的包：
+ 下载：npm i 包名;
+ 删除：npm un 包名;//删除只会删除某一个包
+ 更新：npm up 包名;
+
+注：淘宝镜像：cnpm https://developer.aliyun.com/mirror/NPM?from=tnpm</code></pre></li>
+</ul>
+<h3 id="node-js官方模块"><a href="#node-js官方模块" class="headerlink" title="node.js官方模块"></a>node.js官方模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">官方模块 - querystring - 查询字符串</span><br><span class="line">	querystring 模块用于处理http请求中url中的查询字符串部分</span><br><span class="line">	需要引入：const qs = require(&apos;querystring&apos;);</span><br><span class="line">	API：</span><br><span class="line">	    1、var obj=qs.parse(str);//把查询字符处解析为js对象</span><br><span class="line">	    2、var str=qs.stringify(obj);//把js对象变回查询字符串</span><br><span class="line"></span><br><span class="line">      此模块虽然能解析查询字符串，但是也只能解析查询字符串</span><br><span class="line">------------------------------------------------------------------------- </span><br><span class="line">官方模块 -- global</span><br><span class="line">   该模块无需引入，直接使用</span><br><span class="line">	console;//现在的console已经不是js的console了，但是API都还是一样的可用</span><br><span class="line">	setInterval//还是周期性</span><br><span class="line">	setTimeout//还是一次性</span><br><span class="line">	setImmediate//完全等效于setTimeout(callback,0)，异步执行操作</span><br><span class="line">-------------------------------------------------------------------------</span><br><span class="line">*官方模块 - url</span><br><span class="line">	解析一个http请求地址，获取其中各个部分</span><br><span class="line">	需要引入：const url = require(&apos;url&apos;); </span><br><span class="line">	API：</span><br><span class="line">	    var obj=url.parse(&quot;url&quot;);//把一个url字符串解析为一个对象</span><br><span class="line">	    var obj=url.parse(&quot;url&quot;,true);//把一个url字符串解析为一个对象</span><br><span class="line">	  				    </span><br><span class="line">-------------------------------------------------------------------	</span><br><span class="line">官方模块 - Buffer：</span><br><span class="line"> 缓冲区，本质是一块内存区域，用于暂时保存以后可能用的数据</span><br><span class="line">	1、将xx转为buffer</span><br><span class="line">		var buf=Buffer.from(xx);//我们永远不会主动使用buffer，但是有的时候我们得到的数据自动就是一个buffer</span><br><span class="line">					//nodejs中大部分的API是支持使用buffer的</span><br><span class="line"></span><br><span class="line">	2、将buffer转为原文</span><br><span class="line">		buf.toString();</span><br><span class="line">------------------------------------------------------------------------</span><br><span class="line">***官方模块 - fs：filesystem文件系统</span><br><span class="line">	fs模块提供了对文件/目录进行增删改查、读写的功能</span><br><span class="line">	需要引入：const fs = require(&apos;fs&apos;);</span><br><span class="line">	同步：</span><br><span class="line">	  1、读取：var buf=fs.readFileSync(&quot;路径&quot;)</span><br><span class="line">	  2、写入：fs.writeFileSync(&quot;路径&quot;,&quot;新内容&quot;);//会替换掉之前所有的内容</span><br><span class="line">	  3、追加：fs.appendFileSync(&quot;路径&quot;,&quot;新内容&quot;);//不会替换掉之前所有的内容</span><br><span class="line"></span><br><span class="line">	异步：</span><br><span class="line">	  1、读取：fs.readFile(&quot;路径&quot;,(err,buf)=&gt;&#123;</span><br><span class="line">			buf;//读取到的内容</span><br><span class="line">		   &#125;)</span><br><span class="line">	  2、写入：fs.write/appendFile(&quot;路径&quot;,&quot;新内容&quot;,(err)=&gt;&#123;</span><br><span class="line">			//写入完毕后才会执行此回调函数，写完后要干什么必须放在这个位置</span><br><span class="line">		   &#125;)</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">*****官方模块 - http </span><br><span class="line">	http模块用于编写http协议的服务器端</span><br><span class="line">	需要引入：var http=require(&apos;http&apos;);</span><br><span class="line"></span><br><span class="line">	服务器可以干什么？</span><br><span class="line">	  1、接收客户端的http请求</span><br><span class="line">	  2、解析客户端的http请求</span><br><span class="line">	  3、读取文件发送给客户端</span><br><span class="line">	  4、向客户端发送http响应消息，让客户端渲染页面</span><br><span class="line"></span><br><span class="line">	使用：</span><br><span class="line">	  var http=require(&quot;http&quot;);</span><br><span class="line">	 //创建服务器</span><br><span class="line">	  var app=http.createServer();</span><br><span class="line">	 //为服务器绑定监听端口80</span><br><span class="line">	  app.listen(80);</span><br><span class="line">	 //服务器监听*请求*事件</span><br><span class="line">	  app.on(&quot;request&quot;,(req,res)=&gt;&#123;//只要前端访问了网址就会触发一次</span><br><span class="line">		//	console.log(req.url);//request:请求对象：前端发来的所有的信息全部都保存在这一个对象之中</span><br><span class="line">		//res:response:响应对象：后端-&gt;前端</span><br><span class="line">		res.end(&quot;&lt;h1&gt;hello everyone&lt;/h1&gt;&quot;);//只能出现一次</span><br><span class="line">	  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="node-js全栈，mysql第三方模块"><a href="#node-js全栈，mysql第三方模块" class="headerlink" title="node.js全栈，mysql第三方模块"></a>node.js全栈，mysql第三方模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">全栈：</span><br><span class="line">   node.js第三方模块：mysql</span><br><span class="line"></span><br><span class="line">   使用npm下载第三方模块：npm i mysql</span><br><span class="line">		打开readme.md</span><br><span class="line">		分析第一个实例</span><br><span class="line">-------------------------------------------------------	</span><br><span class="line">	前端-&gt;服务器端：前端发起请求，后端接住并且解析请求</span><br><span class="line">	前端：form表单请求/ajax请求</span><br><span class="line">	后端：var objurl=url.parse(req.url,true);</span><br><span class="line">	      objurl.query;//获取前端传来的信息</span><br><span class="line">	   </span><br><span class="line">   服务器端-&gt;前端：</span><br><span class="line">	前端：ajax接住</span><br><span class="line">	后端：获取到数据库的东西，然后res.end(JSON.stringify(jsonobj))</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/10/02/Nodejs/">http://sand.icu/2020/10/02/Nodejs/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/10/09/vue基础/" title="vue基础"><span>< PreviousPost</span><br><span class="prevTitle">vue基础</span></a><a class="nextSlogan" href="/2020/09/25/redis遇到的问题/" title="redis遇到的问题"><span>NextPost ></span><br><span class="nextTitle">redis遇到的问题</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/10/02/Nodejs/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#node-js概述：可以理解为一个运行”js”环境"><span class="toc-number">1.</span> <span class="toc-text">node.js概述：可以理解为一个运行”js”环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-js中的概念-模块化开发"><span class="toc-number">2.</span> <span class="toc-text">node.js中的概念 - 模块化开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-js中模块（特供对象）的分类"><span class="toc-number">3.</span> <span class="toc-text">node.js中模块（特供对象）的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-js官方模块"><span class="toc-number">4.</span> <span class="toc-text">node.js官方模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-js全栈，mysql第三方模块"><span class="toc-number">5.</span> <span class="toc-text">node.js全栈，mysql第三方模块</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

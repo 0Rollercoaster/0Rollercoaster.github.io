@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>CSS3(选择器&amp;属性) · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">CSS3(选择器&amp;属性)</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-05-29</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="CSS3"><a href="#CSS3" class="headerlink" title="CSS3"></a>CSS3</h2><h4 id="渐进增强"><a href="#渐进增强" class="headerlink" title="渐进增强"></a>渐进增强</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">渐进增强 progressive enhancement：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验</span><br></pre></td></tr></table></figure>
+
+<h4 id="优雅降级"><a href="#优雅降级" class="headerlink" title="优雅降级"></a>优雅降级</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">渐进增强 progressive enhancement：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验</span><br></pre></td></tr></table></figure>
+
+<h5 id="渐进增强-amp-优雅降级"><a href="#渐进增强-amp-优雅降级" class="headerlink" title="渐进增强 &amp; 优雅降级"></a>渐进增强 &amp; 优雅降级</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">区别：优雅降级是从复杂的现状开始，并试图减少用户体验的供给，而渐进增强则是从一个非常基础的，能够起作用的版本开始，并不断扩充，以适应未来环境的需要。降级（功能衰减）意味着往回看；而渐进增强则意味着朝前看，同时保证其根基处于安全地带。</span><br></pre></td></tr></table></figure>
+
+<h2 id="CSS3选择符"><a href="#CSS3选择符" class="headerlink" title="CSS3选择符"></a>CSS3选择符</h2><ul>
+<li><p>属性选择器</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   1、E[attr]：只使用属性名，但没有确定任何属性值</span><br><span class="line">	2、E[attr=“value”]：指定属性名，并指定了该属性的属性值</span><br><span class="line">	3、E[attr~=“value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“〜”必须的</span><br><span class="line">	4、E[attr^=“value”]：指定了属性名，并且有属性值，属性值是以value开头的</span><br><span class="line">5、E[attr$=“value”]：指定了属性名，并且有属性值，而且属性值是以value结束的</span><br><span class="line">	6、E[attr*=“value”]：指定了属性名，并且有属性值，而且属值中包含了value</span><br><span class="line"></span><br><span class="line">   7、E[attr|=“value”]：指定了属性名，并且属性值仅是value或者以“value-”开头的值（比如说left-con）</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>伪类选择器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">结构性伪类选择器</span><br><span class="line">**X:first-child** 匹配子集的第一个元素。IE7就可以支持</span><br><span class="line">**X:last-child**匹配父元素中最后一个X元素</span><br><span class="line">**X:nth-child(n)**用于匹配索引值为n的子元素。索引值从1开始</span><br><span class="line">**X:only-child**这个伪类一般用的比较少，比如上述代码匹配的是div下的有且仅有一个的p，也就是说，如果div内有多个p，将不匹配。</span><br><span class="line">**X:nth-last-child(n)**从最后一个开始算索引。</span><br><span class="line">**X:first-of-type**匹配同级兄弟元素中的第一个X元素</span><br><span class="line">**X:last-of-type**匹配同级兄弟元素中的最后一个X元素</span><br><span class="line">**X:nth-of-type(n)**匹配同类型中的第n个同级兄弟元素X</span><br><span class="line">**X:only-of-type**匹配属于同类型中唯一兄弟元素的X</span><br><span class="line">**X:nth-last-of-type(n)** 匹配同类型中的倒数第n个同级兄弟元素X</span><br><span class="line"> **:root**匹配文档的根元素。在HTML（标准通用标记语言下的一个应用）中，根元素永远是HTML</span><br><span class="line">**X:empty**匹配没有任何子元素（包括包含文本）的元素X</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>目标伪类</p>
+<p>  目标伪类选择器<br>  E:target        选择匹配E的所有元素，且匹配元素被相关URL指向</p>
+</li>
+</ul>
+<pre><code>+ UI 元素状态伪类选择器
+    E:**enabled**
+             匹配所有用户界面（form表单）中处于可用状态的E元素
+         E:**disabled**
+             匹配所有用户界面（form表单）中处于不可用状态的E元素
+         E:**checked**
+             匹配所有用户界面（form表单）中处于选中状态的元素E
+         E::**selection**
+             匹配E元素中被用户选中或处于高亮状态的部分
+
+
+
++ 动态伪类选择器
+    E**:link**
+             链接伪类选择器  
+             选择匹配的E元素，而且匹配元素被定义了超链接并未被访问过。常用于链接描点上
+         E**:visited**  
+             链接伪类选择器
+             选择匹配的E元素，而且匹配元素被定义了超链接并已被访问过。常用于链接描点上
+         E**:active**
+             用户行为选择器
+             选择匹配的E元素，且匹配元素被激活。常用于链接描点和按钮上
+         E:**hover**
+             用户行为选择器
+             选择匹配的E元素，且用户鼠标停留在元素E上。IE6及以下浏览器仅支持a:hover
+         E:**focus**
+             用户行为选择器
+             选择匹配的E元素，而且匹配元素获取焦点</code></pre><ul>
+<li><p>层级选择器<br>  <strong>E&gt;F</strong></p>
+<pre><code>    子选择器
+    选择匹配的F元素，且匹配的F元素所匹配的E元素的子元素
+**E+F**
+    相邻兄弟选择器
+    选择匹配的F元素，且匹配的F元素紧位于匹配的E元素的后面
+**E~F**
+    通用选择器
+    选择匹配的F元素，且位于匹配的E元素后的所有匹配的F元素</code></pre><h2 id="CSS3属性"><a href="#CSS3属性" class="headerlink" title="CSS3属性"></a>CSS3属性</h2><h4 id="文本阴影属性"><a href="#文本阴影属性" class="headerlink" title="文本阴影属性"></a>文本阴影属性</h4></li>
+<li><p>text-shadow</p>
+</li>
+<li><p>说明：水平、垂直阴影的位置允许负值</p>
+<pre><code>可进行多阴影设置(逗号分隔的方式)</code></pre></li>
+</ul>
+<h4 id="文本换行"><a href="#文本换行" class="headerlink" title="文本换行"></a>文本换行</h4><ul>
+<li><p>Word-wrap</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">属性用来标明是否允许浏览器在单词内进行断句，这是为了防止当一个字符串太长而找不到它的自然断句点时产生溢出现象。</span><br><span class="line">属性值：</span><br><span class="line">	normal</span><br><span class="line">	说明：只在允许的断字点换行（浏览器保持默认处理）</span><br><span class="line">	break-word</span><br><span class="line">	说明：属性允许长单词或 URL 地址换行到下一行</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Word-break</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">属性值：</span><br><span class="line">	break-all</span><br><span class="line">	说明：它断句的方式非常粗暴，它不会尝试把长单词挪到下一行，而是直接进行单词内的断句</span><br><span class="line">	Keep-all</span><br><span class="line">	说明：文本不会换行，只能在半角空格或连字符处换行</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h4 id="背景属性"><a href="#背景属性" class="headerlink" title="背景属性"></a>背景属性</h4>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Background-origin 背景原点（背景的起始点）</span><br><span class="line">	说明：指定background-origin属性应该是相对位置</span><br><span class="line">	属性值</span><br><span class="line">		padding-box	背景图像填充框的相对位置</span><br><span class="line">		border-box	背景图像边界框的相对位置</span><br><span class="line">		content-box	背景图像的相对位置的内容框     默认值</span><br><span class="line">		</span><br><span class="line">Background-clip 背景裁切</span><br><span class="line">	说明：background-clip 属性规定背景的绘制区域。</span><br><span class="line">	属性值</span><br><span class="line">		border-box	背景被裁剪到边框盒。</span><br><span class="line">		padding-box	背景被裁剪到内边距框。		默认值</span><br><span class="line">		content-box	背景被裁剪到内容框。     </span><br><span class="line">		</span><br><span class="line">Background-size 背景尺寸</span><br><span class="line">	说明：background-size 规定背景图像的尺寸</span><br><span class="line">	属性值</span><br><span class="line">		length	(10px)</span><br><span class="line">			规定背景图的大小。第一个值宽度，第二个值高度。</span><br><span class="line">		Percentage(%)</span><br><span class="line">			以百分比为值设置背景图大小</span><br><span class="line">		cover</span><br><span class="line">			把背景图像扩展至足够大，以使背景图像完全覆盖背景区域</span><br><span class="line">		contain</span><br><span class="line">			把图像图像扩展至最大尺寸，以使其宽度或高度完全适应内容区域。</span><br></pre></td></tr></table></figure>
+
+<p>​                    
+​        css3多背景图的设置<br>​    ​        eg：background:url(),url()<br>​    </p>
+<pre><code>#### 颜色模式
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、rgba 颜色模式</span><br><span class="line">2、 Hsl 颜色模式（了解） </span><br><span class="line">3、 Hsla 颜色模式（了解）</span><br><span class="line">就是色调(Hue)、饱和度(Saturation)、亮度(Lightness)三个颜色通道的改变以及它们相互之间的叠加来获得各种颜色，色调(Hue)色调最大值360，饱和度和亮度有百分比表示0-100%之间。</span><br></pre></td></tr></table></figure></code></pre><p>​    </p>
+<pre><code>#### 图片边框
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">图片边框</span><br><span class="line">	border-image 属性是一个简写属性，用于设置以下属性:</span><br><span class="line">		border-image-source	用在边框的图片的路径。</span><br><span class="line">		border-image-slice	图片边框向内偏移(不加单位)。</span><br><span class="line">		border-image-repeat	图像边框是否应平铺(repeat)、铺满(round)或拉伸(stretch)</span><br><span class="line">		border-image-outset	边框图像区域超出边框的量(值是一个倍数)</span><br></pre></td></tr></table></figure></code></pre><p>​    </p>
+<h4 id="盒子阴影"><a href="#盒子阴影" class="headerlink" title="盒子阴影"></a>盒子阴影</h4><p>box-shadow 盒子阴影</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">h-shadow	必需的。水平阴影的位置。允许负值</span><br><span class="line">v-shadow	必需的。垂直阴影的位置。允许负值</span><br><span class="line">blur	可选。模糊距离</span><br><span class="line">spread	可选。阴影的大小</span><br><span class="line">color	可选。阴影的颜色。</span><br><span class="line">inset	可选。从外层的阴影（开始时）改变阴影内侧阴影</span><br><span class="line">box-shadow: 10px 10px 5px 10px #888888 inset;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>box-shadow: 10px 10px 5px 10px #888888 inset;</li>
+</ul>
+<h4 id="width的属性值"><a href="#width的属性值" class="headerlink" title="width的属性值"></a>width的属性值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">width的属性值</span><br><span class="line">	fill-available、fit-content、max-content、min-content</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/05/29/CSS3(选择器&amp;属性)/">http://sand.icu/2020/05/29/CSS3(选择器&amp;属性)/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/06/02/怪异盒模型-flex/" title="怪异盒模型&amp;flex"><span>< PreviousPost</span><br><span class="prevTitle">怪异盒模型&amp;flex</span></a><a class="nextSlogan" href="/2020/05/28/CSS3-动画及h5标签/" title="CSS3(动画及h5标签)"><span>NextPost ></span><br><span class="nextTitle">CSS3(动画及h5标签)</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/05/29/CSS3(选择器&amp;属性)/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3"><span class="toc-number">1.</span> <span class="toc-text">CSS3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#渐进增强"><span class="toc-number">1.0.1.</span> <span class="toc-text">渐进增强</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优雅降级"><span class="toc-number">1.0.2.</span> <span class="toc-text">优雅降级</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#渐进增强-amp-优雅降级"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">渐进增强 &amp; 优雅降级</span></a></li></ol></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3选择符"><span class="toc-number">2.</span> <span class="toc-text">CSS3选择符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3属性"><span class="toc-number">3.</span> <span class="toc-text">CSS3属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文本阴影属性"><span class="toc-number">3.0.1.</span> <span class="toc-text">文本阴影属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文本换行"><span class="toc-number">3.0.2.</span> <span class="toc-text">文本换行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景属性"><span class="toc-number">3.0.3.</span> <span class="toc-text">背景属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#盒子阴影"><span class="toc-number">3.0.4.</span> <span class="toc-text">盒子阴影</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#width的属性值"><span class="toc-number">3.0.5.</span> <span class="toc-text">width的属性值</span></a></li></ol></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

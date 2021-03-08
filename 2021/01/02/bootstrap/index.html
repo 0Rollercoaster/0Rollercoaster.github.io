@@ -97,7 +97,9 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">bootstrap</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-02</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="bootstarp"> bootstarp</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>实现响应式必备<br>    1、css媒体查询<br>    2、使用相对单位：rem,%,em,vw,auto<br>    3、meta name=”viewport”;//根本看不到手机端的效果，只能看到pad端<br>    强调：以上三点非常重要，即使学了bootstrap，也离不开他们</p>
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">bootstrap</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-02</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="bootstarp"> bootstarp</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p><strong><code>实现响应式必备</code></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、css媒体查询</span><br><span class="line">2、使用相对单位：rem,%,em,vw,auto</span><br><span class="line">3、meta name=&quot;viewport&quot;;//根本看不到手机端的效果，只能看到pad端</span><br></pre></td></tr></table></figure>
+
 <p>Bootstrap框架：是一个HTML/CSS/JS框架，非常类似jqueryUI，但是以响应式为主<br>          是twitter公司推出的：由两位工程师完成<br>    （1）起步 - 下载（提供了css/js/font）<br>    （2）全局css样式<br>    （3）组件<br>    （4）js插件<br>    （5）定制</p>
 <p>***使用bootstrap的固定步骤：<br>    1、引入bs.css<br>    2、引入JQ.js<br>    3、引入bs.js</p>
 <p>全局css样式：<br>  （1）自带css reset<br>  （2）提供了上千个class，实现了各种各样的样式</p>
@@ -109,7 +111,6 @@
 .btn-info - 浅蓝
 .btn-primary - 深蓝
 
-可以随意的改为自己想要的颜色
 
 4种常用大小：
 .btn-lg
@@ -117,46 +118,16 @@
 .btn-sm
 .btn-xs
 
-可以随意的改为自己想要的尺寸
 
 *块级按钮：.btn-block - 设置了display:block;width:100%;</code></pre><p>全局css样式 - 图片相关：<br>    *.img-circle - border-radius: 50%;<br>    *.img-rounded - border-radius: 6px;<br>    .img-thumbnail - 缩略图：自带边框和padding和一点点圆角<br>    *.img-responsive - 响应式图片：会缩小，但是不会放大</p>
 <p>全局css样式 - 文本相关：<br>    五种文本颜色<br>        .text-五种<br>    五种背景颜色<br>        .bg-五种</p>
 <pre><code>*文本对齐方式：text-center/right/justify</code></pre><p>全局css样式 - 列表相关：<br>    .list-unstyled - 去掉小点<br>    .list-inline - 水平排列</p>
+<hr>
 <p>1、动态样式语言</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">  静态样式语言：css，作为一门语言都是不合格，缺少变量、运算、函数、循环分支等等语言必须具备的能力，</span><br><span class="line">		 导致在大型项目中开发和维护都非常麻烦</span><br><span class="line">   动态样式语言：在css的基础之上添加了一些新能力</span><br><span class="line">   注意：目前浏览器只支持css！不认识别的样式语言</span><br><span class="line">         动态样式语言 -(编译)-&gt; css</span><br><span class="line"> 常用动态样式语言：</span><br><span class="line">		1、sass/scss - 浏览器一点都不认识</span><br><span class="line">		2、less - 只是不认识less语法</span><br><span class="line">		3、stylus - 不用学习</span><br><span class="line">   目的：简化css</span><br><span class="line">   </span><br><span class="line">2、搭建动态样式语言的环境（编译）：</span><br><span class="line">	1、百度搜索HBuilder自动编译sass，麻烦</span><br><span class="line">	2、vscode下载插件：sass easy</span><br><span class="line">	3、koala软件可以编译 也可以自动编译 - less再来尝试</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、动态样式语言：在css的基础之上添加了一些新能力</span><br><span class="line">   注意：动态样式语言 -(编译)-&gt; css</span><br><span class="line">   </span><br><span class="line"> 常用动态样式语言：</span><br><span class="line">		1、sass/scss </span><br><span class="line">		2、less</span><br><span class="line">   目的：简化css</span><br><span class="line">   </span><br><span class="line">2、搭建动态样式语言的环境（编译）：</span><br><span class="line">	vscode下载插件：sass easy</span><br></pre></td></tr></table></figure>
 
-<p>3、学习scss特性：<br>   *1、变量：$变量名: 值;<br>       注意：1、使用时$不能省略<br>         2、不管是-还是_都可以使用</p>
-<p>   *2、嵌套：<br>       语法：.d1{<br>        …<br>        .d2{…}<br>        +.d3{…}<br>        &amp;:hover{…}<br>         }</p>
-<pre><code>   编译：.d1{...}
-     .d1 .d2{...}
-     .d1+.d3{...}
-     .d1:hover{}
+<p>3、学习scss特性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"> *1、变量：$变量名: 值;</span><br><span class="line">      注：1、使用时$不能省略</span><br><span class="line">	     	  2、不管是-还是_都可以使用</span><br><span class="line">2、嵌套：</span><br><span class="line">语法：.d1&#123;</span><br><span class="line">		...</span><br><span class="line">		.d2&#123;...&#125;</span><br><span class="line">		+.d3&#123;...&#125;</span><br><span class="line">		&amp;:hover&#123;...&#125;</span><br><span class="line">	     &#125;</span><br><span class="line"></span><br><span class="line">  编译：.d1&#123;...&#125;</span><br><span class="line">     .d1 .d2&#123;...&#125;</span><br><span class="line">     .d1+.d3&#123;...&#125;</span><br><span class="line">     .d1:hover&#123;&#125;</span><br><span class="line"></span><br><span class="line">   默认：中间以空格（后代选择器）隔开</span><br><span class="line">     	选择器之前可以加&gt;,+,~设置层级选择器</span><br><span class="line">   特殊：&amp;类似于js的this，指代当前&#123;&#125;指向的选择器</span><br><span class="line"></span><br><span class="line">3、导入：将多个scss整合为一个scss，编译为一个css，最后引入的是一个css</span><br><span class="line">     注：scss导入不允许出现中文！</span><br><span class="line">     语法：@import &quot;文件名&quot;;</span><br><span class="line">   		   @import &quot;文件名&quot;;</span><br><span class="line">	   ...</span><br><span class="line"></span><br><span class="line">4、注释：必须写为多行注释/**/</span><br><span class="line"></span><br><span class="line">5、*****混合器：函数：2步</span><br><span class="line"> 1、创建：</span><br><span class="line">     @mixin 函数名($形参:默认值,...)&#123;</span><br><span class="line">			css</span><br><span class="line">     		&#125;</span><br><span class="line"></span><br><span class="line"> 2、调用：</span><br><span class="line">     @include 函数名(实参)</span><br><span class="line"> 	注：实参的顺序可以随意</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">6、继承：</span><br><span class="line">   .d1&#123;....&#125;</span><br><span class="line">   .d2&#123;@extend .d1&#125;</span><br></pre></td></tr></table></figure>
 
-   默认：中间以空格（后代选择器）隔开
-     选择器之前可以加&gt;,+,~设置层级选择器
-   特殊：&amp;类似于js的this，指代当前{}指向的选择器
 
-3、导入：将多个scss整合为一个scss，编译为一个css，最后我们引入的是一个css
-     注意：scss导入不允许出现中文！
-     语法：@import &quot;文件名&quot;;
-              @import &quot;文件名&quot;;
-       ...
-
-4、注释：单行注释css不认识，必须写为多行注释/**/
-
-5、*****混合器：函数：2步
- 1、创建：
-     @mixin 函数名($形参:默认值,...){
-    css
-     }
-
- 2、调用：
-     @include 函数名(实参)
- 注意：实参的顺序可以随意
- 见05混合器.html
-
-6、继承：
-   .d1{....}
-   .d2{@extend .d1}
-
-7、算术运算：</code></pre></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2021/01/02/bootstrap/">http://sand.icu/2021/01/02/bootstrap/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/" title="鼠标事件及clientX、offsetX、pageX..."><span>< PreviousPost</span><br><span class="prevTitle">鼠标事件及clientX、offsetX、pageX...</span></a><a class="nextSlogan" href="/2021/01/02/Nodejs/" title="Nodejs"><span>NextPost ></span><br><span class="nextTitle">Nodejs</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/01/02/bootstrap/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2021/01/02/bootstrap/">http://sand.icu/2021/01/02/bootstrap/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/" title="鼠标事件及clientX、offsetX、pageX..."><span>< PreviousPost</span><br><span class="prevTitle">鼠标事件及clientX、offsetX、pageX...</span></a><a class="nextSlogan" href="/2020/12/30/audio标签/" title="audio标签"><span>NextPost ></span><br><span class="nextTitle">audio标签</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/01/02/bootstrap/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>CSS基础 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">CSS基础</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-05-14</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h4 id="CSS实例"><a href="#CSS实例" class="headerlink" title="CSS实例"></a>CSS实例</h4><p> <strong>css 由选择器，以及一条或者多条声明组成</strong><br> 例如 ：  <code>p{font-size:100px; background:red;}</code><br><img src="/2020/05/14/CSS学习1/1.png" alt></p>
+<p>样式表分为三种<br>1.内联样式表 （权重最高）<br>  <code>&lt;标签名 style=&quot;属性:属性值;&quot;&gt;&lt;/标签名&gt;</code></p>
+<p>2.内部样式表</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">选择符&#123;</span><br><span class="line">      属性:属性值;       //声明</span><br><span class="line">      属性2:属性值1 属性值2 属性值3;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3.外部样式表</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">方式一：</span><br><span class="line">     <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"css文件地址"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">方式二：</span><br><span class="line">     <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">           @<span class="keyword">import</span> url(<span class="string">"css文件路径"</span>);</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注：1.外部样式表与内部样式表的权重按照加载顺序<br>        2.@import方式不支持css2之前版本<br>        3.当一个页面被加载的时候（就是被浏览者浏览的时候），link引用的CSS会同时被加载，而@import引用的CSS 会等到页面全部被下载完再被加载。所以有时候浏览@import加载CSS的页面时开始会没有样式。<br>        4.@import是CSS2.1提出的，所以老的浏览器不支持，@import只在IE5以上的才能识别，而link标签无此问题。</p>
+<h4 id="Css选择符分类"><a href="#Css选择符分类" class="headerlink" title="Css选择符分类"></a>Css选择符分类</h4><p><strong>类型选择符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">类型选择符是根据html语言中的标记来直接定义</span><br><span class="line">语法：标签名称 &#123;属性：属性值；&#125;</span><br><span class="line"></span><br><span class="line">a)类型选择符就是以文档对象html中的标签作为选择符，即使用结构中元素名称作为选择符。例如body、div、p,img,em,strong,span......等。</span><br><span class="line">b)所有的页面元素都可以作为选择符;</span><br><span class="line">用法：</span><br><span class="line">（1）如果想改变某个元素的默认样式时，可以使用类型选择符；（如：改变一个p段落样式）</span><br><span class="line">（2）当统一文档某个元素的显示效果时，可以使用类型选择符；（如：改变文档所有p段落样式）</span><br></pre></td></tr></table></figure>
+
+<p><strong>类（class）选择符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">语法 ：  .class名&#123;属性：属性值;&#125;</span><br><span class="line"></span><br><span class="line">用法：class选择符更适合定义一类样式；</span><br><span class="line">(1)当我们使用类选择符时，应先为每个元素定义一个类名称，</span><br><span class="line">(2)类选择符的语法格式：</span><br><span class="line">        如：&lt;div class=&quot;top&quot;&gt;&lt;/div&gt;</span><br><span class="line">               .top&#123;属性:属性值;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ID选择符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">语法： &lt;标签 id=“名”&gt;&lt;/标签&gt;</span><br><span class="line">      #id名&#123;属性：属性值;&#125;</span><br><span class="line"></span><br><span class="line">（1）可以给每个元素使用id选择符，但id是元素的唯一标识符，不可出现重复的id名；</span><br><span class="line">      如：&lt;div id=&quot;top&quot;&gt;&lt;/div&gt;</span><br><span class="line">（2）id选择符的语法格式是“#”加上自定义的id名</span><br><span class="line">      如：#box&#123;width:300px; height:300px;&#125;</span><br><span class="line"> (3) 起名时要取英文名，不能用关键字：(所有的标记和属性都是关键字)</span><br><span class="line">      如：div标记</span><br><span class="line"> (4)一个id名称只能在文档中出现一次，因为id是唯一的</span><br><span class="line"> (5) 最大的用处：创建网页的外围结构。(唯一性、起名字不能使用关键字)</span><br></pre></td></tr></table></figure>
+
+<p><strong>群组选择符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">语法：选择符1，……，选择符5 &#123;属性：属性值;&#125;</span><br><span class="line"></span><br><span class="line">说明：当有多个选择符应用相同的样式时，可以将选择符用“，”分隔的方式，合并为一组。</span><br><span class="line">   </span><br><span class="line">     实例：.top, #nav, p&#123;width:100px;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>包含选择器（后代选择器）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">语法：选择符1(父)  选择符2（后代）&#123;属性：属性值;&#125; </span><br><span class="line">                   选择符父级  选择符子级&#123;属性：属性值;&#125;</span><br><span class="line"></span><br><span class="line">说明：选择符1和选择符2用空格隔开，含义就是选择符1中包含的所有选择符2;</span><br><span class="line">	实例： div   ul  li&#123;height:200px;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>伪类选择符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a:link &#123;color: red;&#125;                    /* 未访问的链接状态 */</span><br><span class="line">a:visited &#123;color: green;&#125;				/* 已访问的链接状态 */</span><br><span class="line">a:hover &#123;color: blue;&#125;                  /* 鼠标滑过链接状态 */</span><br><span class="line">a:active &#123;color: yellow;&#125;               /* 鼠标按下去时的状态 */</span><br><span class="line"></span><br><span class="line">说明：</span><br><span class="line">1）当这4个超链接伪类选择符联合使用时，应注意他们的顺序，正常顺序为：</span><br><span class="line">a，a:link,a:visited,a:hover,a:active,错误的顺序有时会使超链接的样式失效；</span><br><span class="line">2）为了简化代码，可以把伪类选择符中相同 的声明提出来放在a选择符中；</span><br><span class="line">例如：a&#123;color:red;&#125;     a:hover&#123;color:green;&#125; </span><br><span class="line">表示超链接的三种状态都相同，只有鼠标划过变化颜色</span><br></pre></td></tr></table></figure>
+
+<h4 id="选择器权重"><a href="#选择器权重" class="headerlink" title="选择器权重"></a>选择器权重</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">css中用四位数字表示权重，</span><br><span class="line">权重的表达方式如：0，0，0，0；</span><br><span class="line">    权重规则：HTML标签(类型选择符)的权重是1，class的权重是10，id的权重是100。</span><br><span class="line">    类型选择符的权重为0001</span><br><span class="line">    class选择符的权重为0010</span><br><span class="line">    id选择符的权重为0100</span><br><span class="line">    属性选择符的权重为0010</span><br><span class="line">    伪类选择符的权重为0010</span><br><span class="line">    伪元素（对象）选择符的权重为0001</span><br><span class="line">    包含选择符的权重：为包含选择符的权重之和</span><br><span class="line">    内联样式的权重为1000</span><br><span class="line">    继承样式的权重为0000</span><br><span class="line">    群组集合选择符权重为他本身</span><br><span class="line">     注：如果权重相同时，则执行后写的样式；</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/05/14/CSS学习1/">http://sand.icu/2020/05/14/CSS学习1/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/05/15/CSS学习2(属性)/" title="CSS(属性)"><span>< PreviousPost</span><br><span class="prevTitle">CSS(属性)</span></a><a class="nextSlogan" href="/2020/03/24/rpg-maker-mv-纯事件即时战斗系统学习笔记/" title="rpg maker mv 纯事件即时战斗系统学习笔记"><span>NextPost ></span><br><span class="nextTitle">rpg maker mv 纯事件即时战斗系统学习笔记</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/05/14/CSS学习1/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS实例"><span class="toc-number">1.</span> <span class="toc-text">CSS实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Css选择符分类"><span class="toc-number">2.</span> <span class="toc-text">Css选择符分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#选择器权重"><span class="toc-number">3.</span> <span class="toc-text">选择器权重</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

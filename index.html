@@ -97,74 +97,15 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/03/08/react-redux/">react-redux</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-08T02:51:41.000Z">2021-03-08</time></div><div class="recent-post-content"> react-redux参考文档 
-ActionCreator
-
-用以生成action的独立方法函数
-
-123456const increment = ()=&gt;&#123;  return &#123;    type:&apos;increment&apos;,    payload:&apos;参数&apos;  &#125;&#125;
-
- 使用Provider注入状态机
-12345678import &#123;Provider&#125; from &apos;react-redux&apos;import store from &apos;./store&apos;React ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redux"> redux</a></div><div class="read-more"><a class="more" href="/2021/03/08/react-redux/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/03/08/Flux架构/">Flux架构</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-08T02:46:23.000Z">2021-03-08</time></div><div class="recent-post-content">⼀、Flux 
-​        Flux 是⼀种架构思想，专⻔解决软件的结构问题。它跟MVC 架构是同⼀类东⻄，但是更加简单和清晰。 Flux存在多种实现（⾄少15种），redux是其中⼀种。 
-⼆、Flux基本概念
-​         ⾸先，Flux将⼀个应⽤分成四个部分。
-1234View： 视图层 Action（动作）：视图层发出的消息（⽐如mouseClick） Dispatcher（派发器）：⽤来接收Actions、执⾏回调函数 Store（数据层）：⽤来存放应⽤的状态，⼀旦发⽣变动，就提醒Views要更新⻚⾯
-
-
-三、Flux
-  Flux 最大特点为单向数据流动
-12345⽤户 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redux"> redux</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Flux"> Flux</a></div><div class="read-more"><a class="more" href="/2021/03/08/Flux架构/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/03/04/getBoundingClientRect/">getBoundingClientRect()</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-03T16:42:29.000Z">2021-03-04</time></div><div class="recent-post-content">getBoundingClientRect()分析
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/03/04/getBoundingClientRect/">getBoundingClientRect()</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-03T16:42:29.000Z">2021-03-04</time></div><div class="recent-post-content">getBoundingClientRect()分析
 getBoundingClientRect()获取元素位置，这个方法没有参数
 getBoundingClientRect()用于获得页面中某个元素的左，上，右和下分别相对浏览器视窗的位置。 
 getBoundingClientRect()是DOM元素到浏览器可视范围的距离（不包含文档卷起的部分）。 
 
 该函数返回一个Object对象，该对象有6个属性：top,lef,right,bottom,width,height； 
-12345678910	&lt;div id="box"&gt;&lt;/div&gt;var object=docume ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/03/04/getBoundingClientRect/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/20/SVG-circle/">SVG/circle</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-20T06:38:01.000Z">2021-02-20</time></div><div class="recent-post-content">stroke意思是：画短线于，在…上划线
-stroke-dasharray:用于创建虚线，之所以后面跟的是array的，是因为值其实是数组。
-123456stroke-dasharray为一个参数时： 其实是表示虚线长度和每段虚线之间的间距　　如：stroke-dasharray = &apos;10&apos; 表示：虚线长10，间距10，然后重复 虚线长10，间距10两个参数或者多个参数时：一个表示长度，一个表示间距　　如：stroke-dasharray = &apos;10, 5&apos; 表示：虚线长10，间距5，然后重复 虚线长10，间距5　　如：stroke-dasharray ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></div><div class="read-more"><a class="more" href="/2021/02/20/SVG-circle/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/16/react-router/">react-router</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-16T08:29:10.000Z">2021-02-16</time></div><div class="recent-post-content">官方文档
-
-react-router
-react-router-dom      具体模块，适用于web端
-react-router-native   具体模块，适用于ReactNative
-
-react路由特点
-vue是通过配置完成路由映射
-react路由时通过组件的方式，完成路由映射
-
-1&lt;Route path=&quot;&quot; component=&#123;&#125;/&gt;
-
-基本使用流程
-安装
-
-1yarn add react-router-dom
-
-
-在项目入口文件index.js中，注入路由
-
-123456ReactDOM.render(  &lt;HashR ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/02/16/react-router/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/11/CSS-transition/">react-transition-group</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-11T06:15:52.000Z">2021-02-11</time></div><div class="recent-post-content">eg:
-1234567891011121314151617181920212223242526272829303132function App() &#123;  const [inProp, setInProp] = useState(false);  return (    &lt;div&gt;      &lt;CSSTransition in=&#123;inProp&#125; timeout=&#123;200&#125; classNames="my-node"&gt;        &lt;div&gt;          &#123;"I'll receive my-nod ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/02/11/CSS-transition/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/10/redux/">redux</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-10T08:12:30.000Z">2021-02-10</time></div><div class="recent-post-content">
-   在学习的时候产生了一个疑问：dispath action 后就会执行某个reducer，那么Redux是怎么吧action和reducer关联起来的？action的type是用在某个具体的reducer的，但是它怎么知道我该去哪个reducer的？
-
-看了大佬写的redux源码注释关于dispatch这一块有了比较清楚的认识
-即每次触发action，dispatc(action) 遍历reduces，生成nextState
-源码如下：
-1234567891011121314151617181920212223242526272829303132333435363738394041424 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="redux"> redux</a></div><div class="read-more"><a class="more" href="/2021/02/10/redux/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/07/immutable数据流/">immutable数据流</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-07T08:04:38.000Z">2021-02-07</time></div><div class="recent-post-content">PureComponent(memo)只会进行浅比较，无法监测到引用类型的属性值变化，故而对应用型组件比较吃力
-PureComponent浅比较核心源码123456789101112131415161718192021222324252627282930313233343536function shallowEqual (objA: mixed, objB: mixed): boolean &#123;  // is 相当于 === 的功能，只是对 + 0 和 - 0，以及 NaN 和 NaN 的情况进行了特殊处理  // 1、基础数据类型直接比较出结果  if (is (objA, objB ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/02/07/immutable数据流/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/04/模板引擎-跨域处理/">模板引擎&amp;跨域处理</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-04T08:19:57.000Z">2021-02-04</time></div><div class="recent-post-content">一、模板引擎 123java JSPPHP smartyNodejs  Ejs、HandleBar、swig-template、Pug/Jade等
-
-
-模板，将不含有动态数据的html页面，称为模板
-引擎，为开发者提供很多方式灵活操作模板
-
-Nodejs常用模板引擎
-
-Ejs、HandleBar 、 swig-template、Pug/Jade
-
-使用的前后对比
-
-使用前
-
-123456&lt;h1&gt;Awesome People&lt;/h1&gt;&lt;ul&gt;    &lt;li class=&quot;first&quot;&gt;Paul&lt;/li&gt;    &lt ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/02/04/模板引擎-跨域处理/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/路由守卫与路由拦截器/">路由守卫与路由拦截器</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:21:37.000Z">2021-01-30</time></div><div class="recent-post-content">路由拦截器
+12345678910	&lt;div id="box"&gt;&lt;/div&gt;var object=docume ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/03/04/getBoundingClientRect/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/11/CSS-transition/">react-transition-group</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-11T06:15:52.000Z">2021-02-11</time></div><div class="recent-post-content">eg:
+1234567891011121314151617181920212223242526272829303132function App() &#123;  const [inProp, setInProp] = useState(false);  return (    &lt;div&gt;      &lt;CSSTransition in=&#123;inProp&#125; timeout=&#123;200&#125; classNames="my-node"&gt;        &lt;div&gt;          &#123;"I'll receive my-nod ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/02/11/CSS-transition/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/02/07/immutable数据流/">immutable数据流</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-02-07T08:04:38.000Z">2021-02-07</time></div><div class="recent-post-content">PureComponent(memo)只会进行浅比较，无法监测到引用类型的属性值变化，故而对应用型组件比较吃力
+PureComponent浅比较核心源码123456789101112131415161718192021222324252627282930313233343536function shallowEqual (objA: mixed, objB: mixed): boolean &#123;  // is 相当于 === 的功能，只是对 + 0 和 - 0，以及 NaN 和 NaN 的情况进行了特殊处理  // 1、基础数据类型直接比较出结果  if (is (objA, objB ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/02/07/immutable数据流/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/路由守卫与路由拦截器/">路由守卫与路由拦截器</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:21:37.000Z">2021-01-30</time></div><div class="recent-post-content">路由拦截器
  请求拦截
 
  
@@ -172,4 +113,54 @@ Ejs、HandleBar 、 swig-template、Pug/Jade
  响应拦截
 
 
-</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/30/路由守卫与路由拦截器/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/30/路由守卫与路由拦截器/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/bcryptjs-加密和josnwebtoken/">bcryptjs 加密和jsonwebtoken</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:00:50.000Z">2021-01-30</time></div><div class="recent-post-content">密码加密与比对 参考：bcryptjs
+
+密码加密
+
+12var salt = bcrypt.genSaltSync(10);  //盐 即密码强度var hash = bcrypt.hashSync(原密码, salt);  //hash就是加密后的密码
+
+
+密码比对
+
+1bcrypt.compareSync(明文密码, hash); // 得到布尔值
+
+token签发与验证
+http请求是无状态的token令牌验证 、jwt令牌验证token的本质是个加密字符串
+
+参考：jwt  
+
+安装
+
+1npm i jsonwebtoken
+
+
+引入使用
+
+
+1  服务端签发token
+
+123va ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/bcryptjs-加密和josnwebtoken/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/cors-处理跨域/">cors 处理跨域</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T06:57:28.000Z">2021-01-30</time></div><div class="recent-post-content">跨域处理模块：  在后端安装 npm i cors   （安装，引用，配置）   中间键（安装，引用，配置）   即 在app.js 中 var cors = require(‘cors’)                           app.use(cors());
+   可以注意 network里的 Access-Control-Allow-Orgin:是不是为  *  
+   即允许所有域名访问接口    
+​    也可以指定某域名访问
+123eg： app.use(cors(&#123;		origin:'http://localhost:8080'    &#125;))
+ ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/cors-处理跨域/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/23/内网穿透vue部署和nginx配置/">内网穿透vue部署和nginx配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-23T06:07:45.000Z">2021-01-23</time></div><div class="recent-post-content"></div><div class="read-more"><a class="more" href="/2021/01/23/内网穿透vue部署和nginx配置/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/20/SVG-circle/">SVG/circle</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-20T06:38:01.000Z">2021-01-20</time></div><div class="recent-post-content">stroke意思是：画短线于，在…上划线
+stroke-dasharray:用于创建虚线，之所以后面跟的是array的，是因为值其实是数组。
+123456stroke-dasharray为一个参数时： 其实是表示虚线长度和每段虚线之间的间距　　如：stroke-dasharray = &apos;10&apos; 表示：虚线长10，间距10，然后重复 虚线长10，间距10两个参数或者多个参数时：一个表示长度，一个表示间距　　如：stroke-dasharray = &apos;10, 5&apos; 表示：虚线长10，间距5，然后重复 虚线长10，间距5　　如：stroke-dasharray ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></div><div class="read-more"><a class="more" href="/2021/01/20/SVG-circle/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/18/webpack/">webpack</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-18T09:24:35.000Z">2021-01-18</time></div><div class="recent-post-content">webpack参考文档
+webpack
+浏览器不能直接识别模块化代码 —webpack—整合为浏览器可识别代码
+浏览器对ES6以上语法、.vue、.jsx —-webpack— （HTML、css、js、img）
+可以为项目开发提供比较便利的开发环境
+
+概念：​        webpack是一个用于现在javascript应用程序的静态模块打包工具。
+​        当webpack处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个bundle。
+loader与plugin的区别​        loader 预处理函数，用于转换某些类型的模块 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="webpack"> webpack</a></div><div class="read-more"><a class="more" href="/2021/01/18/webpack/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/16/虚拟DOM与diff算法/">虚拟DOM与diff算法</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-16T02:31:42.000Z">2021-01-16</time></div><div class="recent-post-content">虚拟DOMReact/vue将DOM抽象为虚拟DOM, 然后通过新旧虚拟DOM 这两个对象的差异(Diff算法),最终只把变化的部分重新渲染,提高渲染效率的过程; diff 是通过JS层面的计算，返回一个patch对象，即补丁对象，在通过特定的操作解析patch对象，完成页面的重新渲染
+
+
+表示虚拟DOM的JS对象上面有如下三个属性：
+
+tagName: 用来表示这个元素的标签名。
+props: 用来表示这元素所包含的属性。
+children: 用来表示这元素的children（数组）。
+
+虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/16/虚拟DOM与diff算法/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

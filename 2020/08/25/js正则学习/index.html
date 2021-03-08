@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>js正则学习 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">js正则学习</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-08-25</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><pre><code>最简单的形式： /关键字原文/gi       g：全部   i：忽略大小写
+备选字符集： **规定一位** 字符可用的字符列表
+              如  /^[备选字符列表]$/
+         `注`：1、一个中括号只能控制一个字符
+                 2、正则匹配后不管后续，  所以 前^后$ 控制从头到尾</code></pre><p>​      <code>特殊</code>：1、若备选字符集里部分unicode码连续，可以“-”省略中间部分<br>​              如：  [0-9]   [a-z] [A-Z]   [0-9A-Za-z]</p>
+<h5 id="预定义字符集："><a href="#预定义字符集：" class="headerlink" title="预定义字符集："></a><code>预定义字符集</code>：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">一个数字： \d       </span><br><span class="line">一个数字、字母、下划线：\w    </span><br><span class="line">一个空白字符： \s    </span><br><span class="line">除换行外：.</span><br></pre></td></tr></table></figure>
+
+<p>​        </p>
+<h5 id="量词："><a href="#量词：" class="headerlink" title="量词："></a><code>量词</code>：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">明确数量：&#123;n,m&#125;  &#123;n,&#125; &#123;n&#125;     </span><br><span class="line">无明确数量：  ? :&lt;=1      * :&gt;=0     +: &gt;=1</span><br></pre></td></tr></table></figure>
+
+<p>​         </p>
+<h5 id="选择与分组："><a href="#选择与分组：" class="headerlink" title="选择与分组："></a><code>选择与分组</code>：</h5><p>​          选择：  规则1|规则2        分组 :  (规则1)|(规则2)</p>
+<h5 id="指定匹配位置"><a href="#指定匹配位置" class="headerlink" title="指定匹配位置:"></a><code>指定匹配位置</code>:</h5><p>​         开头: ^     结尾: $    注：两者若同时使用，表示从头到尾完整匹配</p>
+<h5 id="预判："><a href="#预判：" class="headerlink" title="预判："></a><code>预判</code>：</h5><p>​         (?! [判断内容] +$)<br>​     eg：预判这个字符串，从头到尾不只有字母组成：<br>​               （?! [A-Za-z] +$）</p>
+<p>​            预判，从头到尾不只由小写字母和数字组成:<br>​                (?![0-9a-z]+$)</p>
+<h3 id="String中能使用正则的API"><a href="#String中能使用正则的API" class="headerlink" title="String中能使用正则的API"></a>String中能使用正则的API</h3><p>​    1、切割: var arr = str.split(str/reg)<br>​    2、**替换 ：<br>​            基本： str  = str.replace(str/reg,”新内容“)<br>​            高级： str = str.replace(str/reg,function(a){<br>​                                       //a表示关键词原文<br>​                                    return “新内容”</p>
+<p>​                         })   注：替换时常需要添加后缀 g，若英文还需要加 i</p>
+<p>​         </p>
+<h3 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h3><p>​      使用replace方法时，正则若有分组，在形参a的后面就会出现n个形参<br>​               第一个分组获得的内容保存在第二个形参中，依次后推<br>​        eg： var id = ”5001011998050314416“;<br>​                 var reg  =  /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{4})$/;<br>​                 1、  id = id.replace(reg,”$2年$3月$4日“);</p>
+<p>​                 2、  id = id.replace(reg,function(a,b,c,d,e,f){</p>
+<p>​                                return c+ “年” + d + ”月“ + e + ”日“ ;<br>​                                                    })</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/08/25/js正则学习/">http://sand.icu/2020/08/25/js正则学习/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/08/30/Math、Date、Error对象及重载/" title="Math、Date、Error对象及重载"><span>< PreviousPost</span><br><span class="prevTitle">Math、Date、Error对象及重载</span></a><a class="nextSlogan" href="/2020/08/21/js学习3-API学习-数组和字符串/" title="js-API(数组和字符串)"><span>NextPost ></span><br><span class="nextTitle">js-API(数组和字符串)</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/08/25/js正则学习/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.</span> <span class="toc-text">正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#预定义字符集："><span class="toc-number">1.0.1.</span> <span class="toc-text">预定义字符集：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#量词："><span class="toc-number">1.0.2.</span> <span class="toc-text">量词：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#选择与分组："><span class="toc-number">1.0.3.</span> <span class="toc-text">选择与分组：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#指定匹配位置"><span class="toc-number">1.0.4.</span> <span class="toc-text">指定匹配位置:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#预判："><span class="toc-number">1.0.5.</span> <span class="toc-text">预判：</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#String中能使用正则的API"><span class="toc-number">2.</span> <span class="toc-text">String中能使用正则的API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式化"><span class="toc-number">3.</span> <span class="toc-text">格式化</span></a></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

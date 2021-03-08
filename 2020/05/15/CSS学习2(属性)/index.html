@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>CSS(属性) · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">CSS(属性)</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-05-15</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="常用属性及简介"><a href="#常用属性及简介" class="headerlink" title="常用属性及简介"></a>常用属性及简介</h3><table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>font-size</td>
+<td>px/em（尽量偶数）</td>
+<td>字体大小（默认16px=1em）</td>
+</tr>
+<tr>
+<td>font-weight</td>
+<td>100~900/bold</td>
+<td>字体粗细</td>
+</tr>
+<tr>
+<td>font-family</td>
+<td>font-family （中文加“ ”）</td>
+<td>字体类型（系列）</td>
+</tr>
+<tr>
+<td>font-style</td>
+<td>normal/italic (字体) /oblique (倾斜)</td>
+<td>字体倾斜</td>
+</tr>
+<tr>
+<td>color</td>
+<td>color/rgba(r,g,b,a)   其中rgb取值范围0-255 ,   a(透明度)取值 0–1</td>
+<td>字体颜色</td>
+</tr>
+<tr>
+<td>line-height</td>
+<td></td>
+<td>行高（便于字体垂直居中）</td>
+</tr>
+<tr>
+<td>text-indent</td>
+<td>em/px</td>
+<td>首行缩进（通常取值 2em）</td>
+</tr>
+<tr>
+<td>text-align</td>
+<td>center/left/right/justify(两端对齐)</td>
+<td>文本位置</td>
+</tr>
+<tr>
+<td>letter-spacing</td>
+<td></td>
+<td>字符间距</td>
+</tr>
+<tr>
+<td>text-decoration</td>
+<td>under(over)line/line-through</td>
+<td>文本划线</td>
+</tr>
+</tbody></table>
+<h3 id="列表属性"><a href="#列表属性" class="headerlink" title="列表属性"></a>列表属性</h3><h5 id="1、定义列表符号样式"><a href="#1、定义列表符号样式" class="headerlink" title="1、定义列表符号样式"></a>1、定义列表符号样式</h5><p>list-style-type：disc(实心圆)/circle(空心圆)/square(实心方块)/none(去掉列表符号)；</p>
+<p>list-style-type:none===list-style:none;</p>
+<h5 id="2、使用图片作为列表符号"><a href="#2、使用图片作为列表符号" class="headerlink" title="2、使用图片作为列表符号"></a>2、使用图片作为列表符号</h5><p>list-style-image：url(所使用图片的路径及全称)；</p>
+<h5 id="3、定义列表符号的位置"><a href="#3、定义列表符号的位置" class="headerlink" title="3、定义列表符号的位置"></a>3、定义列表符号的位置</h5><p>list-style-position:outside(外边)/inside(里边)；</p>
+<p>常用<code>list-style:none;去掉列表符号</code></p>
+<h3 id="边框属性"><a href="#边框属性" class="headerlink" title="边框属性"></a>边框属性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border</span>:边框宽度 边框风格 边框颜色;</span><br><span class="line">	例如：<span class="selector-tag">border</span><span class="selector-pseudo">:5px</span> <span class="selector-tag">solid</span> <span class="selector-id">#ff0000</span></span><br><span class="line"></span><br><span class="line">边框：<span class="selector-tag">border</span>,网页中很多修饰性线条都是由边框来实现的。</span><br><span class="line">边框宽度：<span class="selector-tag">border-width</span>:</span><br><span class="line">边框颜色：<span class="selector-tag">border-color</span>:</span><br><span class="line">边框样式：border-style:solid(实线)/dashed(虚线)dotted(点划线)double(双线)可单独设置一方向边框，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可单独设置一方向边框，</span><br><span class="line">    <span class="selector-tag">border-bottom</span>:边框宽度 边框风格 边框颜色;底边框</span><br><span class="line">    <span class="selector-tag">border-left</span>:边框宽度 边框风格 边框颜色;左边框</span><br><span class="line">    <span class="selector-tag">border-right</span>:边框宽度 边框风格 边框颜色;右边框</span><br><span class="line">    <span class="selector-tag">border-top</span>:边框宽度 边框风格 边框颜色;上边框</span><br></pre></td></tr></table></figure>
+
+<h3 id="背景属性"><a href="#背景属性" class="headerlink" title="背景属性"></a>背景属性</h3><h5 id="1、背景颜色-background-color-颜色值"><a href="#1、背景颜色-background-color-颜色值" class="headerlink" title="1、背景颜色  background-color:颜色值"></a>1、背景颜色  background-color:颜色值</h5><h5 id="2、背景图片的设置-background-image：url-背景图片的路径及全称-；"><a href="#2、背景图片的设置-background-image：url-背景图片的路径及全称-；" class="headerlink" title="2、背景图片的设置 background-image：url(背景图片的路径及全称)；"></a>2、背景图片的设置 background-image：url(背景图片的路径及全称)；</h5><p>网页上有两种图片形式：插入图片、背景图；<br><code>插入图片</code>：属于网页内容，也就是结构。<br><code>背景图</code>：属于网页的表现，背景图上可以显示文字、插入图片、表格等。</p>
+<h5 id="3、背景图片平铺属性"><a href="#3、背景图片平铺属性" class="headerlink" title="3、背景图片平铺属性"></a>3、背景图片平铺属性</h5><p><strong>background-repeat:no-repeat/repeat/repeat-x/repeat-y</strong> </p>
+<h5 id="4、背景图的位置"><a href="#4、背景图的位置" class="headerlink" title="4、背景图的位置"></a>4、背景图的位置</h5><p><strong>background-position:left/center/right/数值 top/center/bottom/数值;</strong></p>
+<p>水平方向上的对齐方式（left/center/right）或值<br>垂直方向上的对齐方式(top/center/bottom)或值<br>background-position:值1 值2;<br>两个值 ：第一个值表示水平位置的值，第二个值：表示垂直的位置。<br>当两个值都是center的时候写一个值就可以代表的是水平位置和垂直位置<br>说明：向左方向，向上方向是负值<br>背景属性的缩写语法<br>background:属性值1 属性值2 属性值3；<br>背景缩写：background:url（背景图片的路径及全称） no-repeat center top #f00；</p>
+<h5 id="5、背景图的固定"><a href="#5、背景图的固定" class="headerlink" title="5、背景图的固定"></a>5、背景图的固定</h5><p><strong>background-attachment:scroll(滚动)/fixed(固定);</strong><br>fixed 固定，不随内容一块滚动；<br>scroll:随内容一块滚动。</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/05/15/CSS学习2(属性)/">http://sand.icu/2020/05/15/CSS学习2(属性)/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/05/16/CSS学习3(盒模型&amp;文本溢出)/" title="CSS(盒模型&amp;文本溢出)"><span>< PreviousPost</span><br><span class="prevTitle">CSS(盒模型&amp;文本溢出)</span></a><a class="nextSlogan" href="/2020/05/14/CSS学习1/" title="CSS基础"><span>NextPost ></span><br><span class="nextTitle">CSS基础</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/05/15/CSS学习2(属性)/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用属性及简介"><span class="toc-number">1.</span> <span class="toc-text">常用属性及简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表属性"><span class="toc-number">2.</span> <span class="toc-text">列表属性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、定义列表符号样式"><span class="toc-number">2.0.1.</span> <span class="toc-text">1、定义列表符号样式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、使用图片作为列表符号"><span class="toc-number">2.0.2.</span> <span class="toc-text">2、使用图片作为列表符号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、定义列表符号的位置"><span class="toc-number">2.0.3.</span> <span class="toc-text">3、定义列表符号的位置</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#边框属性"><span class="toc-number">3.</span> <span class="toc-text">边框属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#背景属性"><span class="toc-number">4.</span> <span class="toc-text">背景属性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、背景颜色-background-color-颜色值"><span class="toc-number">4.0.1.</span> <span class="toc-text">1、背景颜色  background-color:颜色值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、背景图片的设置-background-image：url-背景图片的路径及全称-；"><span class="toc-number">4.0.2.</span> <span class="toc-text">2、背景图片的设置 background-image：url(背景图片的路径及全称)；</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、背景图片平铺属性"><span class="toc-number">4.0.3.</span> <span class="toc-text">3、背景图片平铺属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4、背景图的位置"><span class="toc-number">4.0.4.</span> <span class="toc-text">4、背景图的位置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5、背景图的固定"><span class="toc-number">4.0.5.</span> <span class="toc-text">5、背景图的固定</span></a></li></ol></li></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

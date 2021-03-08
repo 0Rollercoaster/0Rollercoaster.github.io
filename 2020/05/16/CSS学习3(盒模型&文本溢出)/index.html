@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>CSS(盒模型&amp;文本溢出) · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">CSS(盒模型&amp;文本溢出)</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-05-16</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="CSS"> CSS</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h2><p><strong>概念</strong></p>
+<p>&emsp;<code>盒模型是css布局的基石，它规定了网页元素如何显示以及元素间相互关系。css定义所有的元素都可以拥有像盒子一样的外形和平面空间。即都包含内容区、补白（填充）、边框、边界(外边距)这就是盒模型。</code></p>
+<p><img src="/2020/05/16/CSS学习3(盒模型&文本溢出)/1.png" alt></p>
+<h2 id="PADDING"><a href="#PADDING" class="headerlink" title="PADDING"></a>PADDING</h2><table>
+<thead>
+<tr>
+<th>padding  用法：</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>1:  padding是在盒子里面，在盒子与内容之间</td>
+</tr>
+<tr>
+<td></td>
+<td>2：padding的作用：控制子元素在父元素里面的位置关系。</td>
+</tr>
+<tr>
+<td></td>
+<td>3：padding会把盒子撑大。</td>
+</tr>
+<tr>
+<td></td>
+<td>4：如果想让盒子保持原有的大小：在宽高基础上减掉。（ 如果一个元素是被内容撑开的，没有设置固定的宽高，padding直接撑开。不用减掉 ）</td>
+</tr>
+<tr>
+<td></td>
+<td>5:如果给单一方向添加padding</td>
+</tr>
+<tr>
+<td></td>
+<td>padding-top/bottom/left/right</td>
+</tr>
+<tr>
+<td></td>
+<td>6:padding的设置特点：</td>
+</tr>
+<tr>
+<td></td>
+<td>padding:30px;    四周</td>
+</tr>
+<tr>
+<td></td>
+<td>padding:10px 30px;     上下     左右</td>
+</tr>
+<tr>
+<td></td>
+<td>padding:10px 30px 50px 100px     上右下左</td>
+</tr>
+<tr>
+<td></td>
+<td>7:padding不会对背景图的位置造成影响。</td>
+</tr>
+</tbody></table>
+<h2 id="MARGIN"><a href="#MARGIN" class="headerlink" title="MARGIN"></a>MARGIN</h2><table>
+<thead>
+<tr>
+<th>margin 用法（外边距、边界）</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>1:margin在元素外围，不会撑大元素的大小</td>
+</tr>
+<tr>
+<td></td>
+<td>2:作用:控制元素与元素之间的间距。</td>
+</tr>
+<tr>
+<td></td>
+<td>3：给单一方向添加margin</td>
+</tr>
+<tr>
+<td></td>
+<td>margin-left/right/top/bottom</td>
+</tr>
+<tr>
+<td></td>
+<td>4 :margin设置方法：</td>
+</tr>
+<tr>
+<td></td>
+<td>margin:30px;    四周</td>
+</tr>
+<tr>
+<td></td>
+<td>margin:10px 30px;     上下     左右</td>
+</tr>
+<tr>
+<td></td>
+<td>margin:10px 30px 50px    上   左右    下</td>
+</tr>
+<tr>
+<td></td>
+<td>margin:10px 30px 50px 100px     上右下左</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>5:margin:0 auto;</td>
+</tr>
+<tr>
+<td></td>
+<td>让当前元素在父元素里面左右居中。</td>
+</tr>
+<tr>
+<td></td>
+<td>6:margin常出现的bug</td>
+</tr>
+<tr>
+<td></td>
+<td>a:两个相邻元素上下的margin值 不会叠加 按照较大值设置。</td>
+</tr>
+<tr>
+<td></td>
+<td>b:如果父元素和第一个子元素没有浮动的情况下，给第一个子元素添加margin-top,会错误放在父元素上面。</td>
+</tr>
+</tbody></table>
+<h2 id="盒子大小计算"><a href="#盒子大小计算" class="headerlink" title="盒子大小计算"></a>盒子大小计算</h2><p><img src="/2020/05/16/CSS学习3(盒模型&文本溢出)/2.png" alt></p>
+<p><img src="/2020/05/16/CSS学习3(盒模型&文本溢出)/3.png" alt></p>
+<h2 id="文本溢出"><a href="#文本溢出" class="headerlink" title="文本溢出"></a>文本溢出</h2><h3 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">visible:默认值，内容不会被修剪，会呈现在元素框之外；</span><br><span class="line">hidden：内容会被修剪，并且其余内容是不可见的；</span><br><span class="line">scroll：内容会被修剪，但是浏览器会显示滚动条，以便查看其余的内容;</span><br><span class="line">auto：如果内容被修剪，则浏览器会显示滚动条，以便查看其他的内容;</span><br><span class="line">inherit：规定应该从父元素继承overflow属性的值。</span><br></pre></td></tr></table></figure>
+
+<h3 id="white-space"><a href="#white-space" class="headerlink" title="white-space"></a>white-space</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">normal：默认值，多余空白会被浏览器忽略只保留一个；</span><br><span class="line">pre：空白会被浏览器保留；</span><br><span class="line">pre-wrap：保留一部分空白符序列，但是正常的进行换行；</span><br><span class="line">pre-line:合并空白符序列，但是保留换行符；</span><br><span class="line">nowrap:文本不会换行，文本会在同一行上继续，直到遇到&lt;br/&gt;标签为止;</span><br></pre></td></tr></table></figure>
+
+<h3 id="text-overflow"><a href="#text-overflow" class="headerlink" title="text-overflow"></a>text-overflow</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip：不显示省略号（...），而是简单的裁切;</span><br><span class="line">ellipsis：当对象内文本溢出时，显示省略标记；</span><br></pre></td></tr></table></figure>
+
+<h4 id="文本溢出变省略号设置"><a href="#文本溢出变省略号设置" class="headerlink" title="文本溢出变省略号设置"></a>文本溢出变省略号设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">省略号设置：</span><br><span class="line">text-overflow属性仅是：当文本溢出时是否显示省略标记，并不具备其它的样式属性定义，要实现溢出时产生省略号的效果还需定义：</span><br><span class="line">1、容器宽度：width：value；（px、%，都可以）</span><br><span class="line">2、强制文本在一行内显示:white-space：nowrap;</span><br><span class="line">3、溢出内容为隐藏：overflow：hidden；</span><br><span class="line">4、溢出文本显示省略号：</span><br><span class="line">     text-overflow：ellispis;</span><br><span class="line">                        </span><br><span class="line">注：必须是单行文本才能设置本文溢出！！！</span><br></pre></td></tr></table></figure>
+
+<h2 id="CSS属性继承"><a href="#CSS属性继承" class="headerlink" title="CSS属性继承"></a>CSS属性继承</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">不可继承的：display、margin、border、padding、background、height、min-height、max- height、、min-width、max-width、overflow、position、left、right、top、 bottom、z-index、float、clear、table-layout、vertical-align</span><br><span class="line"></span><br><span class="line">所有元素可继承：visibility和cursor。</span><br><span class="line">内联元素可继承：letter-spacing、word-spacing、line-height、color、font、 font-family、font-size、font-style、font-variant、font-weight、text- decoration、text-transform。</span><br><span class="line">块状元素可继承：text-indent和text-align</span><br><span class="line">列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。</span><br><span class="line">表格元素可继承：border-collapse。</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/05/16/CSS学习3(盒模型&amp;文本溢出)/">http://sand.icu/2020/05/16/CSS学习3(盒模型&amp;文本溢出)/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/05/20/CSS学习4(元素类型)/" title="CSS(元素类型)"><span>< PreviousPost</span><br><span class="prevTitle">CSS(元素类型)</span></a><a class="nextSlogan" href="/2020/05/15/CSS学习2(属性)/" title="CSS(属性)"><span>NextPost ></span><br><span class="nextTitle">CSS(属性)</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/05/16/CSS学习3(盒模型&amp;文本溢出)/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#盒模型"><span class="toc-number">1.</span> <span class="toc-text">盒模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PADDING"><span class="toc-number">2.</span> <span class="toc-text">PADDING</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MARGIN"><span class="toc-number">3.</span> <span class="toc-text">MARGIN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#盒子大小计算"><span class="toc-number">4.</span> <span class="toc-text">盒子大小计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文本溢出"><span class="toc-number">5.</span> <span class="toc-text">文本溢出</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#overflow"><span class="toc-number">5.1.</span> <span class="toc-text">overflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#white-space"><span class="toc-number">5.2.</span> <span class="toc-text">white-space</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#text-overflow"><span class="toc-number">5.3.</span> <span class="toc-text">text-overflow</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文本溢出变省略号设置"><span class="toc-number">5.3.1.</span> <span class="toc-text">文本溢出变省略号设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS属性继承"><span class="toc-number">6.</span> <span class="toc-text">CSS属性继承</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

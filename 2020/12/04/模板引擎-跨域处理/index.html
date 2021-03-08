@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>模板引擎&amp;跨域处理 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">模板引擎&amp;跨域处理</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-12-04</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="一、模板引擎"><a href="#一、模板引擎" class="headerlink" title="一、模板引擎"></a>一、模板引擎</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java JSP</span><br><span class="line">PHP smarty</span><br><span class="line">Nodejs  Ejs、HandleBar、swig-template、Pug/Jade等</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>模板，将不含有动态数据的html页面，称为模板</li>
+<li>引擎，为开发者提供很多方式灵活操作模板</li>
+</ul>
+<p>Nodejs常用模板引擎</p>
+<blockquote>
+<p>Ejs、HandleBar 、 swig-template、Pug/Jade</p>
+</blockquote>
+<p>使用的前后对比</p>
+<ul>
+<li>使用前</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;Awesome People&lt;/h1&gt;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li class=&quot;first&quot;&gt;Paul&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;Jim&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;Jane&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用后</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;&#123;&#123; pagename|title &#125;&#125;&lt;/h1&gt;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">    &#123;% for author in authors %&#125;</span><br><span class="line">        &lt;li&#123;% if loop.first %&#125; class=&quot;first&quot;&#123;% endif %&#125;&gt;&#123;&#123; author &#125;&#125;&lt;/li&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、模板引擎的使用流程"><a href="#二、模板引擎的使用流程" class="headerlink" title="二、模板引擎的使用流程"></a>二、模板引擎的使用流程</h2><p><a href="http://node-swig.github.io/swig-templates/" target="_blank" rel="noopener">swig-template模板引擎</a></p>
+<ol>
+<li>安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install swig-templates</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.engine(&apos;html&apos;, swig.renderFile);   //指定express模板的渲染方式</span><br><span class="line">app.set(&apos;view engine&apos;, &apos;html&apos;); //指定html为模板引擎</span><br><span class="line">app.set(&apos;views&apos;, __dirname + &apos;/pages&apos;); //设置模板提取路径</span><br><span class="line">swig.setDefaults(&#123; cache: false &#125;); //【可选】关闭模板引擎的缓存机制，开发环境下可以关闭缓存</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &#123;% for item in listD %&#125;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">        &lt;a href=&quot;&quot;&gt;</span><br><span class="line">            &lt;h2&gt;&#123;&#123;item.tit&#125;&#125;&lt;/h2&gt;</span><br><span class="line">            &lt;p&gt;&#123;&#123;item.intro&#125;&#125;&lt;/p&gt;</span><br><span class="line">        &lt;/a&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="swig模板引擎的缓存机制"><a href="#swig模板引擎的缓存机制" class="headerlink" title="swig模板引擎的缓存机制"></a>swig模板引擎的缓存机制</h3><blockquote>
+<p>服务端为了节省模板的渲染性能，会将渲染过的页面，进行缓存<br>在服务端缓存，html模板的渲染结果</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swig.setDefaults(&#123; cache: false &#125;); //关闭模板引擎的缓存机制，开发环境下可以关闭缓存</span><br></pre></td></tr></table></figure>
+
+<h2 id="跨域及其处理方式"><a href="#跨域及其处理方式" class="headerlink" title="跨域及其处理方式"></a>跨域及其处理方式</h2><blockquote>
+<p>什么是跨域？什么情况下会发生跨域？</p>
+</blockquote>
+<ul>
+<li>浏览器</li>
+<li>同源策略  CORS</li>
+<li>域名</li>
+<li>端口</li>
+</ul>
+<ol>
+<li>cors处理跨域   </li>
+</ol>
+<blockquote>
+<p>只需要在服务端配置即可<br>cors模块的核心原理，是通过nodejs修改了用户http请求的响应头<br><a href="https://github.com/expressjs/cors/blob/master/lib/index.js" target="_blank" rel="noopener">cors源码</a></p>
+</blockquote>
+<ul>
+<li>使用cors模块前</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 49</span><br><span class="line">Content-Type: application/json; charset=utf-8</span><br><span class="line">Date: Mon, 16 Nov 2020 06:33:15 GMT</span><br><span class="line">ETag: W/&quot;31-jIKI5DCASGtQuc3pyaRuJFrfgis&quot;</span><br><span class="line">Set-Cookie: connect.sid=s%3AfzfGhKheYRMgM_iTo0B1D8_uOo5DHAlh.iV%2FC5%2FOBLvIzzRkyGmK0gZEH1zr7aAT7ZJvNRGPCowM; Path=/; HttpOnly</span><br><span class="line">X-Powered-By: Express</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用cors模块后</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: *   //允许所有跨域的域名通过</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 835</span><br><span class="line">Content-Type: application/json; charset=utf-8</span><br><span class="line">Date: Mon, 16 Nov 2020 06:34:38 GMT</span><br><span class="line">ETag: W/&quot;343-8+N8V8mTzkM1Z8MuggxZensYDEE&quot;</span><br><span class="line">Set-Cookie: connect.sid=s%3AWAypI-9TphQVBWe52urZCFasFudGYdTd.Hs2cx1xbycz0sjJE6irBIkFVP2S7%2FzhH1MeEyRue61A; Path=/; HttpOnly</span><br><span class="line">X-Powered-By: Express</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>客户端代理 </li>
+</ol>
+<blockquote>
+<p>vue项目中，通过vue.config.js实现客户端代理<br>本地前端—-本地代理服务器—-远程服务器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">module.export = &#123;</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        proxy:&#123;</span><br><span class="line">            &apos;/api&apos;:&#123;</span><br><span class="line">                target:&apos;目标域名&apos;,</span><br><span class="line">                pathRewrite:&#123;</span><br><span class="line">                    &apos;^/api&apos;:&apos;&apos;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>jsonp跨域原理  【了解】</li>
+</ol>
+<blockquote>
+<p><a href="http://suggestion.baidu.com/su?wd=查询内容&cb=myFn" target="_blank" rel="noopener">测试jsonp跨域的地址</a></p>
+<ul>
+<li>jsonp发起的是ajax异步请求吗？ 不是</li>
+<li>通过script标签的src发起http请求的</li>
+<li>jsonp接口下发的数据包，必须通过函数的调用提供</li>
+</ul>
+</blockquote>
+<ol start="4">
+<li>nginx服务器实现代理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">location ^~/api/ &#123;  #nginx代理配置</span><br><span class="line">    proxy_pass http://localhost:3000/; #注意这个域名后面的/一定要保留，不保留无法剔除/api</span><br><span class="line">&#125;</span><br><span class="line">location ^~/maoyan/ &#123;  #nginx代理配置</span><br><span class="line">    proxy_pass http://localhost:3000/; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5.Node服务端代理  【掌握】</p>
+<blockquote>
+<p>前后端耦合部署<br>因为Vue项目打包后，本地代理会失效<br>如果Vue项目是部署到Node服务的话，就需要加Node代理<br><a href="https://www.npmjs.com/package/http-proxy-middleware" target="_blank" rel="noopener">http-proxy-middleware</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const &#123; createProxyMiddleware &#125; = require(&apos;http-proxy-middleware&apos;);</span><br><span class="line">var app = express();</span><br><span class="line">app.use(  //代理配置</span><br><span class="line">  &apos;/api&apos;, </span><br><span class="line">  createProxyMiddleware(&#123; </span><br><span class="line">    target: &apos;http://localhost:3000&apos;, </span><br><span class="line">    changeOrigin: true,</span><br><span class="line">    pathRewrite:&#123;</span><br><span class="line">      &apos;^/api&apos;:&apos;&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">app.use( //代理配置</span><br><span class="line">  &apos;/movie&apos;, </span><br><span class="line">  createProxyMiddleware(&#123; </span><br><span class="line">    target:&apos;https://m.maoyan.com&apos;,  //目标服务器域名</span><br><span class="line">    pathRewrite:&#123;</span><br><span class="line">      &apos;^/movie&apos;:&apos;&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    changeOrigin: true </span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、websocket通信"><a href="#三、websocket通信" class="headerlink" title="三、websocket通信"></a>三、websocket通信</h2><ul>
+<li><p>ajax轮询，每隔5s向服务器请求车辆位置</p>
+<ul>
+<li>浪费服务器带宽</li>
+<li>客户端资源浪费</li>
+</ul>
+</li>
+<li><p>websocket  通信协议</p>
+</li>
+</ul>
+<blockquote>
+<p>长连接</p>
+<ul>
+<li>即时聊天</li>
+<li>打车位置实时展示</li>
+</ul>
+</blockquote>
+<p><a href="https://www.npmjs.com/package/ws" target="_blank" rel="noopener">服务端使用ws模块</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket/onmessage" target="_blank" rel="noopener">客户端使用Websocket对象</a></p>
+<ul>
+<li>复杂功能选择使用第三方平台来实现<br><a href="https://netease.im/im" target="_blank" rel="noopener">云信</a><br><a href="https://www.rongcloud.cn/" target="_blank" rel="noopener">融云</a></li>
+</ul>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/12/04/模板引擎-跨域处理/">http://sand.icu/2020/12/04/模板引擎-跨域处理/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/12/06/两链一包/" title="错误对象&amp;两链一包"><span>< PreviousPost</span><br><span class="prevTitle">错误对象&amp;两链一包</span></a><a class="nextSlogan" href="/2020/11/19/绝对定位高度塌陷/" title="绝对定位高度塌陷"><span>NextPost ></span><br><span class="nextTitle">绝对定位高度塌陷</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/12/04/模板引擎-跨域处理/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、模板引擎"><span class="toc-number">1.</span> <span class="toc-text">一、模板引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、模板引擎的使用流程"><span class="toc-number">2.</span> <span class="toc-text">二、模板引擎的使用流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swig模板引擎的缓存机制"><span class="toc-number">2.1.</span> <span class="toc-text">swig模板引擎的缓存机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跨域及其处理方式"><span class="toc-number">3.</span> <span class="toc-text">跨域及其处理方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、websocket通信"><span class="toc-number">4.</span> <span class="toc-text">三、websocket通信</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
