@@ -113,7 +113,59 @@ PureComponent浅比较核心源码1234567891011121314151617181920212223242526272
  响应拦截
 
 
-</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/30/路由守卫与路由拦截器/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/bcryptjs-加密和josnwebtoken/">bcryptjs 加密和jsonwebtoken</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T07:00:50.000Z">2021-01-30</time></div><div class="recent-post-content">密码加密与比对 参考：bcryptjs
+</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/30/路由守卫与路由拦截器/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/20/SVG-circle/">SVG/circle</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-20T06:38:01.000Z">2021-01-20</time></div><div class="recent-post-content">stroke意思是：画短线于，在…上划线
+stroke-dasharray:用于创建虚线，之所以后面跟的是array的，是因为值其实是数组。
+123456stroke-dasharray为一个参数时： 其实是表示虚线长度和每段虚线之间的间距　　如：stroke-dasharray = &apos;10&apos; 表示：虚线长10，间距10，然后重复 虚线长10，间距10两个参数或者多个参数时：一个表示长度，一个表示间距　　如：stroke-dasharray = &apos;10, 5&apos; 表示：虚线长10，间距5，然后重复 虚线长10，间距5　　如：stroke-dasharray ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></div><div class="read-more"><a class="more" href="/2021/01/20/SVG-circle/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/18/audio标签/">audio标签</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-18T15:20:42.000Z">2021-01-18</time></div><div class="recent-post-content">注： Internet Explorer 9+, Firefox, Opera, Chrome 以及 Safari 支持 &lt;audio&gt; 标签。
+
+
+
+属性
+值
+描述
+
+
+
+autoplay
+autoplay
+如果出现该属性，则音频在就绪后马上播放。
+
+
+controls
+controls
+如果出现该属性，则向用户显示音频控件（比如播放/暂停按钮）。
+
+
+loop
+loop
+如果出现该属性，则每当音频结束时重新开始播放。
+
+
+muted
+muted
+如果出现该属性，则音频输出为静音。
+
+
+preload
+autometadatanone
+规定当网页加载时，音频是否默认被加载以及如何 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="html"> html</a></div><div class="read-more"><a class="more" href="/2021/01/18/audio标签/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/18/webpack/">webpack</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-18T09:24:35.000Z">2021-01-18</time></div><div class="recent-post-content">webpack参考文档
+webpack
+浏览器不能直接识别模块化代码 —webpack—整合为浏览器可识别代码
+浏览器对ES6以上语法、.vue、.jsx —-webpack— （HTML、css、js、img）
+可以为项目开发提供比较便利的开发环境
+
+概念：​        webpack是一个用于现在javascript应用程序的静态模块打包工具。
+​        当webpack处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个bundle。
+loader与plugin的区别​        loader 预处理函数，用于转换某些类型的模块 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="webpack"> webpack</a></div><div class="read-more"><a class="more" href="/2021/01/18/webpack/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/16/虚拟DOM与diff算法/">虚拟DOM与diff算法</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-16T02:31:42.000Z">2021-01-16</time></div><div class="recent-post-content">虚拟DOMReact/vue将DOM抽象为虚拟DOM, 然后通过新旧虚拟DOM 这两个对象的差异(Diff算法),最终只把变化的部分重新渲染,提高渲染效率的过程; diff 是通过JS层面的计算，返回一个patch对象，即补丁对象，在通过特定的操作解析patch对象，完成页面的重新渲染
+
+
+表示虚拟DOM的JS对象上面有如下三个属性：
+
+tagName: 用来表示这个元素的标签名。
+props: 用来表示这元素所包含的属性。
+children: 用来表示这元素的children（数组）。
+
+虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/16/虚拟DOM与diff算法/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/">鼠标事件及clientX、offsetX、pageX...</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-08T16:43:02.000Z">2021-01-09</time></div><div class="recent-post-content">1、事件简介pc上的web页面鼠标会产生onmousedown、onmouseup、onmouseout、onmouseover、onmousemove的事件，但是在移动终端如 iphone、ipod Touch、ipad上的web页面触屏时会产生ontouchstart、ontouchmove、ontouchend、ontouchcancel 事件，分别对应了触屏开始、拖拽及完成触屏事件和取消。当按下手指时，触发ontouchstart；当移动手指时，触发ontouchmove；当移走手指时，触发ontouchend。
+2、对应坐标详细区别由鼠标事件（MouseEvent）其中包含了许多的坐 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/30/bcryptjs-加密和josnwebtoken/">bcryptjs 加密和jsonwebtoken</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-30T07:00:50.000Z">2020-12-30</time></div><div class="recent-post-content">密码加密与比对 参考：bcryptjs
 
 密码加密
 
@@ -139,28 +191,4 @@ http请求是无状态的token令牌验证 、jwt令牌验证token的本质是�
 
 1  服务端签发token
 
-123va ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/bcryptjs-加密和josnwebtoken/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/30/cors-处理跨域/">cors 处理跨域</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-30T06:57:28.000Z">2021-01-30</time></div><div class="recent-post-content">跨域处理模块：  在后端安装 npm i cors   （安装，引用，配置）   中间键（安装，引用，配置）   即 在app.js 中 var cors = require(‘cors’)                           app.use(cors());
-   可以注意 network里的 Access-Control-Allow-Orgin:是不是为  *  
-   即允许所有域名访问接口    
-​    也可以指定某域名访问
-123eg： app.use(cors(&#123;		origin:'http://localhost:8080'    &#125;))
- ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2021/01/30/cors-处理跨域/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/23/内网穿透vue部署和nginx配置/">内网穿透vue部署和nginx配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-23T06:07:45.000Z">2021-01-23</time></div><div class="recent-post-content"></div><div class="read-more"><a class="more" href="/2021/01/23/内网穿透vue部署和nginx配置/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/20/SVG-circle/">SVG/circle</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-20T06:38:01.000Z">2021-01-20</time></div><div class="recent-post-content">stroke意思是：画短线于，在…上划线
-stroke-dasharray:用于创建虚线，之所以后面跟的是array的，是因为值其实是数组。
-123456stroke-dasharray为一个参数时： 其实是表示虚线长度和每段虚线之间的间距　　如：stroke-dasharray = &apos;10&apos; 表示：虚线长10，间距10，然后重复 虚线长10，间距10两个参数或者多个参数时：一个表示长度，一个表示间距　　如：stroke-dasharray = &apos;10, 5&apos; 表示：虚线长10，间距5，然后重复 虚线长10，间距5　　如：stroke-dasharray ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="css"> css</a></div><div class="read-more"><a class="more" href="/2021/01/20/SVG-circle/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/18/webpack/">webpack</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-18T09:24:35.000Z">2021-01-18</time></div><div class="recent-post-content">webpack参考文档
-webpack
-浏览器不能直接识别模块化代码 —webpack—整合为浏览器可识别代码
-浏览器对ES6以上语法、.vue、.jsx —-webpack— （HTML、css、js、img）
-可以为项目开发提供比较便利的开发环境
-
-概念：​        webpack是一个用于现在javascript应用程序的静态模块打包工具。
-​        当webpack处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个bundle。
-loader与plugin的区别​        loader 预处理函数，用于转换某些类型的模块 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="webpack"> webpack</a></div><div class="read-more"><a class="more" href="/2021/01/18/webpack/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/16/虚拟DOM与diff算法/">虚拟DOM与diff算法</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-16T02:31:42.000Z">2021-01-16</time></div><div class="recent-post-content">虚拟DOMReact/vue将DOM抽象为虚拟DOM, 然后通过新旧虚拟DOM 这两个对象的差异(Diff算法),最终只把变化的部分重新渲染,提高渲染效率的过程; diff 是通过JS层面的计算，返回一个patch对象，即补丁对象，在通过特定的操作解析patch对象，完成页面的重新渲染
-
-
-表示虚拟DOM的JS对象上面有如下三个属性：
-
-tagName: 用来表示这个元素的标签名。
-props: 用来表示这元素所包含的属性。
-children: 用来表示这元素的children（数组）。
-
-虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/16/虚拟DOM与diff算法/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+123va ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2020/12/30/bcryptjs-加密和josnwebtoken/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
