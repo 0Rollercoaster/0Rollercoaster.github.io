@@ -97,7 +97,16 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/03/04/getBoundingClientRect/">getBoundingClientRect()</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-03T16:42:29.000Z">2021-03-04</time></div><div class="recent-post-content">getBoundingClientRect()分析
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2021/03/09/Hooks/">Hooks</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-09T10:26:42.000Z">2021-03-09</time></div><div class="recent-post-content">UseState
+使用状态
+
+12const [state,Setstate] = React.useState(0)注：若State若是一个对象，则不能部分Setstate
+
+UseEffect
+useEffect，增加了从函数式组件执行副作用的功能。它与 React 类中的 componentDidMount，componentDidUpdate，和 componentWillUnmount 有相同的功能，但是统一为单个 API。
+
+借用官网的例子
+1234567891011121314151617181920import &#123; useState, useEffect &#125; ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/03/09/Hooks/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/03/04/getBoundingClientRect/">getBoundingClientRect()</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-03T16:42:29.000Z">2021-03-04</time></div><div class="recent-post-content">getBoundingClientRect()分析
 getBoundingClientRect()获取元素位置，这个方法没有参数
 getBoundingClientRect()用于获得页面中某个元素的左，上，右和下分别相对浏览器视窗的位置。 
 getBoundingClientRect()是DOM元素到浏览器可视范围的距离（不包含文档卷起的部分）。 
@@ -165,30 +174,4 @@ props: 用来表示这元素所包含的属性。
 children: 用来表示这元素的children（数组）。
 
 虚拟DOM快取决于两个前提：1. JavaScript在浏览器上运行很快 2.DOM的渲染过程很慢，性能 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/01/16/虚拟DOM与diff算法/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/">鼠标事件及clientX、offsetX、pageX...</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-01-08T16:43:02.000Z">2021-01-09</time></div><div class="recent-post-content">1、事件简介pc上的web页面鼠标会产生onmousedown、onmouseup、onmouseout、onmouseover、onmousemove的事件，但是在移动终端如 iphone、ipod Touch、ipad上的web页面触屏时会产生ontouchstart、ontouchmove、ontouchend、ontouchcancel 事件，分别对应了触屏开始、拖拽及完成触屏事件和取消。当按下手指时，触发ontouchstart；当移动手指时，触发ontouchmove；当移走手指时，触发ontouchend。
-2、对应坐标详细区别由鼠标事件（MouseEvent）其中包含了许多的坐 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2020/12/30/bcryptjs-加密和josnwebtoken/">bcryptjs 加密和jsonwebtoken</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2020-12-30T07:00:50.000Z">2020-12-30</time></div><div class="recent-post-content">密码加密与比对 参考：bcryptjs
-
-密码加密
-
-12var salt = bcrypt.genSaltSync(10);  //盐 即密码强度var hash = bcrypt.hashSync(原密码, salt);  //hash就是加密后的密码
-
-
-密码比对
-
-1bcrypt.compareSync(明文密码, hash); // 得到布尔值
-
-token签发与验证
-http请求是无状态的token令牌验证 、jwt令牌验证token的本质是个加密字符串
-
-参考：jwt  
-
-安装
-
-1npm i jsonwebtoken
-
-
-引入使用
-
-
-1  服务端签发token
-
-123va ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="npm"> npm</a><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="node"> node</a></div><div class="read-more"><a class="more" href="/2020/12/30/bcryptjs-加密和josnwebtoken/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+2、对应坐标详细区别由鼠标事件（MouseEvent）其中包含了许多的坐 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/01/09/鼠标事件及clientX、offsetX、pageX/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
