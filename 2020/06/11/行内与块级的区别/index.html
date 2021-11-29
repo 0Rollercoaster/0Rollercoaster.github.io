@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>行内与块级的区别 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">行内与块级的区别</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2020-06-11</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="html"> html</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><ul>
+<li><h3 id="行内元素的特点"><a href="#行内元素的特点" class="headerlink" title="行内元素的特点"></a>行内元素的特点</h3></li>
+</ul>
+<p>1、行内元素只能容纳文本或者其他行内元素</p>
+<p>2、宽度只与内容有关</p>
+<p>3、和其他元素都在一行上</p>
+<p>4、高，行高及外边距内边距部分可改变</p>
+<ul>
+<li><h3 id="块级元素特点"><a href="#块级元素特点" class="headerlink" title="块级元素特点"></a>块级元素特点</h3></li>
+</ul>
+<p>1、高度、行高以及外边距内边距都可以控制</p>
+<p>2、总是在新行上开始，占据一整行</p>
+<p>3、它可以容纳内联元素和其他块级元素</p>
+<p>4、宽度始终是与浏览器宽度一样，与内容无关</p>
+<h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><blockquote>
+<p>行内元素与块级元素直观上的区别</p>
+</blockquote>
+<p>行内元素会在一条直线上排列，都是同一行，水平方向排列</p>
+<p>块级元素各占据一行，垂直方向排列，块级元素从新行开始结束接着一个断行</p>
+<blockquote>
+<p>块级元素可以包含行内元素和块级元素，行内元素不能包含块级元素</p>
+</blockquote>
+<blockquote>
+<p>行内元素与块级元素属性的不同，主要是盒模型属性上</p>
+</blockquote>
+<h4 id="行内元素设置width无效，height无效（可以设置line-height），margin上下无效，padding上下无效"><a href="#行内元素设置width无效，height无效（可以设置line-height），margin上下无效，padding上下无效" class="headerlink" title="行内元素设置width无效，height无效（可以设置line-height），margin上下无效，padding上下无效"></a><code>行内元素设置width无效，height无效（可以设置line-height），margin上下无效，padding上下无效</code></h4><h3 id="列表："><a href="#列表：" class="headerlink" title="列表："></a>列表：</h3><p><img src="/2020/06/11/行内与块级的区别/inline.png" alt></p>
+<hr>
+<p><img src="/2020/06/11/行内与块级的区别/block.png" alt></p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2020/06/11/行内与块级的区别/">http://sand.icu/2020/06/11/行内与块级的区别/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2020/06/13/DOM/" title="DOM"><span>< PreviousPost</span><br><span class="prevTitle">DOM</span></a><a class="nextSlogan" href="/2020/06/09/js基础/" title="js基础"><span>NextPost ></span><br><span class="nextTitle">js基础</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2020/06/11/行内与块级的区别/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#行内元素的特点"><span class="toc-number">1.</span> <span class="toc-text">行内元素的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#块级元素特点"><span class="toc-number">2.</span> <span class="toc-text">块级元素特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#区别："><span class="toc-number">3.</span> <span class="toc-text">区别：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#行内元素设置width无效，height无效（可以设置line-height），margin上下无效，padding上下无效"><span class="toc-number">3.1.</span> <span class="toc-text">行内元素设置width无效，height无效（可以设置line-height），margin上下无效，padding上下无效</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表："><span class="toc-number">4.</span> <span class="toc-text">列表：</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

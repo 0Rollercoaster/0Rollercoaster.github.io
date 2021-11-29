@@ -97,7 +97,25 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2019/06/12/云服务器配置/">云部署之服务器配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-12T14:59:08.000Z">2019-06-12</time></div><div class="recent-post-content">一、初步准备 1.阿里云购买云服务器
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Roller's Blog</h1><h5>努力学习!！</h5><div class="intro-social"></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2019/06/20/云部署：发布/">云部署：发布</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-20T07:34:58.000Z">2019-06-20</time></div><div class="recent-post-content">项目发布简单记载IDEA中的项目发布
+navicat 连接到服务器 mysql （导出项目的数据库  navicat 连接服务器mysql  新建查询运行导出的数据库
+
+更改db.properties 改为服务器的端口和IP地址
+
+注释掉  util里的basePath
+
+
+
+IDEA右边lifecycle   clear清空项目运行之后的文件  在package打包   生成war包
+
+
+上传到服务器 tomcat  webapps    ， 程序运行的日志文件在 tomcat/logs
+
+
+服务器里查看文件的方式  cat
+
+
+解压完成后 cd bin目录   然后shutdown tom ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="服务器"> 服务器</a></div><div class="read-more"><a class="more" href="/2019/06/20/云部署：发布/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2019/06/12/云服务器配置/">云部署之服务器配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2019-06-12T14:59:08.000Z">2019-06-12</time></div><div class="recent-post-content">一、初步准备 1.阿里云购买云服务器
  2.安装FinalShell
 ​    云服务器初始化配置
 ​    在实例管理中重置实例密码，实例安全组中释放8080端口和3306端口（为tomcat和mysql做准备
