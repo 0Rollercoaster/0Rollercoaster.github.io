@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="Rollercoaster"><meta name="renderer" content="webkit"><meta name="copyright" content="Rollercoaster"><meta name="keywords" content="Rollercoaster's Blog"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>单例模式 · Roller's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/avatar.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Roller</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Roller's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">单例模式</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-11-06</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="DegisnModel"> DegisnModel</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>目的：保证一个类仅有一个实例</p>
+<p>一般情况下，当创建了一个类（本质是构造函数）后，可以通过new关键字调用构造函数进而生成任意多的实例对象。像这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleDog</span></span>&#123;</span><br><span class="line">    show()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'我是一个单例对象'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> s1 = <span class="keyword">new</span> singleDog()</span><br><span class="line"><span class="keyword">const</span> s2 = <span class="keyword">new</span> singleDog()</span><br><span class="line"></span><br><span class="line">s1 === s2 <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>上述例子中<code>s1</code>和<code>s2</code>没有任何关联，两者独立，各占一块内存。而单例的思想是不管创建多少次，返回的只有第一次创建的唯一的一个实例</p>
+<p>所以关键是构造函数需要具备判断自己是否已经创建过一个实例的能力，并且将这段判断逻辑写成一个静态方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleDog</span>()</span>&#123;</span><br><span class="line">    show()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'我是一个单例对象'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> getInstance()&#123;</span><br><span class="line">        <span class="keyword">if</span>(!SingleDog.instance)&#123;</span><br><span class="line">            <span class="comment">//若实例不存在，则先创建</span></span><br><span class="line">            SingleDog.instance = <span class="keyword">new</span> SingleDog()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> SingleDog.instance</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> s1 = SingleDog.getInstance()</span><br><span class="line"><span class="keyword">const</span> s2 = SingleDog.getInstance()</span><br><span class="line"></span><br><span class="line">s1 === s2 <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>同样的，上述方法也可以用闭包实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SingleDog.getInstance = </span><br><span class="line">    (<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> instance = <span class="literal">null</span></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(!instance)&#123;</span><br><span class="line">                instance = <span class="keyword">new</span> SingleDog()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> instance</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>在<code>getInstance</code>的拦截下，不管调用多少次，<code>SingleDog</code>都返回的是同一个实例，现在<code>S1</code>和<code>S2</code>都指向这个唯一的实例</p>
+<h2 id="Vuex中的单例模式"><a href="#Vuex中的单例模式" class="headerlink" title="Vuex中的单例模式"></a>Vuex中的单例模式</h2><p>基于Flux架构的状态管理工具都是例如Redux、Vuex，都实现了全局的store用于存储应用的所有状态，这个Store的实现，正是单例模式的典型应用</p>
+<blockquote>
+<p>Vuex 使用单一状态树，用一个对象就包含了全部的应用层级状态。至此它便作为一个“唯一数据源 (SSOT)”而存在。这也意味着，每个应用将仅仅包含一个 store 实例。单一状态树让我们能够直接地定位任一特定的状态片段，在调试的过程中也能轻易地取得整个当前应用状态的快照。 ——Vuex官方文档</p>
+</blockquote>
+<h3 id="Vuex如何确保Store的唯一性"><a href="#Vuex如何确保Store的唯一性" class="headerlink" title="Vuex如何确保Store的唯一性"></a>Vuex如何确保Store的唯一性</h3><p>引入Vuex</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//安装Vuex</span></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"><span class="comment">//将store注入到Vue实例中</span></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el:<span class="string">'#app'</span>,</span><br><span class="line">    store</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>调用<code>Vue.use()</code>方法，安装了Vuex插件，Vuex插件是一个对象，在内部实现了一个Install方法，这个方法会在use的时候调用，从而把Store注入到Vue实例里，也就是说每Install一次，都会尝试给Vue实例注入一个Store</p>
+<p>在Install方法里，有一段与<code>getInstance</code>的逻辑相似</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Vue <span class="comment">//这个Vue的作用和之前的instance变量作用一样</span></span><br><span class="line">......</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">Install</span>(<span class="params">_Vue</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//判断传入的Vue实例对象是否已经被Install过Vuex插件（是否有了唯一的State）</span></span><br><span class="line">    <span class="keyword">if</span>(Vue &amp;&amp; _Vue ===Vue)&#123;</span><br><span class="line">        <span class="keyword">if</span>(process.env.NODE_ENV!==<span class="string">'production'</span>)&#123;</span><br><span class="line">            <span class="built_in">console</span>.error(</span><br><span class="line">             <span class="string">'[vuex] already installed. Vue.use(Vuex) should be called only once.'</span></span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">     <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//若没有，则为这个Vue实例对象Install一个唯一的Vuex</span></span><br><span class="line">    Vue = _Vue</span><br><span class="line">    <span class="comment">//将Vuex的初始化逻辑写进Vue的钩子函数里</span></span><br><span class="line">    applyMixin(Vue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后续更新 Vue.use到底干了什么，以及分析Vuex的构造函数，并解释为什么store中的state是动态的</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://sand.icu">Rollercoaster</a></p><p> <span>Link:  </span><a href="http://sand.icu/2021/11/06/单例模式/">http://sand.icu/2021/11/06/单例模式/</a></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/11/20/Vue深入响应式/" title="Vue响应式原理学习"><span>< PreviousPost</span><br><span class="prevTitle">Vue响应式原理学习</span></a><a class="nextSlogan" href="/2021/08/16/动态组件和插槽多级传递/" title="Vue动态组件以及插槽多级传递"><span>NextPost ></span><br><span class="nextTitle">Vue动态组件以及插槽多级传递</span></a><div class="clear"></div></div><div id="comment"><div id="SOHUCS" sid="/2021/11/06/单例模式/"></div><script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script><script>window.changyan.api.config({appid: '123', conf: '123'});</script></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#单例模式"><span class="toc-number">1.</span> <span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex中的单例模式"><span class="toc-number">1.1.</span> <span class="toc-text">Vuex中的单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vuex如何确保Store的唯一性"><span class="toc-number">1.1.1.</span> <span class="toc-text">Vuex如何确保Store的唯一性</span></a></li></ol></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
