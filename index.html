@@ -102,7 +102,8 @@
 下述代码中待学习的用*标识
 
 感觉开了个大坑
-深入响应式原理vue在初始化时，利用Object.defineProperty将所有property转为123456789101112131415161718### Array&amp;Object引用类型的限制导致无法监听Array以及Object的变化，所以：```jsvar vm = new Vue(&#123;    data( ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/11/20/Vue深入响应式/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/11/06/单例模式/">单例模式</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-11-06T10:10:00.000Z">2021-11-06</time></div><div class="recent-post-content">单例模式目的：保证一个类仅有一个实例
+深入响应式原理vue在初始化时，利用Object.defineProperty将所有property转为getter/setter,且每个组件实例都对应一个watcher实例，会在组件渲染过程中把接触过的数据property记录为依赖，当依赖项的setter触发时，通知watcher，从而进行重新更新dom
+Array&amp;Obje ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue"> Vue</a></div><div class="read-more"><a class="more" href="/2021/11/20/Vue深入响应式/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/11/06/单例模式/">单例模式</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-11-06T10:10:00.000Z">2021-11-06</time></div><div class="recent-post-content">单例模式目的：保证一个类仅有一个实例
 一般情况下，当创建了一个类（本质是构造函数）后，可以通过new关键字调用构造函数进而生成任意多的实例对象。像这样：
 123456789class SingleDog&#123;    show()&#123;        console.log('我是一个单例对象')    &#125;&#125;const s1 = new singleDog()const s2 = new singleDog()s1 === s2 //false
 
@@ -125,9 +126,8 @@ this永远指向调用 自己（this本身）的函数对应的对象
 举例：
 12345function  test()&#123;    let  a = 1;    console.log(this.a)&#125;test() //undefined
 
-上述例子中，12345678```jslet a = 2; function  test()&#123;    let  a = 1;    console.log(this.a)&#125;test() //2
-例子2
-123456789var nam ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/06/16/This指向与箭头函数/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/03/11/函数式编程的理由/">函数式编程的理由</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-11T05:40:54.000Z">2021-03-11</time></div><div class="recent-post-content">代码简洁，快速开发​        函数式编程大量使用函数，减少了代码的重复，因此程序比较短，开发速度较快
+上述例子中，test函数在最外层运行，即window.test()，此时this指向window，全局对象中没有a变量，所以为undefined
+123456let a = 2; function  test()&#123;    let  a = 1; ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="javascript"> javascript</a></div><div class="read-more"><a class="more" href="/2021/06/16/This指向与箭头函数/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/03/11/函数式编程的理由/">函数式编程的理由</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-11T05:40:54.000Z">2021-03-11</time></div><div class="recent-post-content">代码简洁，快速开发​        函数式编程大量使用函数，减少了代码的重复，因此程序比较短，开发速度较快
 方便的代码管理，方便调试​        函数式编程不依赖、也不会改变外界的状态，只要给定输入参数，返回的结果必定相同。因此，每一个函数都可以被看做独立单元，很有利于进行单元测试（unit testing）和除错（debugging），以及模块化组合。
 易于”并发编程”​        函数式编程不需要考虑”死锁”（deadlock），因为它不修改变量，所以根本不存在”锁”线程的问题。不必担心一个线程的数据，被另一个线程修改，所以可以很放心地把工作分摊到多个线程，部署”并发编程”（con ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="react"> react</a></div><div class="read-more"><a class="more" href="/2021/03/11/函数式编程的理由/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2021/03/09/Hooks/">Hooks</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2021-03-09T10:26:42.000Z">2021-03-09</time></div><div class="recent-post-content">UseState
 使用状态
